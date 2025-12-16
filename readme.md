@@ -1,41 +1,43 @@
 # Numerical Methods
 
-## Summary
-1.  [Gauss Elimination](#gauss-elimination)
-2.  [Gauss-Jordan Elimination](#gauss-jordan-elimination)
-3.  [LU Factorization](#lu-decomposition-method)
-4.  [Iterative Methods: Jacobi and Gauss-Seidel](#iterative-methods)
-5.  [Bisection Method](#bisection-method)
-6.  [False Position Method (Regula-Falsi)](#false-position-method)
-7.  [Secant Method](#secant-method)
-8.  [Newton-Raphson Method](#newton-raphson-method)
-9.  [Newton Forward Interpolation](#newton-forward-interpolation)
-10. [Newton Backward Interpolation](#newton-backward-interpolation)
-11. [Error Analysis](#error-analysis)
-12. [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
-13. [Equal-Interval Interpolation Method](#equal-interval)
-14. [Runge-Kutta Method](#runge-kutta-rk-method)
-15. [Simpson’s 1/3 Rule](#simpsons-13-rule)
-16. [Simpson’s 3/8 Rule](#simpsons-38-rule)
-17. [Least-Squares Straight Lines](#least-squares-linear)
-18. [Non-Linear Curve Fitting](#least-squares-transcendental)
-19. [Least-Squares Polynomials](#least-squares-polynomial)
+### A. Solution of Linear Equations
+*   [Gauss Elimination](#gauss-elimination)
+*   [Gauss-Jordan Elimination](#gauss-jordan-elimination)
+*   [LU Factorization](#lu-decomposition-method)
+*   [Iterative Methods: Jacobi and Gauss-Seidel](#iterative-methods)
+
+### B. Solution of Non-linear Equations
+*   [Bisection Method](#bisection-method)
+*   [False Position Method (Regula-Falsi)](#false-position-method)
+*   [Secant Method](#secant-method)
+*   [Newton-Raphson Method](#newton-raphson-method)
+
+### C. Interpolation and Approximation
+*   [Newton Forward Interpolation](#newton-forward-interpolation)
+*   [Newton Backward Interpolation](#newton-backward-interpolation)
+*   [Error Analysis](#error-analysis)
+*   [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
+
+### D. Numerical Differentiation
+*   [Equal-Interval Interpolation Method](#equal-interval)
+*   [Second-Order Derivative Formula](#second-order-derivative)
+*   [Lagrange’s Interpolation-Based Differentiation](#lagrange-differentiation)
+
+### E. Solution of Differential Equations
+*   [Runge-Kutta Method](#runge-kutta-rk-method)
+
+### F. Numerical Integration
+*   [Simpson’s 1/3 Rule](#simpsons-13-rule)
+*   [Simpson’s 3/8 Rule](#simpsons-38-rule)
+*   [Trapezium/Trapezoidal Rule](#trapezium-rule)
+*   [One-third Rule](#simpsons-13-rule)
+
+### G. Curve Fitting
+*   [Least-Squares Straight Lines](#least-squares-linear)
+*   [Least-Squares Polynomials](#least-squares-polynomial)
+*   [Non-Linear Curve Fitting](#least-squares-transcendental)
 
 ---
-
-**Introduction:**
-In numerical analysis, finding the roots of equations is a fundamental problem. Many real-world problems in science and engineering lead to non-linear equations, which often cannot be solved analytically. Hence, numerical methods like the Bracketing Methods are used.
-**Linear Equation:** An equation in which the highest power (degree) of the variable is 1. Example:(3x - 2 = 0).
-**Non-Linear Equation:** An equation in which the variable appears with power greater than 1 or in non-linear forms such as exponential, trigonometric, logarithmic. Example:(e^x - 3x = 0), (x^2 - 4x - 10 = 0).
-
-**Bracketing Methods:**
-Bracketing methods are a class of numerical techniques used to locate the root of a nonlinear equation by assuming the root is within a closed interval. The process begins by selecting two initial points, a and b, such that: [f(a).f(b) < 0]
-This condition indicates that the function values at the two points a and b have opposite signs, which implies that at least one real root must lie within the interval [a, b] provided that the function f(x) is continuous in that region.
-Once such an interval is found, bracketing methods use a systematic procedure to gradually shrink the width of the interval, thereby narrowing down the location of the root and ultimately converging to the root.
-
-There are two types of Bracketing Methods:
-1. Bisection Method
-2. False Position (Regula Falsi) Method
 
 <a id="bisection-method"></a>
 ### Bisection Method
@@ -238,12 +240,10 @@ return x2
 
 ---
 
-## Solution of Linear Equations
-
-In numerical analysis, solving linear systems (typically written as $Ax = b$) is fundamental.
+## A. Solution of Linear Equations
 
 <a id="gauss-elimination"></a>
-### 1. Gauss Elimination
+### Gauss Elimination
 
 **Theory**
 Gauss Elimination is a direct method that converts a system of linear equations into an upper triangular system using forward elimination. After the matrix becomes upper triangular, back substitution is applied to determine the values of the unknowns. Gauss Elimination produces one of the following outcomes:
@@ -341,7 +341,7 @@ STOP
 ```
 
 <a id="gauss-jordan-elimination"></a>
-### 2. Gauss-Jordan Elimination
+### Gauss-Jordan Elimination
 
 **Theory**
 Gauss-Jordan Elimination is an extended form of Gauss Elimination. Instead of producing an upper triangular matrix, it reduces the augmented matrix directly to reduced row echelon form (RREF). This eliminates the need for back substitution.
@@ -439,15 +439,9 @@ else:
     return ("Infinite solutions", M)
 ```
 
-This is where **Iterative Methods** shine. Instead of trying to solve the problem in one go, these methods start with a guess and refine it over and over again until the error is negligible.
+### Iterative Methods: Jacobi and Gauss-Seidel methods
 
-<a id="iterative-methods"></a>
-### 4. Iterative Methods: The Art of Successive Refinement
-
-**Why "Iterative"?**
-The term comes from the Latin *iterare* (to repeat). Unlike direct elimination, these algorithms generate a sequence of approximate solutions $\{x^{(0)}, x^{(1)}, x^{(2)}, ...\}$. Each step "iterates" on the previous one to reduce the error. Think of it like tuning a guitar: you pluck the string, check the pitch, adjust the peg slightly, and repeat until it sounds perfect.
-
-#### 4.1. Jacobi Iterative Method
+#### (i) Jacobi Iterative Method
 
 **Theory: Simultaneous Displacement**
 The Jacobi method is the simplest iterative technique. It works by isolating the variable $x_i$ in the $i$-th equation. The unique characteristic of Jacobi is that it uses values from the **previous** iteration to calculate **all** new values. No new information is used until the next full cycle.
@@ -486,7 +480,7 @@ For k from 1 to N:
 * [Jacobi Method - Wikipedia (Comprehensive Theory)](https://en.wikipedia.org/wiki/Jacobi_method)
 * [Jacobi Method Explained - GeeksforGeeks (Examples & Code)](https://www.geeksforgeeks.org/engineering-mathematics/jacobian-method/)
 
-#### 4.2. Gauss-Seidel Iterative Method
+#### (ii) Gauss-Seidel Iterative Method
 
 **Theory: Successive Displacement**
 The Gauss-Seidel method is an optimization of the Jacobi technique. In the Jacobi method, we hold all updates in a buffer until the end of the iteration. In Gauss-Seidel, we update the variables **immediately**.
@@ -533,12 +527,7 @@ For k from 1 to N:
 * [Iterative Methods: Jacobi vs Gauss-Seidel - Math LibreTexts](https://math.libretexts.org/Bookshelves/Linear_Algebra/Introduction_to_Matrix_Algebra_(Kaw)/01%3A_Chapters/1.08%3A_Gauss-Seidel_Method)
 
 <a id="lu-decomposition-method"></a>
-### 3. LU Decomposition Method
-
-**Introduction**
-LU decomposition is used in numerical methods to solve linear equations. To solve a problem like **Ax = B**, LU decomposition breaks the matrix (**A**) into two simpler matrices: a lower-triangular matrix (**L**) and an upper-triangular matrix (**U**).
-
-Another big advantage is efficiency: if we need to solve the same matrix (**A**) with many different **b** vectors, we only need to do LU factorization once.
+### LU Factorization
 
 **Theory**
 1. **The main idea**: Given a square matrix (**A**), it will be rewritten as $A = LU$, where **L** is a lower triangular matrix and **U** is an upper triangular matrix.
@@ -611,22 +600,8 @@ function solve_LU(Matrix A, Vector b):
 
 ## B. Solution of Non-linear Equations
 
-**Introduction:**
-In numerical analysis, finding the roots of equations is a fundamental problem. Many real-world problems in science and engineering lead to non-linear equations, which often cannot be solved analytically. Hence, numerical methods like the Bracketing Methods are used.
-**Linear Equation:** An equation in which the highest power (degree) of the variable is 1. Example:(3x - 2 = 0).
-**Non-Linear Equation:** An equation in which the variable appears with power greater than 1 or in non-linear forms such as exponential, trigonometric, logarithmic. Example:(e^x - 3x = 0), (x^2 - 4x - 10 = 0).
-
-**Bracketing Methods:**
-Bracketing methods are a class of numerical techniques used to locate the root of a nonlinear equation by assuming the root is within a closed interval. The process begins by selecting two initial points, a and b, such that: [f(a).f(b) < 0]
-This condition indicates that the function values at the two points a and b have opposite signs, which implies that at least one real root must lie within the interval [a, b] provided that the function f(x) is continuous in that region.
-Once such an interval is found, bracketing methods use a systematic procedure to gradually shrink the width of the interval, thereby narrowing down the location of the root and ultimately converging to the root.
-
-There are two types of Bracketing Methods:
-1. Bisection Method
-2. False Position (Regula Falsi) Method
-
 <a id="bisection-method"></a>
-### 5. Bisection Method
+### Bisection Method
 
 **Theory**
 The Bisection Method is a simple and dynamic numerical technique used to find roots of continuous functions. It is also known as:
@@ -674,7 +649,7 @@ BisectionMethod(f, a, b, tolerance, max_iter):
 ```
 
 <a id="false-position-method"></a>
-### 6. False Position Method
+### False Position Method (Regula-Falsi)
 
 **Algorithm of False Position Method:**
 
@@ -710,7 +685,7 @@ FalsePositionMethod(f, a, b, tolerance, max_iter):
 ```
 
 <a id="secant-method"></a>
-### 7. Secant Method
+### Secant Method
 
 **Theory**
 The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points x(n-1) and xn :
@@ -747,7 +722,7 @@ return x2
 ```
 
 <a id="newton-raphson-method"></a>
-### 8. Newton-Raphson Method
+### Newton-Raphson Method
 
 **Theory**
 The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess ( xn ), the tangent line at that point is:
@@ -792,7 +767,7 @@ return x1
 ## C. Interpolation and Approximation
 
 <a id="newton-forward-interpolation"></a>
-### 9. Newton Forward Interpolation
+### Newton Forward Interpolation
 
 **Theory**
 Newton's Forward Interpolation is used to approximate the value of a function $f(x)$ at valid points, based on a set of known data points that are **equally spaced**.
@@ -830,7 +805,7 @@ function newton_forward(x[], y[][], n, value):
 ```
 
 <a id="newton-backward-interpolation"></a>
-### 10. Newton Backward Interpolation
+### Newton Backward Interpolation
 
 **Theory**
 Newton's Backward Interpolation is similar to the forward method but is more accurate for interpolating values near the **end** of the dataset.
@@ -879,7 +854,7 @@ $$E_{total} = E_{truncation} + E_{round-off}$$
 ---
 
 <a id="newton-divided-difference-interpolation"></a>
-### 12. Newton Divided Difference Interpolation
+### Newton Divided Difference Interpolation
 
 **Theory**
 Newton's Divided Difference Interpolation is a method for constructing an interpolating polynomial for a given set of data points where the interval between data points is **not necessarily equal**.
@@ -914,12 +889,8 @@ function newton_divided(x[], y[][], n, value):
 
 ## D. Numerical Differentiation
 
-Numerical differentiation is the process of calculating the derivative (rate of change) of a function using a set of discrete data points $(x_i, y_i)$ rather than an analytical formula. This is essential in real-world engineering where the underlying function is often unknown (e.g., sensor data) or too complex to differentiate manually.
-
-Instead of taking the limit as $h \to 0$ analytically, we approximate the slope using finite steps $h$.
-
 <a id="equal-interval"></a>
-### 13. Equal-Interval Interpolation Method
+### Equal-Interval Interpolation Method
 
 **Theory: Differentiating the Polynomial**
 When data points are spaced equally (with a constant step size $h$), we can approximate the function $f(x)$ using Newton's Interpolation formulas (Forward or Backward) and then differentiate that polynomial.
@@ -966,15 +937,77 @@ Output: Derivative value dy/dx
 8. Return Result
 ```
 **Further Study**
-* [Newton’s Forward Difference Formula for Differentiation - GeeksforGeeks](https://www.geeksforgeeks.org/newtons-forward-difference-formula-for-differentiation/)
 * [Numerical Differentiation - Math.OHIO.edu](https://web.math.ohio.edu.cn/~courses/math3600/Lecture13.pdf)
+
+<a id="second-order-derivative"></a>
+### Second-Order Derivative Formula
+
+**Theory**
+The second-order derivative $f''(x)$ represents the rate of change of the slope. Using Newton's Forward Difference formula, we can approximate the second derivative by differentiating the interpolation polynomial twice.
+
+$$ \frac{d^2y}{dx^2} = \frac{1}{h^2} \left[ \Delta^2 y_0 + (p - 1)\Delta^3 y_0 + \frac{6p^2 - 18p + 11}{12}\Delta^4 y_0 + \dots \right] $$
+
+For $x = x_0$ (where $p=0$):
+$$ f''(x_0) \approx \frac{1}{h^2} (\Delta^2 y_0 - \Delta^3 y_0 + \frac{11}{12}\Delta^4 y_0 - \dots) $$
+
+**Algorithm**
+1. **Input:** Data points ($x, y$) and target $x$.
+2. **Difference Table:** Construct valid difference table (Forward/Backward).
+3. **Compute derivatives:** Apply the formula for the 2nd derivative.
+4. **Scale:** Divide by $h^2$.
+
+**Pseudocode**
+```text
+SecondOrderDerivative(x, y, n, value):
+  h = x[1] - x[0]
+  Calculate finite difference table diff[][]
+  
+  sum = 0
+  p = (value - x[0]) / h
+  
+  // Example for simple 3-point approximation at x0
+  result = (diff[0][2] - diff[0][3] + ...) // Apply series terms
+  return result / (h * h)
+```
+
+<a id="lagrange-differentiation"></a>
+### Lagrange’s Interpolation-Based Differentiation
+
+**Theory**
+When data points are **unequally spaced**, Newton’s difference methods cannot be used. Instead, we differentiate the Lagrange Interpolating Polynomial.
+For three points $(x_0, y_0), (x_1, y_1), (x_2, y_2)$:
+$$ f'(x) \approx y_0 L'_0(x) + y_1 L'_1(x) + y_2 L'_2(x) $$
+
+**Algorithm**
+1. **Select points:** Choose appropriate data points near target $x$.
+2. **Compute Weights:** Calculate derivative of Lagrange basis polynomials $L'_i(x)$.
+3. **Sum:** Multiply $y_i$ by $L'_i(x)$ and sum.
+
+**Pseudocode**
+```text
+LagrangeDifferentiation(x[], y[], n, value):
+  sum = 0
+  For i = 0 to n:
+    term = 0
+    // Calculate L'(x_i)
+    For j = 0 to n:
+       if i != j:
+          prod = 1
+          For k = 0 to n:
+             if k != i and k != j:
+                prod = prod * (value - x[k])
+          term = term + prod / (x[i] - x[j]) 
+    sum = sum + y[i] * term
+  Return sum
+```
+
 
 ---
 
 ## E. Solution of Differential Equations
 
 <a id="runge-kutta-rk-method"></a>
-### 14. Runge-Kutta (RK) Method
+### Runge-Kutta Method
 
 **Theory**
 The Runge-Kutta method (specifically the fourth-order RK4) is a widely used technique for the approximate solution of ordinary differential equations (ODEs).
@@ -1013,12 +1046,8 @@ function solve_rk4(x0, y0, xn, h):
 
 ## F. Numerical Integration
 
-Numerical integration, often called "numerical quadrature," is the process of calculating the approximate value of a definite integral $\int_{a}^{b} f(x) dx$. While analytical calculus finds the exact area under a curve using antiderivatives, numerical methods sum the areas of geometric shapes (like trapezoids or parabolas) fitted under the curve.
-
-This is critical in simulations where $f(x)$ is not a simple formula but a stream of data points (e.g., calculating distance from a velocity-time log).
-
 <a id="simpsons-13-rule"></a>
-### 15. Simpson’s 1/3 Rule
+### Simpson’s 1/3 Rule
 
 **Theory: Parabolic Approximation**
 Simpson’s 1/3 Rule improves upon the Trapezoidal Rule by approximating the function $f(x)$ not as a straight line, but as a **second-order polynomial (parabola)** connecting every three points.
@@ -1064,7 +1093,7 @@ Return Result
 * [Simpson's Rule Derivation - Wolfram MathWorld](https://mathworld.wolfram.com/SimpsonsRule.html)
 
 <a id="simpsons-38-rule"></a>
-### 16. Simpson’s 3/8 Rule
+### Simpson’s 3/8 Rule
 
 **Theory: Cubic Approximation**
 While the 1/3 rule uses parabolas (3 points), Simpson’s 3/8 Rule fits a **third-order polynomial (cubic curve)** through every four points. This generally provides slightly better accuracy for functions that are smoother.
@@ -1109,18 +1138,37 @@ Return Result
 * [Simpson’s 3/8 Rule - GeeksforGeeks](https://www.geeksforgeeks.org/simpsons-38-rule-python/)
 * [Numerical Integration Rules - Swarthmore College](https://lpsa.swarthmore.edu/NumInt/NumIntMain.html)
 
+<a id="trapezium-rule"></a>
+### Trapezium/Trapezoidal Rule
+
+**Theory**
+The Trapezoidal Rule approximates the area under the curve by approximating the function $f(x)$ as a straight line between two points. The area is then calculated as the area of the trapezoid formed.
+$$ I \approx \frac{h}{2} [y_0 + 2(y_1 + y_2 + \dots + y_{n-1}) + y_n] $$
+
+**Algorithm**
+1. **Divide:** Split interval $[a, b]$ into $n$ sub-intervals of width $h = (b-a)/n$.
+2. **Sum Ends:** Add $y_0$ and $y_n$.
+3. **Sum Middle:** Add $2 \times$ all intermediate $y$ values.
+4. **Multiply:** Multiply total sum by $h/2$.
+
+**Pseudocode**
+```text
+TrapezoidalRule(f, a, b, n):
+  h = (b - a) / n
+  sum = f(a) + f(b)
+  
+  For i = 1 to n-1:
+      sum = sum + 2 * f(a + i*h)
+      
+  Return sum * (h / 2)
+```
+
 ---
 
-## G. Curve Fitting (Regression)
-
-Curve fitting is the process of constructing a mathematical function that best fits a series of data points. Unlike **interpolation** (where the curve must pass exactly through every point), **regression** assumes that data might contain "noise" or errors. Therefore, the goal is not to hit every point, but to find a trend line that minimizes the total error across the entire dataset.
-
-The most common technique is the **Method of Least Squares**. It tries to minimize the sum of the squares of the vertical differences (residuals) between the data points and the fitted curve.
-
-
+## G. Curve Fitting
 
 <a id="least-squares-linear"></a>
-### 17. Least-Squares Regression: Linear Equation
+### Least-Squares Straight Lines
 
 **Theory: Fitting a Straight Line**
 This is the simplest form of regression. We assume the relationship between the dependent variable $y$ and independent variable $x$ is a straight line:
@@ -1173,7 +1221,7 @@ Print "Equation: y = " + a0 + " + " + a1 + "x"
 * [Least Squares Regression - MathWorld](https://mathworld.wolfram.com/LeastSquaresFitting.html)
 
 <a id="least-squares-transcendental"></a>
-### 18. Least-Squares Regression: Transcendental Equation
+### Non-Linear Curve Fitting
 
 **Theory: Linearization of Non-Linear Models**
 Sometimes data does not fit a straight line but follows an exponential ($y = ae^{bx}$) or power ($y = ax^b$) law. We cannot apply the standard least-squares formulas directly to these non-linear forms.
@@ -1223,7 +1271,7 @@ Print "Equation: y = " + a + " * e^(" + b + "x)"
 * [Linearization of Exponential Models - Ximera OSU](https://www.google.com/search?q=https://ximera.osu.edu/mooculus/calculus2/linearization/digInLinearization)
 
 <a id="least-squares-polynomial"></a>
-### 19. Least-Squares Regression: Polynomial Equation
+### Least-Squares Polynomials
 
 **Theory: Extending to Higher Orders**
 When data shows a curve with peaks and valleys, a straight line is insufficient. We can fit a polynomial of degree $m$:
