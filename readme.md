@@ -240,6 +240,77 @@ else:
     return ("Infinite solutions", M)
 ```
 
+<a id="lu-decomposition-method"></a>
+### 3. LU Factorization
+
+**Theory**
+1. **The main idea**: Given a square matrix (**A**), it will be rewritten as $A = LU$, where **L** is a lower triangular matrix and **U** is an upper triangular matrix.
+2. **Using LU to solve AX = B**:
+    Once we have $A = LU$, we can write $LUx = b$.
+    We introduce a helper vector **Y**: $Ly = b$ and $Ux = y$.
+    First, solve $Ly = b$ using **forward substitution**.
+    Then, solve $Ux = y$ using **backward substitution**.
+3. **Why pivoting is often needed**:
+   Sometimes LU decomposition runs into trouble if a diagonal element (called a **pivot**) becomes zero. To fix this, we often swap rows to bring a better pivot into position. $PA = LU$. This is called **partial pivoting**.
+
+**Algorithm**
+For each column/step ($k = 1$) to ($n$):
+1.  Compute the ($k$)-th row of (**U**)
+2.  Compute the ($k$)-th column of (**L**)
+
+Mathematically:
+$$U_{k,j} = A_{k,j} - \sum_{s=1}^{k-1} L_{k,s} U_{s,j} \quad , \quad j = k, \dots, n$$
+$$L_{i,k} = \frac{A_{i,k} - \sum_{s=1}^{k-1} L_{i,s} U_{s,k}}{U_{k,k}} \quad , \quad i = k+1, \dots, n$$
+
+**Pseudocode**
+```cpp
+function solve_LU(Matrix A, Vector b):
+    n = size(A)
+    L = IdentityMatrix(n)
+    U = ZeroMatrix(n)
+    
+    for i from 0 to n-1:
+        pivot_row = find_max_in_column(i, from: i to n-1)
+        swap_rows(A, i, pivot_row)
+        swap_rows(b, i, pivot_row) 
+        
+        for k from i to n-1:
+            prod_sum = 0
+            for j from 0 to i-1:
+                prod_sum += L[i][j] * U[j][k]
+            U[i][k] = A[i][k] - prod_sum
+            
+        for k from i to n-1:
+            if i == k:
+                L[i][i] = 1
+            else:
+                prod_sum = 0
+                for j from 0 to i-1:
+                    prod_sum += L[k][j] * U[j][i]
+                L[k][i] = (A[k][i] - prod_sum) / U[i][i]
+
+    for i from 0 to n-1:
+        if abs(U[i][i]) < epsilon:
+            return "No unique solution"
+
+    Vector y(n)
+    for i from 0 to n-1:
+        sum = 0
+        for j from 0 to i-1:
+            sum += L[i][j] * y[j]
+        y[i] = b[i] - sum
+
+    Vector x(n)
+    for i from n-1 down to 0:
+        sum = 0
+        for j from i+1 to n-1:
+            sum += U[i][j] * x[j]
+        x[i] = (y[i] - sum) / U[i][i]
+        
+    return x
+```
+
+<a id="iterative-methods"></a>
 ### 4. Iterative Methods: Jacobi and Gauss-Seidel methods
 
 #### (i) Jacobi Iterative Method
@@ -327,75 +398,7 @@ For k from 1 to N:
 * [Gauss-Seidel Method - GeeksforGeeks](https://www.geeksforgeeks.org/gauss-seidel-method/)
 * [Iterative Methods: Jacobi vs Gauss-Seidel - Math LibreTexts](https://math.libretexts.org/Bookshelves/Linear_Algebra/Introduction_to_Matrix_Algebra_(Kaw)/01%3A_Chapters/1.08%3A_Gauss-Seidel_Method)
 
-<a id="lu-decomposition-method"></a>
-### 3. LU Factorization
 
-**Theory**
-1. **The main idea**: Given a square matrix (**A**), it will be rewritten as $A = LU$, where **L** is a lower triangular matrix and **U** is an upper triangular matrix.
-2. **Using LU to solve AX = B**:
-    Once we have $A = LU$, we can write $LUx = b$.
-    We introduce a helper vector **Y**: $Ly = b$ and $Ux = y$.
-    First, solve $Ly = b$ using **forward substitution**.
-    Then, solve $Ux = y$ using **backward substitution**.
-3. **Why pivoting is often needed**:
-   Sometimes LU decomposition runs into trouble if a diagonal element (called a **pivot**) becomes zero. To fix this, we often swap rows to bring a better pivot into position. $PA = LU$. This is called **partial pivoting**.
-
-**Algorithm**
-For each column/step ($k = 1$) to ($n$):
-1.  Compute the ($k$)-th row of (**U**)
-2.  Compute the ($k$)-th column of (**L**)
-
-Mathematically:
-$$U_{k,j} = A_{k,j} - \sum_{s=1}^{k-1} L_{k,s} U_{s,j} \quad , \quad j = k, \dots, n$$
-$$L_{i,k} = \frac{A_{i,k} - \sum_{s=1}^{k-1} L_{i,s} U_{s,k}}{U_{k,k}} \quad , \quad i = k+1, \dots, n$$
-
-**Pseudocode**
-```cpp
-function solve_LU(Matrix A, Vector b):
-    n = size(A)
-    L = IdentityMatrix(n)
-    U = ZeroMatrix(n)
-    
-    for i from 0 to n-1:
-        pivot_row = find_max_in_column(i, from: i to n-1)
-        swap_rows(A, i, pivot_row)
-        swap_rows(b, i, pivot_row) 
-        
-        for k from i to n-1:
-            prod_sum = 0
-            for j from 0 to i-1:
-                prod_sum += L[i][j] * U[j][k]
-            U[i][k] = A[i][k] - prod_sum
-            
-        for k from i to n-1:
-            if i == k:
-                L[i][i] = 1
-            else:
-                prod_sum = 0
-                for j from 0 to i-1:
-                    prod_sum += L[k][j] * U[j][i]
-                L[k][i] = (A[k][i] - prod_sum) / U[i][i]
-
-    for i from 0 to n-1:
-        if abs(U[i][i]) < epsilon:
-            return "No unique solution"
-
-    Vector y(n)
-    for i from 0 to n-1:
-        sum = 0
-        for j from 0 to i-1:
-            sum += L[i][j] * y[j]
-        y[i] = b[i] - sum
-
-    Vector x(n)
-    for i from n-1 down to 0:
-        sum = 0
-        for j from i+1 to n-1:
-            sum += U[i][j] * x[j]
-        x[i] = (y[i] - sum) / U[i][i]
-        
-    return x
-```
 
 ---
 
