@@ -1,11 +1,44 @@
 # Numerical Methods
 
 ## Summary
-*   [LU Decomposition Method](#lu-decomposition-method)
+### A. Solution of Linear Equations
+*   Gauss Elimination
+*   Gauss-Jordan Elimination
+*   [LU Factorization](#lu-decomposition-method)
+*   Iterative Methods: Jacobi and Gauss-Seidel methods
+
+### B. Solution of Non-linear Equations
+*   Bisection Method
+*   False Position Method (Regula-Falsi)
+*   Secant Method
+*   Newton-Raphson Method
+
+### C. Interpolation and Approximation
 *   [Newton Forward Interpolation](#newton-forward-interpolation)
 *   [Newton Backward Interpolation](#newton-backward-interpolation)
+*   Error Analysis
 *   [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
-*   [Runge-Kutta (RK) Method](#runge-kutta-rk-method)
+
+### D. Numerical Differentiation
+*   Equal-Interval Interpolation Method
+*   Second-Order Derivative Formula
+*   Lagrange’s Interpolation-Based Differentiation
+
+### E. Solution of Differential Equations
+*   [Runge-Kutta Method](#runge-kutta-rk-method)
+
+### F. Numerical Integration
+*   Simpson’s 1/3 Rule
+*   Simpson’s 3/8 Rule
+*   Trapezium/Trapezoidal Rule
+*   One-third Rule (alternate naming for Simpson’s 1/3)
+
+### G. Curve Fitting
+*   Least-Squares Straight Lines
+*   Least-Squares Polynomials
+*   Non-Linear Curve Fitting
+
+### H. Matrix Inversion Approach
 
 ---
 
