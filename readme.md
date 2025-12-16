@@ -12,11 +12,6 @@
 <a id="lu-decomposition-method"></a>
 # LU Decomposition Method
 
-## Introduction
-LU decomposition is used in numerical methods to solve linear equations. To solve a problem like **Ax = B**, LU decomposition breaks the matrix (**A**) into two simpler matrices: a lower-triangular matrix (**L**) and an upper-triangular matrix (**U**).
-
-Another big advantage is efficiency: if we need to solve the same matrix (**A**) with many different **b** vectors, we only need to do LU factorization once.
-
 ## Theory
 
 ### 1) The main idea
