@@ -566,6 +566,7 @@ return x1
 
 ## C. Interpolation and Approximation
 
+<a id="newton-forward-interpolation"></a>
 ### 1. Newton Forward Interpolation
 
 **Theory**
@@ -603,6 +604,7 @@ function newton_forward(x[], y[][], n, value):
     return sum
 ```
 
+<a id="newton-backward-interpolation"></a>
 ### 2. Newton Backward Interpolation
 
 **Theory**
@@ -641,6 +643,7 @@ function newton_backward(x[], y[][], n, value):
 ```
 
 
+<a id="error-analysis"></a>
 ### 3. Error Analysis
 
 **Theory**
@@ -650,6 +653,7 @@ $$E_{total} = E_{truncation} + E_{round-off}$$
 
 ---
 
+<a id="newton-divided-difference-interpolation"></a>
 ### 4. Newton Divided Difference Interpolation
 
 **Theory**
@@ -685,6 +689,7 @@ function newton_divided(x[], y[][], n, value):
 
 ## D. Numerical Differentiation
 
+<a id="equal-interval"></a>
 ### 1. Equal-Interval Interpolation Method
 
 **Theory: Differentiating the Polynomial**
@@ -734,6 +739,7 @@ Output: Derivative value dy/dx
 **Further Study**
 * [Numerical Differentiation - Math.OHIO.edu](https://web.math.ohio.edu.cn/~courses/math3600/Lecture13.pdf)
 
+<a id="second-order-derivative"></a>
 ### 2. Second-Order Derivative Formula
 
 **Theory**
@@ -764,6 +770,7 @@ SecondOrderDerivative(x, y, n, value):
   return result / (h * h)
 ```
 
+<a id="lagrange-differentiation"></a>
 ### 3. Lagrange’s Interpolation-Based Differentiation
 
 **Theory**
@@ -799,6 +806,7 @@ LagrangeDifferentiation(x[], y[], n, value):
 
 ## E. Solution of Differential Equations
 
+<a id="runge-kutta-rk-method"></a>
 ### 1. Runge-Kutta Method
 
 **Theory**
@@ -838,6 +846,7 @@ function solve_rk4(x0, y0, xn, h):
 
 ## F. Numerical Integration
 
+<a id="simpsons-13-rule"></a>
 ### 1. Simpson’s 1/3 Rule
 
 **Theory: Parabolic Approximation**
@@ -883,6 +892,7 @@ Return Result
 * [Simpson’s 1/3 Rule - GeeksforGeeks (Implementation)](https://www.geeksforgeeks.org/program-simpsons-13-rule/)
 * [Simpson's Rule Derivation - Wolfram MathWorld](https://mathworld.wolfram.com/SimpsonsRule.html)
 
+<a id="simpsons-38-rule"></a>
 ### 2. Simpson’s 3/8 Rule
 
 **Theory: Cubic Approximation**
@@ -928,6 +938,7 @@ Return Result
 * [Simpson’s 3/8 Rule - GeeksforGeeks](https://www.geeksforgeeks.org/simpsons-38-rule-python/)
 * [Numerical Integration Rules - Swarthmore College](https://lpsa.swarthmore.edu/NumInt/NumIntMain.html)
 
+<a id="trapezium-rule"></a>
 ### 3. Trapezium/Trapezoidal Rule
 
 **Theory**
@@ -956,6 +967,7 @@ TrapezoidalRule(f, a, b, n):
 
 ## G. Curve Fitting
 
+<a id="least-squares-linear"></a>
 ### 1. Least-Squares Straight Lines
 
 **Theory: Fitting a Straight Line**
