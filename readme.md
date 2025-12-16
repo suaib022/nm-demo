@@ -1,38 +1,25 @@
 # Numerical Methods
 
 ## Summary
-### A. Solution of Linear Equations
 1.  [Gauss Elimination](#gauss-elimination)
 2.  [Gauss-Jordan Elimination](#gauss-jordan-elimination)
 3.  [LU Factorization](#lu-decomposition-method)
 4.  [Iterative Methods: Jacobi and Gauss-Seidel](#iterative-methods)
-
-### B. Solution of Non-linear Equations
-1.  [Bisection Method](#bisection-method)
-2.  [False Position Method (Regula-Falsi)](#false-position-method)
-3.  [Secant Method](#secant-method)
-4.  [Newton-Raphson Method](#newton-raphson-method)
-
-### C. Interpolation and Approximation
-1.  [Newton Forward Interpolation](#newton-forward-interpolation)
-2.  [Newton Backward Interpolation](#newton-backward-interpolation)
-3.  Error Analysis
-4.  [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
-
-### D. Numerical Differentiation
-1.  [Equal-Interval Interpolation Method](#equal-interval)
-
-### E. Solution of Differential Equations
-1.  [Runge-Kutta Method](#runge-kutta-rk-method)
-
-### F. Numerical Integration
-1.  [Simpson’s 1/3 Rule](#simpsons-13-rule)
-2.  [Simpson’s 3/8 Rule](#simpsons-38-rule)
-
-### G. Curve Fitting
-1.  [Least-Squares Straight Lines](#least-squares-linear)
-2.  [Non-Linear Curve Fitting](#least-squares-transcendental)
-3.  [Least-Squares Polynomials](#least-squares-polynomial)
+5.  [Bisection Method](#bisection-method)
+6.  [False Position Method (Regula-Falsi)](#false-position-method)
+7.  [Secant Method](#secant-method)
+8.  [Newton-Raphson Method](#newton-raphson-method)
+9.  [Newton Forward Interpolation](#newton-forward-interpolation)
+10. [Newton Backward Interpolation](#newton-backward-interpolation)
+11. [Error Analysis](#error-analysis)
+12. [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
+13. [Equal-Interval Interpolation Method](#equal-interval)
+14. [Runge-Kutta Method](#runge-kutta-rk-method)
+15. [Simpson’s 1/3 Rule](#simpsons-13-rule)
+16. [Simpson’s 3/8 Rule](#simpsons-38-rule)
+17. [Least-Squares Straight Lines](#least-squares-linear)
+18. [Non-Linear Curve Fitting](#least-squares-transcendental)
+19. [Least-Squares Polynomials](#least-squares-polynomial)
 
 ---
 
@@ -251,7 +238,7 @@ return x2
 
 ---
 
-## A. Solution of Linear Equations
+## Solution of Linear Equations
 
 In numerical analysis, solving linear systems (typically written as $Ax = b$) is fundamental.
 
@@ -639,7 +626,7 @@ There are two types of Bracketing Methods:
 2. False Position (Regula Falsi) Method
 
 <a id="bisection-method"></a>
-### 1. Bisection Method
+### 5. Bisection Method
 
 **Theory**
 The Bisection Method is a simple and dynamic numerical technique used to find roots of continuous functions. It is also known as:
@@ -687,7 +674,7 @@ BisectionMethod(f, a, b, tolerance, max_iter):
 ```
 
 <a id="false-position-method"></a>
-### 2. False Position Method
+### 6. False Position Method
 
 **Algorithm of False Position Method:**
 
@@ -723,7 +710,7 @@ FalsePositionMethod(f, a, b, tolerance, max_iter):
 ```
 
 <a id="secant-method"></a>
-### 3. Secant Method
+### 7. Secant Method
 
 **Theory**
 The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points x(n-1) and xn :
@@ -760,7 +747,7 @@ return x2
 ```
 
 <a id="newton-raphson-method"></a>
-### 4. Newton-Raphson Method
+### 8. Newton-Raphson Method
 
 **Theory**
 The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess ( xn ), the tangent line at that point is:
@@ -805,7 +792,7 @@ return x1
 ## C. Interpolation and Approximation
 
 <a id="newton-forward-interpolation"></a>
-### 1. Newton Forward Interpolation
+### 9. Newton Forward Interpolation
 
 **Theory**
 Newton's Forward Interpolation is used to approximate the value of a function $f(x)$ at valid points, based on a set of known data points that are **equally spaced**.
@@ -843,7 +830,7 @@ function newton_forward(x[], y[][], n, value):
 ```
 
 <a id="newton-backward-interpolation"></a>
-### 2. Newton Backward Interpolation
+### 10. Newton Backward Interpolation
 
 **Theory**
 Newton's Backward Interpolation is similar to the forward method but is more accurate for interpolating values near the **end** of the dataset.
@@ -880,8 +867,19 @@ function newton_backward(x[], y[][], n, value):
     return sum
 ```
 
+
+<a id="error-analysis"></a>
+### 11. Error Analysis
+
+**Theory**
+Numerical errors arise from the use of approximations to represent exact mathematical operations and quantities. The total error is the sum of truncation error (due to cutting off an infinite series) and round-off error (due to finite precision of computers).
+
+$$E_{total} = E_{truncation} + E_{round-off}$$
+
+---
+
 <a id="newton-divided-difference-interpolation"></a>
-### 3. Newton Divided Difference Interpolation
+### 12. Newton Divided Difference Interpolation
 
 **Theory**
 Newton's Divided Difference Interpolation is a method for constructing an interpolating polynomial for a given set of data points where the interval between data points is **not necessarily equal**.
@@ -921,7 +919,7 @@ Numerical differentiation is the process of calculating the derivative (rate of 
 Instead of taking the limit as $h \to 0$ analytically, we approximate the slope using finite steps $h$.
 
 <a id="equal-interval"></a>
-### 1. Equal-Interval Interpolation Method
+### 13. Equal-Interval Interpolation Method
 
 **Theory: Differentiating the Polynomial**
 When data points are spaced equally (with a constant step size $h$), we can approximate the function $f(x)$ using Newton's Interpolation formulas (Forward or Backward) and then differentiate that polynomial.
@@ -976,7 +974,7 @@ Output: Derivative value dy/dx
 ## E. Solution of Differential Equations
 
 <a id="runge-kutta-rk-method"></a>
-### 1. Runge-Kutta (RK) Method
+### 14. Runge-Kutta (RK) Method
 
 **Theory**
 The Runge-Kutta method (specifically the fourth-order RK4) is a widely used technique for the approximate solution of ordinary differential equations (ODEs).
@@ -1020,7 +1018,7 @@ Numerical integration, often called "numerical quadrature," is the process of ca
 This is critical in simulations where $f(x)$ is not a simple formula but a stream of data points (e.g., calculating distance from a velocity-time log).
 
 <a id="simpsons-13-rule"></a>
-### 1. Simpson’s 1/3 Rule
+### 15. Simpson’s 1/3 Rule
 
 **Theory: Parabolic Approximation**
 Simpson’s 1/3 Rule improves upon the Trapezoidal Rule by approximating the function $f(x)$ not as a straight line, but as a **second-order polynomial (parabola)** connecting every three points.
@@ -1066,7 +1064,7 @@ Return Result
 * [Simpson's Rule Derivation - Wolfram MathWorld](https://mathworld.wolfram.com/SimpsonsRule.html)
 
 <a id="simpsons-38-rule"></a>
-### 2. Simpson’s 3/8 Rule
+### 16. Simpson’s 3/8 Rule
 
 **Theory: Cubic Approximation**
 While the 1/3 rule uses parabolas (3 points), Simpson’s 3/8 Rule fits a **third-order polynomial (cubic curve)** through every four points. This generally provides slightly better accuracy for functions that are smoother.
@@ -1122,7 +1120,7 @@ The most common technique is the **Method of Least Squares**. It tries to minimi
 
 
 <a id="least-squares-linear"></a>
-### 1. Least-Squares Regression: Linear Equation
+### 17. Least-Squares Regression: Linear Equation
 
 **Theory: Fitting a Straight Line**
 This is the simplest form of regression. We assume the relationship between the dependent variable $y$ and independent variable $x$ is a straight line:
@@ -1175,7 +1173,7 @@ Print "Equation: y = " + a0 + " + " + a1 + "x"
 * [Least Squares Regression - MathWorld](https://mathworld.wolfram.com/LeastSquaresFitting.html)
 
 <a id="least-squares-transcendental"></a>
-### 2. Least-Squares Regression: Transcendental Equation
+### 18. Least-Squares Regression: Transcendental Equation
 
 **Theory: Linearization of Non-Linear Models**
 Sometimes data does not fit a straight line but follows an exponential ($y = ae^{bx}$) or power ($y = ax^b$) law. We cannot apply the standard least-squares formulas directly to these non-linear forms.
@@ -1225,7 +1223,7 @@ Print "Equation: y = " + a + " * e^(" + b + "x)"
 * [Linearization of Exponential Models - Ximera OSU](https://www.google.com/search?q=https://ximera.osu.edu/mooculus/calculus2/linearization/digInLinearization)
 
 <a id="least-squares-polynomial"></a>
-### 3. Least-Squares Regression: Polynomial Equation
+### 19. Least-Squares Regression: Polynomial Equation
 
 **Theory: Extending to Higher Orders**
 When data shows a curve with peaks and valleys, a straight line is insufficient. We can fit a polynomial of degree $m$:
