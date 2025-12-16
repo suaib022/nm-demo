@@ -2,37 +2,37 @@
 
 ## Summary
 ### A. Solution of Linear Equations
-*   [Gauss Elimination](#gauss-elimination)
-*   [Gauss-Jordan Elimination](#gauss-jordan-elimination)
-*   [LU Factorization](#lu-decomposition-method)
-*   [Iterative Methods: Jacobi and Gauss-Seidel](#iterative-methods)
+1.  [Gauss Elimination](#gauss-elimination)
+2.  [Gauss-Jordan Elimination](#gauss-jordan-elimination)
+3.  [LU Factorization](#lu-decomposition-method)
+4.  [Iterative Methods: Jacobi and Gauss-Seidel](#iterative-methods)
 
 ### B. Solution of Non-linear Equations
-*   [Bisection Method](#bisection-method)
-*   [False Position Method (Regula-Falsi)](#false-position-method)
-*   [Secant Method](#secant-method)
-*   [Newton-Raphson Method](#newton-raphson-method)
+1.  [Bisection Method](#bisection-method)
+2.  [False Position Method (Regula-Falsi)](#false-position-method)
+3.  [Secant Method](#secant-method)
+4.  [Newton-Raphson Method](#newton-raphson-method)
 
 ### C. Interpolation and Approximation
-*   [Newton Forward Interpolation](#newton-forward-interpolation)
-*   [Newton Backward Interpolation](#newton-backward-interpolation)
-*   Error Analysis
-*   [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
+1.  [Newton Forward Interpolation](#newton-forward-interpolation)
+2.  [Newton Backward Interpolation](#newton-backward-interpolation)
+3.  Error Analysis
+4.  [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
 
 ### D. Numerical Differentiation
-*   [Equal-Interval Interpolation Method](#equal-interval)
+1.  [Equal-Interval Interpolation Method](#equal-interval)
 
 ### E. Solution of Differential Equations
-*   [Runge-Kutta Method](#runge-kutta-rk-method)
+1.  [Runge-Kutta Method](#runge-kutta-rk-method)
 
 ### F. Numerical Integration
-*   [Simpson’s 1/3 Rule](#simpsons-13-rule)
-*   [Simpson’s 3/8 Rule](#simpsons-38-rule)
+1.  [Simpson’s 1/3 Rule](#simpsons-13-rule)
+2.  [Simpson’s 3/8 Rule](#simpsons-38-rule)
 
 ### G. Curve Fitting
-*   [Least-Squares Straight Lines](#least-squares-linear)
-*   [Non-Linear Curve Fitting](#least-squares-transcendental)
-*   [Least-Squares Polynomials](#least-squares-polynomial)
+1.  [Least-Squares Straight Lines](#least-squares-linear)
+2.  [Non-Linear Curve Fitting](#least-squares-transcendental)
+3.  [Least-Squares Polynomials](#least-squares-polynomial)
 
 ---
 
@@ -455,12 +455,12 @@ else:
 This is where **Iterative Methods** shine. Instead of trying to solve the problem in one go, these methods start with a guess and refine it over and over again until the error is negligible.
 
 <a id="iterative-methods"></a>
-### 1. Iterative Methods: The Art of Successive Refinement
+### 4. Iterative Methods: The Art of Successive Refinement
 
 **Why "Iterative"?**
 The term comes from the Latin *iterare* (to repeat). Unlike direct elimination, these algorithms generate a sequence of approximate solutions $\{x^{(0)}, x^{(1)}, x^{(2)}, ...\}$. Each step "iterates" on the previous one to reduce the error. Think of it like tuning a guitar: you pluck the string, check the pitch, adjust the peg slightly, and repeat until it sounds perfect.
 
-#### (i) Jacobi Iterative Method
+#### 4.1. Jacobi Iterative Method
 
 **Theory: Simultaneous Displacement**
 The Jacobi method is the simplest iterative technique. It works by isolating the variable $x_i$ in the $i$-th equation. The unique characteristic of Jacobi is that it uses values from the **previous** iteration to calculate **all** new values. No new information is used until the next full cycle.
@@ -499,7 +499,7 @@ For k from 1 to N:
 * [Jacobi Method - Wikipedia (Comprehensive Theory)](https://en.wikipedia.org/wiki/Jacobi_method)
 * [Jacobi Method Explained - GeeksforGeeks (Examples & Code)](https://www.geeksforgeeks.org/engineering-mathematics/jacobian-method/)
 
-#### (ii) Gauss-Seidel Iterative Method
+#### 4.2. Gauss-Seidel Iterative Method
 
 **Theory: Successive Displacement**
 The Gauss-Seidel method is an optimization of the Jacobi technique. In the Jacobi method, we hold all updates in a buffer until the end of the iteration. In Gauss-Seidel, we update the variables **immediately**.
@@ -546,7 +546,7 @@ For k from 1 to N:
 * [Iterative Methods: Jacobi vs Gauss-Seidel - Math LibreTexts](https://math.libretexts.org/Bookshelves/Linear_Algebra/Introduction_to_Matrix_Algebra_(Kaw)/01%3A_Chapters/1.08%3A_Gauss-Seidel_Method)
 
 <a id="lu-decomposition-method"></a>
-### LU Decomposition Method
+### 3. LU Decomposition Method
 
 **Introduction**
 LU decomposition is used in numerical methods to solve linear equations. To solve a problem like **Ax = B**, LU decomposition breaks the matrix (**A**) into two simpler matrices: a lower-triangular matrix (**L**) and an upper-triangular matrix (**U**).
@@ -639,7 +639,7 @@ There are two types of Bracketing Methods:
 2. False Position (Regula Falsi) Method
 
 <a id="bisection-method"></a>
-### Bisection Method
+### 1. Bisection Method
 
 **Theory**
 The Bisection Method is a simple and dynamic numerical technique used to find roots of continuous functions. It is also known as:
@@ -687,7 +687,7 @@ BisectionMethod(f, a, b, tolerance, max_iter):
 ```
 
 <a id="false-position-method"></a>
-### False Position Method
+### 2. False Position Method
 
 **Algorithm of False Position Method:**
 
@@ -723,7 +723,7 @@ FalsePositionMethod(f, a, b, tolerance, max_iter):
 ```
 
 <a id="secant-method"></a>
-### Secant Method
+### 3. Secant Method
 
 **Theory**
 The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points x(n-1) and xn :
@@ -760,7 +760,7 @@ return x2
 ```
 
 <a id="newton-raphson-method"></a>
-### Newton-Raphson Method
+### 4. Newton-Raphson Method
 
 **Theory**
 The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess ( xn ), the tangent line at that point is:
@@ -805,7 +805,7 @@ return x1
 ## C. Interpolation and Approximation
 
 <a id="newton-forward-interpolation"></a>
-### Newton Forward Interpolation
+### 1. Newton Forward Interpolation
 
 **Theory**
 Newton's Forward Interpolation is used to approximate the value of a function $f(x)$ at valid points, based on a set of known data points that are **equally spaced**.
@@ -843,7 +843,7 @@ function newton_forward(x[], y[][], n, value):
 ```
 
 <a id="newton-backward-interpolation"></a>
-### Newton Backward Interpolation
+### 2. Newton Backward Interpolation
 
 **Theory**
 Newton's Backward Interpolation is similar to the forward method but is more accurate for interpolating values near the **end** of the dataset.
@@ -881,7 +881,7 @@ function newton_backward(x[], y[][], n, value):
 ```
 
 <a id="newton-divided-difference-interpolation"></a>
-### Newton Divided Difference Interpolation
+### 3. Newton Divided Difference Interpolation
 
 **Theory**
 Newton's Divided Difference Interpolation is a method for constructing an interpolating polynomial for a given set of data points where the interval between data points is **not necessarily equal**.
@@ -976,7 +976,7 @@ Output: Derivative value dy/dx
 ## E. Solution of Differential Equations
 
 <a id="runge-kutta-rk-method"></a>
-### Runge-Kutta (RK) Method
+### 1. Runge-Kutta (RK) Method
 
 **Theory**
 The Runge-Kutta method (specifically the fourth-order RK4) is a widely used technique for the approximate solution of ordinary differential equations (ODEs).
