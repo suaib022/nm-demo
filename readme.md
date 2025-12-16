@@ -30,7 +30,6 @@
 1.  [Simpson’s 1/3 Rule](#simpsons-13-rule)
 2.  [Simpson’s 3/8 Rule](#simpsons-38-rule)
 3.  [Trapezium/Trapezoidal Rule](#trapezium-rule)
-4.  [One-third Rule](#simpsons-13-rule)
 
 ### G. Curve Fitting
 1.  [Least-Squares Straight Lines](#least-squares-linear)
@@ -404,6 +403,7 @@ For k from 1 to N:
 
 ## B. Solution of Non-linear Equations
 
+<a id="bisection-method"></a>
 ### 1. Bisection Method
 
 **Theory**
@@ -451,6 +451,7 @@ BisectionMethod(f, a, b, tolerance, max_iter):
   Step 3: Return (a + b) / 2 as the approximate root
 ```
 
+<a id="false-position-method"></a>
 ### 2. False Position Method (Regula-Falsi)
 
 **Algorithm of False Position Method:**
@@ -486,6 +487,7 @@ FalsePositionMethod(f, a, b, tolerance, max_iter):
   Step 3: Return x0 as the approximate root
 ```
 
+<a id="secant-method"></a>
 ### 3. Secant Method
 
 **Theory**
@@ -522,6 +524,7 @@ for i = 1 to max_iter:
 return x2
 ```
 
+<a id="newton-raphson-method"></a>
 ### 4. Newton-Raphson Method
 
 **Theory**
