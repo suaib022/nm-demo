@@ -42,110 +42,6 @@
 
 ---
 
-<a id="lu-decomposition-method"></a>
-# LU Decomposition Method
-
-## Theory
-
-### 1) The main idea
-Given a square matrix (**A**). It will be rewritten as follows:
-
-$$A = LU$$
-
-where:
-*   **L** is a lower triangular matrix
-*   **U** is an upper triangular matrix
-
-### 2) Using LU to solve AX = B
-Once we have ($A = LU$), we can write:
-
-$$LUx = b$$
-
-To make this easy, we solve it in two smaller steps. We introduce a helper vector **Y**:
-
-$$Ly = b$$
-$$Ux = y$$
-
-*   First, solve **Ly = b** using **forward substitution**.
-*   Then, solve **Ux = y** using **backward substitution**.
-
-### 3) Why pivoting is often needed
-Sometimes LU decomposition runs into trouble if a diagonal element (called a **pivot**) becomes zero. That can cause division problems and also makes result less reliable.
-
-To fix this, we often swap rows to bring a better pivot into position. With row swapping, the factorization becomes:
-
-$$PA = LU$$
-
-where (**P**) is a matrix that represents the row swaps. This is called **partial pivoting**. It makes the method more stable in real calculations.
-
-## Algorithm
-The diagonal of (**L**) is set to 1. The idea is:
-
-For each column/step ($k = 1$) to ($n$):
-1.  Compute the ($k$)-th row of (**U**)
-2.  Compute the ($k$)-th column of (**L**)
-
-Mathematically:
-
-$$U_{k,j} = A_{k,j} - \sum_{s=1}^{k-1} L_{k,s} U_{s,j} \quad , \quad j = k, \dots, n$$
-
-$$L_{i,k} = \frac{A_{i,k} - \sum_{s=1}^{k-1} L_{i,s} U_{s,k}}{U_{k,k}} \quad , \quad i = k+1, \dots, n$$
-
-And set $L_{k,k} = 1$.
-
-If pivoting is used row swaps are done before continuing whenever needed.
-
-## Pseudocode
-```cpp
-function solve_LU(Matrix A, Vector b):
-    n = size(A)
-    L = IdentityMatrix(n)
-    U = ZeroMatrix(n)
-    
-    for i from 0 to n-1:
-        pivot_row = find_max_in_column(i, from: i to n-1)
-        swap_rows(A, i, pivot_row)
-        swap_rows(b, i, pivot_row) 
-        
-        for k from i to n-1:
-            prod_sum = 0
-            for j from 0 to i-1:
-                prod_sum += L[i][j] * U[j][k]
-            U[i][k] = A[i][k] - prod_sum
-            
-        for k from i to n-1:
-            if i == k:
-                L[i][i] = 1
-            else:
-                prod_sum = 0
-                for j from 0 to i-1:
-                    prod_sum += L[k][j] * U[j][i]
-                L[k][i] = (A[k][i] - prod_sum) / U[i][i]
-
-    for i from 0 to n-1:
-        if abs(U[i][i]) < epsilon:
-            return "No unique solution"
-
-    Vector y(n)
-    for i from 0 to n-1:
-        sum = 0
-        for j from 0 to i-1:
-            sum += L[i][j] * y[j]
-        y[i] = b[i] - sum
-
-    Vector x(n)
-    for i from n-1 down to 0:
-        sum = 0
-        for j from i+1 to n-1:
-            sum += U[i][j] * x[j]
-        x[i] = (y[i] - sum) / U[i][i]
-        
-    return x
-```
-
-
----
-
 ## A. Solution of Linear Equations
 
 In numerical analysis, solving linear systems (typically written as $Ax = b$) is fundamental. While you might be familiar with "Direct Methods" like Cramer's Rule or Gaussian Elimination that attempt to find the exact solution in a finite number of steps, they can become computationally expensive for very large systems.
@@ -242,37 +138,103 @@ For k from 1 to N:
 * [Gauss-Seidel Method - GeeksforGeeks](https://www.geeksforgeeks.org/gauss-seidel-method/)
 * [Iterative Methods: Jacobi vs Gauss-Seidel - Math LibreTexts](https://math.libretexts.org/Bookshelves/Linear_Algebra/Introduction_to_Matrix_Algebra_(Kaw)/01%3A_Chapters/1.08%3A_Gauss-Seidel_Method)
 
+<a id="lu-decomposition-method"></a>
+### LU Decomposition Method
+
+**Introduction**
+LU decomposition is used in numerical methods to solve linear equations. To solve a problem like **Ax = B**, LU decomposition breaks the matrix (**A**) into two simpler matrices: a lower-triangular matrix (**L**) and an upper-triangular matrix (**U**).
+
+Another big advantage is efficiency: if we need to solve the same matrix (**A**) with many different **b** vectors, we only need to do LU factorization once.
+
+**Theory**
+1. **The main idea**: Given a square matrix (**A**), it will be rewritten as $A = LU$, where **L** is a lower triangular matrix and **U** is an upper triangular matrix.
+2. **Using LU to solve AX = B**:
+    Once we have $A = LU$, we can write $LUx = b$.
+    We introduce a helper vector **Y**: $Ly = b$ and $Ux = y$.
+    First, solve $Ly = b$ using **forward substitution**.
+    Then, solve $Ux = y$ using **backward substitution**.
+3. **Why pivoting is often needed**:
+   Sometimes LU decomposition runs into trouble if a diagonal element (called a **pivot**) becomes zero. To fix this, we often swap rows to bring a better pivot into position. $PA = LU$. This is called **partial pivoting**.
+
+**Algorithm**
+For each column/step ($k = 1$) to ($n$):
+1.  Compute the ($k$)-th row of (**U**)
+2.  Compute the ($k$)-th column of (**L**)
+
+Mathematically:
+$$U_{k,j} = A_{k,j} - \sum_{s=1}^{k-1} L_{k,s} U_{s,j} \quad , \quad j = k, \dots, n$$
+$$L_{i,k} = \frac{A_{i,k} - \sum_{s=1}^{k-1} L_{i,s} U_{s,k}}{U_{k,k}} \quad , \quad i = k+1, \dots, n$$
+
+**Pseudocode**
+```cpp
+function solve_LU(Matrix A, Vector b):
+    n = size(A)
+    L = IdentityMatrix(n)
+    U = ZeroMatrix(n)
+    
+    for i from 0 to n-1:
+        pivot_row = find_max_in_column(i, from: i to n-1)
+        swap_rows(A, i, pivot_row)
+        swap_rows(b, i, pivot_row) 
+        
+        for k from i to n-1:
+            prod_sum = 0
+            for j from 0 to i-1:
+                prod_sum += L[i][j] * U[j][k]
+            U[i][k] = A[i][k] - prod_sum
+            
+        for k from i to n-1:
+            if i == k:
+                L[i][i] = 1
+            else:
+                prod_sum = 0
+                for j from 0 to i-1:
+                    prod_sum += L[k][j] * U[j][i]
+                L[k][i] = (A[k][i] - prod_sum) / U[i][i]
+
+    for i from 0 to n-1:
+        if abs(U[i][i]) < epsilon:
+            return "No unique solution"
+
+    Vector y(n)
+    for i from 0 to n-1:
+        sum = 0
+        for j from 0 to i-1:
+            sum += L[i][j] * y[j]
+        y[i] = b[i] - sum
+
+    Vector x(n)
+    for i from n-1 down to 0:
+        sum = 0
+        for j from i+1 to n-1:
+            sum += U[i][j] * x[j]
+        x[i] = (y[i] - sum) / U[i][i]
+        
+    return x
+```
+
 ---
 
-<a id="newton-forward-interpolation"></a>
-# Newton Forward Interpolation
+## C. Interpolation and Approximation
 
-## Theory
+<a id="newton-forward-interpolation"></a>
+### Newton Forward Interpolation
+
+**Theory**
 Newton's Forward Interpolation is used to approximate the value of a function $f(x)$ at valid points, based on a set of known data points that are **equally spaced**.
 
 The interpolation formula is given by:
-
 $$y(x) = y_0 + u \Delta y_0 + \frac{u(u-1)}{2!} \Delta^2 y_0 + \frac{u(u-1)(u-2)}{3!} \Delta^3 y_0 + \dots$$
+Where $u = \frac{x - x_0}{h}$.
 
-Where:
-*   $x$ is the point to interpolate.
-*   $x_0$ is the first value in the dataset.
-*   $h$ is the interval difference ($x_1 - x_0$).
-*   $u = \frac{x - x_0}{h}$
-*   $\Delta y_0$ represents the forward difference.
-
-## Algorithm
+**Algorithm**
 1.  **Input**: Read ($n$) data points ($x, y$) and the value to interpolate ($value$).
-2.  **Difference Table**: Construct the forward difference table where:
-    $$\Delta y_{j,i} = y_{j+1, i-1} - y_{j, i-1}$$
+2.  **Difference Table**: Construct the forward difference table.
 3.  **Calculate u**: Compute $u = (value - x[0]) / (x[1] - x[0])$.
-4.  **Compute Sum**: Initialize $sum = y[0][0]$.
-    *   Iterate $i$ from 1 to $n-1$.
-    *   Update term: $\frac{u(u-1)\dots(u-i+1)}{i!} \times \Delta^i y_0$
-    *   Add to sum.
+4.  **Compute Sum**: Apply formula.
 5.  **Output**: Display the interpolated value.
 
-## Pseudocode
+**Pseudocode**
 ```cpp
 function newton_forward(x[], y[][], n, value):
     for i from 1 to n-1:
@@ -293,34 +255,24 @@ function newton_forward(x[], y[][], n, value):
     return sum
 ```
 
----
-
 <a id="newton-backward-interpolation"></a>
-# Newton Backward Interpolation
+### Newton Backward Interpolation
 
-## Theory
+**Theory**
 Newton's Backward Interpolation is similar to the forward method but is more accurate for interpolating values near the **end** of the dataset.
 
 The formula is given by:
-
 $$y(x) = y_n + u \nabla y_n + \frac{u(u+1)}{2!} \nabla^2 y_n + \frac{u(u+1)(u+2)}{3!} \nabla^3 y_n + \dots$$
+Where $u = \frac{x - x_n}{h}$.
 
-Where:
-*   $x_n$ is the last value in the dataset.
-*   $u = \frac{x - x_n}{h}$
-*   $\nabla y_n$ represents the backward difference.
-
-## Algorithm
+**Algorithm**
 1.  **Input**: Read ($n$) data points ($x, y$) and the values.
 2.  **Difference Table**: Construct the backward difference table.
 3.  **Calculate u**: Compute $u = (value - x[n-1]) / (x[1] - x[0])$.
-4.  **Compute Sum**: Initialize $sum = y[n-1][0]$.
-    *   Iterate $i$ from 1 to $n-1$.
-    *   Update term: $\frac{u(u+1)\dots(u+i-1)}{i!} \times \nabla^i y_n$
-    *   Add to sum.
+4.  **Compute Sum**: Apply formula.
 5.  **Output**: Display result.
 
-## Pseudocode
+**Pseudocode**
 ```cpp
 function newton_backward(x[], y[][], n, value):
     for i from 1 to n-1:
@@ -339,305 +291,24 @@ function newton_backward(x[], y[][], n, value):
         sum = sum + (u_term * y[n-1][i]) / factorial
 
     return sum
-
----
-
-## F. Numerical Integration
-
-Numerical integration, often called "numerical quadrature," is the process of calculating the approximate value of a definite integral $\int_{a}^{b} f(x) dx$. While analytical calculus finds the exact area under a curve using antiderivatives, numerical methods sum the areas of geometric shapes (like trapezoids or parabolas) fitted under the curve.
-
-This is critical in simulations where $f(x)$ is not a simple formula but a stream of data points (e.g., calculating distance from a velocity-time log).
-
-### 1. Simpson’s 1/3 Rule
-
-**Theory: Parabolic Approximation**
-Simpson’s 1/3 Rule improves upon the Trapezoidal Rule by approximating the function $f(x)$ not as a straight line, but as a **second-order polynomial (parabola)** connecting every three points.
-
-
-
-Because it fits parabolas, it requires an **even number of segments** (intervals) $n$, which means you need an odd number of data points. The formula weights the boundary points and internal points differently to achieve higher accuracy.
-
-$$I \approx \frac{h}{3} \left[ (y_0 + y_n) + 4(y_1 + y_3 + \dots + y_{n-1}) + 2(y_2 + y_4 + \dots + y_{n-2}) \right]$$
-
-**Algorithm**
-1.  **Verify Intervals:** Ensure the number of intervals $n$ is even. If $n$ is odd, this method cannot be applied directly over the whole range.
-2.  **Calculate Step Size:** $h = (b - a) / n$.
-3.  **Sum Extremes:** Add the first ($y_0$) and last ($y_n$) values.
-4.  **Sum Odds:** Multiply the sum of ordinates at odd positions ($y_1, y_3...$) by 4.
-5.  **Sum Evens:** Multiply the sum of ordinates at even positions ($y_2, y_4...$) by 2.
-6.  **Calculate Total:** Sum all components and multiply by $h/3$.
-
-**Pseudocode**
-```text
-Input: Function f(x), lower_limit a, upper_limit b, intervals n
-Output: Integral value
-
-If n % 2 != 0:
-    Print "Error: n must be even"
-    Return
-
-h = (b - a) / n
-sum = f(a) + f(b) // First and last terms
-
-For i from 1 to n-1:
-    x = a + i * h
-    If i % 2 == 0:
-        sum = sum + 2 * f(x) // Even index
-    Else:
-        sum = sum + 4 * f(x) // Odd index
-
-Result = sum * (h / 3)
-Return Result
 ```
-**Further Study**
-* [Simpson’s 1/3 Rule - GeeksforGeeks (Implementation)](https://www.geeksforgeeks.org/program-simpsons-13-rule/)
-* [Simpson's Rule Derivation - Wolfram MathWorld](https://mathworld.wolfram.com/SimpsonsRule.html)
-
-### 2. Simpson’s 3/8 Rule
-
-**Theory: Cubic Approximation**
-While the 1/3 rule uses parabolas (3 points), Simpson’s 3/8 Rule fits a **third-order polynomial (cubic curve)** through every four points. This generally provides slightly better accuracy for functions that are smoother.
-
-
-
-The constraint for this method is that the number of intervals $n$ must be a **multiple of 3**.
-
-$$I \approx \frac{3h}{8} \left[ (y_0 + y_n) + 3(y_1 + y_2 + y_4 + y_5 + \dots) + 2(y_3 + y_6 + \dots) \right]$$
-
-**Algorithm**
-1.  **Verify Intervals:** Ensure $n$ is a multiple of 3.
-2.  **Calculate Step Size:** $h = (b - a) / n$.
-3.  **Sum Extremes:** Add $y_0$ and $y_n$.
-4.  **Sum Multiples of 3:** Multiply terms at indices divisible by 3 ($y_3, y_6...$) by 2.
-5.  **Sum Others:** Multiply all remaining terms ($y_1, y_2, y_4, y_5...$) by 3.
-6.  **Calculate Total:** Sum components and multiply by $3h/8$.
-
-**Pseudocode**
-```text
-Input: Function f(x), lower_limit a, upper_limit b, intervals n
-Output: Integral value
-
-If n % 3 != 0:
-    Print "Error: n must be divisible by 3"
-    Return
-
-h = (b - a) / n
-sum = f(a) + f(b)
-
-For i from 1 to n-1:
-    x = a + i * h
-    If i % 3 == 0:
-        sum = sum + 2 * f(x) // Multiple of 3
-    Else:
-        sum = sum + 3 * f(x) // Rest of the terms
-
-Result = sum * (3 * h / 8)
-Return Result
-```
-**Further Study**
-* [Simpson’s 3/8 Rule - GeeksforGeeks](https://www.geeksforgeeks.org/simpsons-38-rule-python/)
-* [Numerical Integration Rules - Swarthmore College](https://lpsa.swarthmore.edu/NumInt/NumIntMain.html)
-
-## G. Curve Fitting (Regression)
-
-Curve fitting is the process of constructing a mathematical function that best fits a series of data points. Unlike **interpolation** (where the curve must pass exactly through every point), **regression** assumes that data might contain "noise" or errors. Therefore, the goal is not to hit every point, but to find a trend line that minimizes the total error across the entire dataset.
-
-The most common technique is the **Method of Least Squares**. It tries to minimize the sum of the squares of the vertical differences (residuals) between the data points and the fitted curve.
-
-
-
-### 1. Least-Squares Regression: Linear Equation
-
-**Theory: Fitting a Straight Line**
-This is the simplest form of regression. We assume the relationship between the dependent variable $y$ and independent variable $x$ is a straight line:
-$$y = a_0 + a_1x$$
-
-To find the best $a_0$ (intercept) and $a_1$ (slope), we minimize the error $S = \sum (y_i - (a_0 + a_1x_i))^2$. Taking the partial derivatives with respect to $a_0$ and $a_1$ and setting them to zero gives us the **Normal Equations**:
-
-1.  $\sum y = n \cdot a_0 + a_1 \sum x$
-2.  $\sum xy = a_0 \sum x + a_1 \sum x^2$
-
-Solving this system gives direct formulas for the coefficients:
-$$a_1 = \frac{n\sum xy - \sum x \sum y}{n\sum x^2 - (\sum x)^2}$$
-$$a_0 = \bar{y} - a_1\bar{x}$$
-*(Where $\bar{y}$ and $\bar{x}$ are the mean values of y and x, and $n$ is the number of points)*
-
-**Algorithm**
-1.  **Initialize Sums:** Set variables for $\sum x$, $\sum y$, $\sum xy$, and $\sum x^2$ to zero.
-2.  **Accumulate Data:** Loop through all $n$ data points. For each point $(x_i, y_i)$, add values to the respective sums.
-3.  **Calculate Slope ($a_1$):** Apply the formula using the calculated sums.
-4.  **Calculate Intercept ($a_0$):** Use the means $\bar{x}$ and $\bar{y}$ and the slope $a_1$.
-5.  **Construct Model:** The final equation is $y = a_0 + a_1x$.
-
-**Pseudocode**
-```text
-Input: Arrays x[] and y[], integer n
-Output: Slope a1, Intercept a0
-
-sum_x = 0, sum_y = 0, sum_xy = 0, sum_x2 = 0
-
-For i from 0 to n-1:
-    sum_x  = sum_x + x[i]
-    sum_y  = sum_y + y[i]
-    sum_xy = sum_xy + (x[i] * y[i])
-    sum_x2 = sum_x2 + (x[i] * x[i])
-
-// Denominator for the slope formula
-denom = (n * sum_x2) - (sum_x * sum_x)
-
-If denom == 0:
-    Print "Error: Denominator is zero"
-    Return
-
-a1 = ((n * sum_xy) - (sum_x * sum_y)) / denom
-a0 = (sum_y / n) - (a1 * (sum_x / n))
-
-Print "Equation: y = " + a0 + " + " + a1 + "x"
-```
-**Further Study**
-* [Linear Regression - Yale University](http://www.stat.yale.edu/Courses/1997-98/101/linreg.htm)
-* [Least Squares Regression - MathWorld](https://mathworld.wolfram.com/LeastSquaresFitting.html)
-
-### 2. Least-Squares Regression: Transcendental Equation
-
-**Theory: Linearization of Non-Linear Models**
-Sometimes data does not fit a straight line but follows an exponential ($y = ae^{bx}$) or power ($y = ax^b$) law. We cannot apply the standard least-squares formulas directly to these non-linear forms.
-
-
-
-Instead, we **linearize** the equation using logarithms:
-* **Exponential Model ($y = ae^{bx}$):** Take $\ln$ of both sides $\rightarrow \ln(y) = \ln(a) + bx$.
-    * This looks like a line $Y = A_0 + A_1x$, where $Y = \ln(y)$, $A_0 = \ln(a)$, and $A_1 = b$.
-* **Power Model ($y = ax^b$):** Take $\log$ of both sides $\rightarrow \log(y) = \log(a) + b\log(x)$.
-    * This looks like $Y = A_0 + A_1X$, where $Y = \log(y)$ and $X = \log(x)$.
-
-Once linearized, we calculate the slope and intercept using the standard linear formulas, then transform them back to find the original constants $a$ and $b$.
-
-**Algorithm (for Exponential $y = ae^{bx}$)**
-1.  **Transform Data:** Create a new array $Z$ where $Z_i = \ln(y_i)$.
-2.  **Apply Linear Regression:** Perform standard linear regression on the pairs $(x_i, Z_i)$.
-3.  **Calculate $a_1$ (slope):** This corresponds directly to $b$.
-4.  **Calculate $a_0$ (intercept):** This corresponds to $\ln(a)$.
-5.  **Inverse Transform:** Calculate $a = e^{a_0}$.
-6.  **Final Model:** $y = a e^{bx}$.
-
-**Pseudocode**
-```text
-Input: Arrays x[] and y[], integer n
-Output: Coefficients a and b for y = ae^(bx)
-
-sum_x = 0, sum_z = 0, sum_xz = 0, sum_x2 = 0
-
-For i from 0 to n-1:
-    z = ln(y[i])  // Linearize y
-    sum_x  = sum_x + x[i]
-    sum_z  = sum_z + z
-    sum_xz = sum_xz + (x[i] * z)
-    sum_x2 = sum_x2 + (x[i] * x[i])
-
-denom = (n * sum_x2) - (sum_x * sum_x)
-b = ((n * sum_xz) - (sum_x * sum_z)) / denom  // Slope
-A0 = (sum_z / n) - (b * (sum_x / n))          // Intercept
-
-a = exp(A0) // Inverse transform
-
-Print "Equation: y = " + a + " * e^(" + b + "x)"
-```
-**Further Study**
-* [Curve Fitting: Exponential and Power Laws - Math For Engineers](https://www.google.com/search?q=https://www.mathforcollege.com/nm/topics/textbook_index.html)
-* [Linearization of Exponential Models - Ximera OSU](https://www.google.com/search?q=https://ximera.osu.edu/mooculus/calculus2/linearization/digInLinearization)
-
-### 3. Least-Squares Regression: Polynomial Equation
-
-**Theory: Extending to Higher Orders**
-When data shows a curve with peaks and valleys, a straight line is insufficient. We can fit a polynomial of degree $m$:
-$$y = a_0 + a_1x + a_2x^2 + \dots + a_mx^m$$
-
-Although this looks non-linear in terms of $x$, it is **linear in terms of the coefficients** $a_0, a_1, \dots$. We minimize the squared error just like before. This results in a system of $(m+1)$ linear equations (Normal Equations) that must be solved simultaneously (often using Gaussian Elimination).
-
-For a 2nd-degree polynomial (Parabola: $y = a_0 + a_1x + a_2x^2$), the matrix system is:
-
-For a 2nd-degree polynomial (Parabola: $y = a_0 + a_1x + a_2x^2$), the matrix system is:
-
-```math
-\begin{bmatrix}
-n & \sum x & \sum x^2 \\
-\sum x & \sum x^2 & \sum x^3 \\
-\sum x^2 & \sum x^3 & \sum x^4
-\end{bmatrix}
-\begin{bmatrix}
-a_0 \\
-a_1 \\
-a_2
-\end{bmatrix}
-=
-\begin{bmatrix}
-\sum y \\
-\sum xy \\
-\sum x^2y
-\end{bmatrix}
-```
-**Algorithm**
-1.  **Select Degree $m$:** Choose the order of the polynomial (e.g., $m=2$ for a parabola).
-2.  **Calculate Power Sums:** Compute sums for $x$ up to power $2m$ ($\sum x, \sum x^2, \dots \sum x^{2m}$).
-3.  **Calculate Moment Sums:** Compute sums like $\sum y, \sum xy, \sum x^2y$.
-4.  **Build Matrix:** Fill the augmented matrix with these sums.
-5.  **Solve System:** Use Gaussian Elimination to solve for $a_0, a_1, \dots a_m$.
-
-**Pseudocode (Building the Matrix for Degree m)**
-```text
-Input: Arrays x[] and y[], degree m, points n
-Output: Coefficients a[]
-
-// 1. Calculate the sums of powers of x
-powers[] = array of size (2*m + 1)
-For k from 0 to 2*m:
-    powers[k] = sum of (x[i]^k) for all i
-
-// 2. Calculate sums of y * x^k
-moments[] = array of size (m + 1)
-For k from 0 to m:
-    moments[k] = sum of (y[i] * x[i]^k) for all i
-
-// 3. Construct Matrix System (Matrix B, Vector C)
-For i from 0 to m:
-    For j from 0 to m:
-        B[i][j] = powers[i + j]
-    C[i] = moments[i]
-
-// 4. Solve B * a = C
-coefficients = GaussianElimination(B, C)
-Return coefficients
-```
-
-**Further Study**
-* [Polynomial Regression - GeeksforGeeks](https://www.geeksforgeeks.org/polynomial-regression-for-non-linear-data-ml/)
-* [Least Squares Fitting of Polynomials - Wolfram MathWorld](https://mathworld.wolfram.com/LeastSquaresFittingPolynomial.html)
-
----
 
 <a id="newton-divided-difference-interpolation"></a>
-# Newton Divided Difference Interpolation
+### Newton Divided Difference Interpolation
 
-## Theory
+**Theory**
 Newton's Divided Difference Interpolation is a method for constructing an interpolating polynomial for a given set of data points where the interval between data points is **not necessarily equal**.
 
 The formula is given by:
 $$f(x) = f(x_0) + (x-x_0)f[x_0, x_1] + (x-x_0)(x-x_1)f[x_0, x_1, x_2] + \dots + (x-x_0)\dots(x-x_{n-1})f[x_0, \dots, x_n]$$
 
-Where divided differences are defined recursively:
-$$f[x_i, x_j] = \frac{f(x_j) - f(x_i)}{x_j - x_i}$$
-
-## Algorithm
+**Algorithm**
 1.  **Input**: Read ($n$) data points ($x, y$) and the value to interpolate ($value$).
 2.  **Table**: Construct the divided difference table using the recursive formula.
-3.  **Compute**: Initialize $sum = y[0][0]$.
-    *   Iterate $i$ from 1 to $n-1$.
-    *   Accumulate product term: $\prod_{j=0}^{i-1} (value - x_j)$
-    *   Add ($product \times y[0][i]$) to sum.
+3.  **Compute**: Apply formula.
 4.  **Output**: Display the interpolated value.
 
-## Pseudocode
+**Pseudocode**
 ```cpp
 function newton_divided(x[], y[][], n, value):
     for i from 1 to n-1:
@@ -656,37 +327,66 @@ function newton_divided(x[], y[][], n, value):
 
 ---
 
+## D. Numerical Differentiation
+
+Numerical differentiation is the process of calculating the derivative (rate of change) of a function using a set of discrete data points $(x_i, y_i)$ rather than an analytical formula.
+
+### 1. Equal-Interval Interpolation Method
+
+**Theory: Differentiating the Polynomial**
+When data points are spaced equally, we can use Newton's Forward Difference formula.
+$$\frac{dy}{dx} = \frac{1}{h} \left[ \Delta y_0 + \frac{2p-1}{2} \Delta^2 y_0 + \frac{3p^2-6p+2}{6} \Delta^3 y_0 + \dots \right]$$
+
+**Algorithm**
+1.  **Check Interval:** Verify that all $x$ values have a constant difference $h$.
+2.  **Difference Table:** Construct the Forward Difference Table.
+3.  **Calculate $p$:** Determine the position factor.
+4.  **Apply Series:** Substitute the difference values.
+5.  **Scale:** Divide the result by step size $h$.
+
+**Pseudocode**
+```text
+Input: Arrays x[] and y[], value xp (point to differentiate at)
+Output: Derivative value dy/dx
+
+1. Calculate step size h = x[1] - x[0]
+2. Generate Forward Difference Table diff[n][n]
+   For j = 1 to n-1:
+       For i = 0 to n-j-1:
+           diff[i][j] = diff[i+1][j-1] - diff[i][j-1]
+
+3. Find index i such that x[i] is closest to xp
+4. Calculate p = (xp - x[i]) / h
+5. Initialize sum = 0
+
+6. Apply Formula (Example for 1st derivative):
+   term1 = diff[i][0]
+   term2 = (2*p - 1) * diff[i][1] / 2
+   term3 = (3*p*p - 6*p + 2) * diff[i][2] / 6
+   sum = term1 + term2 + term3 + ...
+
+7. Result = sum / h
+8. Return Result
+```
+
+---
+
+## E. Solution of Differential Equations
+
 <a id="runge-kutta-rk-method"></a>
-# Runge-Kutta (RK) Method
+### Runge-Kutta (RK) Method
 
-## Theory
+**Theory**
 The Runge-Kutta method (specifically the fourth-order RK4) is a widely used technique for the approximate solution of ordinary differential equations (ODEs).
-
-Given an equation:
-$$ \frac{dy}{dx} = f(x, y) $$
-With initial condition $y(x_0) = y_0$.
-
-The value $y_{n+1}$ at $x_{n+1} = x_n + h$ is determined by:
-
 $$y_{n+1} = y_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)$$
 
-Where the slopes are:
-*   $k_1 = h f(x_n, y_n)$
-*   $k_2 = h f(x_n + \frac{h}{2}, y_n + \frac{k_1}{2})$
-*   $k_3 = h f(x_n + \frac{h}{2}, y_n + \frac{k_2}{2})$
-*   $k_4 = h f(x_n + h, y_n + k_3)$
-
-## Algorithm
+**Algorithm**
 1.  **Define function**: $f(x, y)$.
 2.  **Input**: Initial $x_0, y_0$, target $x_n$, and step size $h$.
-3.  **Iterate**: Until current $x$ reaches target $x_n$:
-    *   Calculate $k_1, k_2, k_3, k_4$.
-    *   Calculate weighted average $k = (k_1 + 2k_2 + 2k_3 + k_4) / 6$.
-    *   Update $y = y + k$.
-    *   Update $x = x + h$.
+3.  **Iterate**: Until current $x$ reaches target $x_n$, calculate slopes $K$ and update $y$.
 4.  **Output**: Final value of $y$.
 
-## Pseudocode
+**Pseudocode**
 ```cpp
 function solve_rk4(x0, y0, xn, h):
     n_steps = (xn - x0) / h
@@ -707,4 +407,113 @@ function solve_rk4(x0, y0, xn, h):
         x = x + h
         
     return y
+```
+
+---
+
+## F. Numerical Integration
+
+Numerical integration calculates the approximate value of a definite integral $\int_{a}^{b} f(x) dx$.
+
+### 1. Simpson’s 1/3 Rule
+
+**Theory: Parabolic Approximation**
+Approximates the function $f(x)$ as a second-order polynomial (parabola). Requires even intervals.
+$$I \approx \frac{h}{3} \left[ (y_0 + y_n) + 4(y_1 + y_3 + \dots) + 2(y_2 + y_4 + \dots) \right]$$
+
+**Algorithm**
+1.  **Verify Intervals:** Ensure $n$ is even.
+2.  **Calculate Step Size:** $h = (b - a) / n$.
+3.  **Sum**: Apply formula.
+
+**Pseudocode**
+```text
+Input: Function f(x), lower_limit a, upper_limit b, intervals n
+Output: Integral value
+
+If n % 2 != 0: Returns Error
+
+h = (b - a) / n
+sum = f(a) + f(b)
+
+For i from 1 to n-1:
+    x = a + i * h
+    If i % 2 == 0: sum = sum + 2 * f(x)
+    Else: sum = sum + 4 * f(x)
+
+Result = sum * (h / 3)
+Return Result
+```
+
+### 2. Simpson’s 3/8 Rule
+
+**Theory: Cubic Approximation**
+Fits a third-order polynomial. Requires intervals to be a multiple of 3.
+$$I \approx \frac{3h}{8} \left[ (y_0 + y_n) + 3(y_1 + y_2 + y_4 + \dots) + 2(y_3 + y_6 + \dots) \right]$$
+
+**Algorithm**
+1.  **Verify Intervals:** Ensure $n$ % 3 == 0.
+2.  **Calculate Step Size**: $h$.
+3.  **Sum**: Apply formula.
+
+**Pseudocode**
+```text
+Input: Function f(x), lower_limit a, upper_limit b, intervals n
+Output: Integral value
+
+If n % 3 != 0: Return Error
+
+h = (b - a) / n
+sum = f(a) + f(b)
+
+For i from 1 to n-1:
+    x = a + i * h
+    If i % 3 == 0: sum = sum + 2 * f(x)
+    Else: sum = sum + 3 * f(x)
+
+Result = sum * (3 * h / 8)
+Return Result
+```
+
+---
+
+## G. Curve Fitting (Regression)
+
+Curve fitting constructs a mathematical function that best fits a series of data points, minimizing error (Least Squares).
+
+### 1. Least-Squares Regression: Linear Equation
+**Theory**: Fits $y = a_0 + a_1x$ by solving Normal Equations.
+**Pseudocode**:
+```text
+Input: Arrays x[] and y[], integer n
+sum_x = 0, sum_y = 0, sum_xy = 0, sum_x2 = 0
+// ... Calculate sums ...
+denom = (n * sum_x2) - (sum_x * sum_x)
+a1 = ((n * sum_xy) - (sum_x * sum_y)) / denom
+a0 = (sum_y / n) - (a1 * (sum_x / n))
+Print "y = " + a0 + " + " + a1 + "x"
+```
+
+### 2. Least-Squares Regression: Transcendental Equation
+**Theory**: Linearize $y = ae^{bx}$ to $\ln(y) = \ln(a) + bx$.
+**Pseudocode**:
+```text
+Input: Arrays x[] and y[], integer n
+// ... Calculate sums with z = ln(y) ...
+b = ((n * sum_xz) - (sum_x * sum_z)) / denom
+A0 = (sum_z / n) - (b * (sum_x / n))
+a = exp(A0)
+Print "y = " + a + " * e^(" + b + "x)"
+```
+
+### 3. Least-Squares Regression: Polynomial Equation
+**Theory**: Fits $y = a_0 + a_1x + \dots + a_mx^m$ by solving a matrix system.
+**Pseudocode**:
+```text
+Input: Arrays x[] and y[], degree m, points n
+// 1. Calculate sums of powers of x
+// 2. Calculate sums of moments (y * x^k)
+// 3. Build Matrix B and Vector C
+// 4. Solve B * a = C
+Return coefficients
 ```
