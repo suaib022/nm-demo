@@ -1,249 +1,50 @@
 # Numerical Methods
 
 ### A. Solution of Linear Equations
-*   [Gauss Elimination](#gauss-elimination)
-*   [Gauss-Jordan Elimination](#gauss-jordan-elimination)
-*   [LU Factorization](#lu-decomposition-method)
-*   [Iterative Methods: Jacobi and Gauss-Seidel](#iterative-methods)
+1.  [Gauss Elimination](#gauss-elimination)
+2.  [Gauss-Jordan Elimination](#gauss-jordan-elimination)
+3.  [LU Factorization](#lu-decomposition-method)
+4.  [Iterative Methods: Jacobi and Gauss-Seidel](#iterative-methods)
 
 ### B. Solution of Non-linear Equations
-*   [Bisection Method](#bisection-method)
-*   [False Position Method (Regula-Falsi)](#false-position-method)
-*   [Secant Method](#secant-method)
-*   [Newton-Raphson Method](#newton-raphson-method)
+1.  [Bisection Method](#bisection-method)
+2.  [False Position Method (Regula-Falsi)](#false-position-method)
+3.  [Secant Method](#secant-method)
+4.  [Newton-Raphson Method](#newton-raphson-method)
 
 ### C. Interpolation and Approximation
-*   [Newton Forward Interpolation](#newton-forward-interpolation)
-*   [Newton Backward Interpolation](#newton-backward-interpolation)
-*   [Error Analysis](#error-analysis)
-*   [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
+1.  [Newton Forward Interpolation](#newton-forward-interpolation)
+2.  [Newton Backward Interpolation](#newton-backward-interpolation)
+3.  [Error Analysis](#error-analysis)
+4.  [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
 
 ### D. Numerical Differentiation
-*   [Equal-Interval Interpolation Method](#equal-interval)
-*   [Second-Order Derivative Formula](#second-order-derivative)
-*   [Lagrange’s Interpolation-Based Differentiation](#lagrange-differentiation)
+1.  [Equal-Interval Interpolation Method](#equal-interval)
+2.  [Second-Order Derivative Formula](#second-order-derivative)
+3.  [Lagrange’s Interpolation-Based Differentiation](#lagrange-differentiation)
 
 ### E. Solution of Differential Equations
-*   [Runge-Kutta Method](#runge-kutta-rk-method)
+1.  [Runge-Kutta Method](#runge-kutta-rk-method)
 
 ### F. Numerical Integration
-*   [Simpson’s 1/3 Rule](#simpsons-13-rule)
-*   [Simpson’s 3/8 Rule](#simpsons-38-rule)
-*   [Trapezium/Trapezoidal Rule](#trapezium-rule)
-*   [One-third Rule](#simpsons-13-rule)
+1.  [Simpson’s 1/3 Rule](#simpsons-13-rule)
+2.  [Simpson’s 3/8 Rule](#simpsons-38-rule)
+3.  [Trapezium/Trapezoidal Rule](#trapezium-rule)
+4.  [One-third Rule](#simpsons-13-rule)
 
 ### G. Curve Fitting
-*   [Least-Squares Straight Lines](#least-squares-linear)
-*   [Least-Squares Polynomials](#least-squares-polynomial)
-*   [Non-Linear Curve Fitting](#least-squares-transcendental)
+1.  [Least-Squares Straight Lines](#least-squares-linear)
+2.  [Least-Squares Polynomials](#least-squares-polynomial)
+3.  [Non-Linear Curve Fitting](#least-squares-transcendental)
 
 ---
 
-<a id="bisection-method"></a>
-### Bisection Method
 
-**Theory**
-The Bisection Method is a simple and dynamic numerical technique used to find roots of continuous functions. It is also known as:
-1. Binary chopping method
-2. Half-interval method
-
-**Algorithm of Bisection Method:**
-
-Step 1: Choosing two numbers (x1) and (x2) such that:
-[ f(x1) f(x2) < 0 ]
-
-Step 2: Computing the midpoint:
-[ x0 = (x1 + x2)/2 ]
-
-Step 3: Evaluating f(x0).
-
-Step 4:
-If (f(x0) == 0), then (x0) is the exact root.
-If (f(x0) .f(x1) < 0), setting (x2 = x0).
-If (f(x0) .f(x2) < 0), setting (x1 = x0).
-
-Step 5: Repeating until the stopping criterion is met:
-|x2 - x1| < E
-
-Step 6: Stopping. The approximate root is (x0).
-
-**Pseudocode:**
-```text
-BisectionMethod(f, a, b, tolerance, max_iter):
-
-  Step 1: Check if: f(a).f(b) < 0
-          If not, print "Invalid interval" and stop.
-  Step 2: For i = 1 to max_iter:
-            x0 = (a + b) / 2
-            fx0 = f(x0)
-            If |fx0| < tolerance:
-                Return x0 as the root
-            Else If f(a) . fx0 < 0:
-                b = x0
-            Else:
-                a = x0
-            End For
-
-  Step 3: Return (a + b) / 2 as the approximate root
-```
-
-<a id="false-position-method"></a>
-### False Position Method
-
-**Algorithm of False Position Method:**
-
-Step 1: Choosing two numbers x1 and x2 such that:
-    f(x1).f(x2)<0
-Step 2: Compute the root approximation:
-    x0 = x1 - (f(x1).(x2-x1))/(f(x2)-f(x1))
-Step 3: Evaluate f(x0).
-Step 4:
-If f(x0)=0, then x0 is the exact root.
-If f(x0).f(x1)<0  then, x2=x0
-If f(x0).f(x2)<0  then, x1=x0
-Step 5: Repeat until the stopping criterion is met:
-|x2-x1|<E
-Step 6: Stop. The approximate root is x0
-
-**Pseudocode:**
-```text
-FalsePositionMethod(f, a, b, tolerance, max_iter):
-
-  Step 1: Check if f(a) . f(b) < 0
-          If not, print "Invalid interval" and stop.
-  Step 2: For i = 1 to max_iter:
-            x0 = a - f(a) * (b - a) / (f(b) - f(a))
-            fx0 = f(x0)
-            If |fx0| < tolerance:
-                Return x0 as the root
-            Else If f(a) . fx0 < 0:
-                b = x0
-            Else:
-                a = x0
-  Step 3: Return x0 as the approximate root
-```
-
-<a id="secant-method"></a>
-### Secant Method
-
-
-**Theory**
-The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess ( xn ), the tangent line at that point is:
-
-[y = f(xn) + f'(xn)(x - xn)]
-
-Setting (y = 0): [0 = f(xn) + f'(xn)(x - xn)]
-
-Solving for (x): [x(n+1) = xn - f(xn)/f'(xn)]
-
-This is the Newton-Raphson formula.
-
-**Algorithm of Newton-Raphson Method**
-
-Step 1: Choosing an initial guess x0.
-Step 2: Computing derivative f'(xn).
-Step 3: Computing next approximation:
-    [x(n+1) = xn - f(xn)/f'(xn)]
-Step 4: Checking stopping criterion:
-    |x(n+1)-xn| < E
-
-If satisfied => Stop.
-Else => setting (xn = x(n+1)) and repeating.
-
-**Pseudocode**
-```text
-NewtonRaphson(f, df, x0, tolerance, max_iter):
-for i = 1 to max_iter:
-    fx = f(x0)
-    dfx = df(x0)
-    if dfx == 0:
-        break
-    x1 = x0 - fx/dfx
-    if abs(x1 - x0) < tolerance:
-        return x1
-    x0 = x1
-return x1
-```
-
-```
-
-<a id="newton-raphson-method"></a>
-### Newton-Raphson Method
-
-
-**Theory**
-The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points x(n-1) and xn :
-
-f'(xn) = (f(xn) - f(x(n-1))) / (xn - x(n-1))
-
-Substituting this into Newton's formula:
-
-[x(n+1) = xn - f(xn) * (xn - x(n-1)) / (f(xn) - f(x(n-1)))]
-
-**Algorithm of Secant Method**
-
-Step 1: Choosing two initial approximations x0 and x1.
-Step 2: Applying:
-[ x(n+1) = xn - f(xn) * (xn - x(n-1)) / (f(xn) - f(x(n-1))) ]
-Step 3: Checking:
-| x(n+1) - xn | < E
-
-If yes -> Stop.
-Else -> set x(n-1) = xn, xn = x(n+1) and repeat.
-
-**Pseudocode**
-```text
-SecantMethod(f, x0, x1, tolerance, max_iter):
-for i = 1 to max_iter:
-    f0 = f(x0)
-    f1 = f(x1)
-    x2 = x1 - f1*(x1 - x0)/(f1 - f0)
-    if abs(x2 - x1) < tolerance:
-        return x2
-    x0 = x1
-    x1 = x2
-return x2
-```
-
-### C. Interpolation and Approximation
-*   [Newton Forward Interpolation](#newton-forward-interpolation)
-*   [Newton Backward Interpolation](#newton-backward-interpolation)
-*   Error Analysis
-*   [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
-
-### D. Numerical Differentiation
-<a id="equal-interval"></a>
-*   Equal-Interval Interpolation Method
-*   Second-Order Derivative Formula
-*   Lagrange’s Interpolation-Based Differentiation
-
-### E. Solution of Differential Equations
-*   [Runge-Kutta Method](#runge-kutta-rk-method)
-
-### F. Numerical Integration
-<a id="simpsons-13-rule"></a>
-*   Simpson’s 1/3 Rule
-<a id="simpsons-38-rule"></a>
-*   Simpson’s 3/8 Rule
-*   Trapezium/Trapezoidal Rule
-*   One-third Rule (alternate naming for Simpson’s 1/3)
-
-### G. Curve Fitting
-<a id="least-squares-linear"></a>
-*   Least-Squares Straight Lines
-<a id="least-squares-polynomial"></a>
-*   Least-Squares Polynomials
-<a id="least-squares-transcendental"></a>
-*   Non-Linear Curve Fitting
-
-### H. Matrix Inversion Approach
-
----
 
 ## A. Solution of Linear Equations
 
 <a id="gauss-elimination"></a>
-### Gauss Elimination
+### 1. Gauss Elimination
 
 **Theory**
 Gauss Elimination is a direct method that converts a system of linear equations into an upper triangular system using forward elimination. After the matrix becomes upper triangular, back substitution is applied to determine the values of the unknowns. Gauss Elimination produces one of the following outcomes:
@@ -341,7 +142,7 @@ STOP
 ```
 
 <a id="gauss-jordan-elimination"></a>
-### Gauss-Jordan Elimination
+### 2. Gauss-Jordan Elimination
 
 **Theory**
 Gauss-Jordan Elimination is an extended form of Gauss Elimination. Instead of producing an upper triangular matrix, it reduces the augmented matrix directly to reduced row echelon form (RREF). This eliminates the need for back substitution.
@@ -439,7 +240,7 @@ else:
     return ("Infinite solutions", M)
 ```
 
-### Iterative Methods: Jacobi and Gauss-Seidel methods
+### 4. Iterative Methods: Jacobi and Gauss-Seidel methods
 
 #### (i) Jacobi Iterative Method
 
@@ -527,7 +328,7 @@ For k from 1 to N:
 * [Iterative Methods: Jacobi vs Gauss-Seidel - Math LibreTexts](https://math.libretexts.org/Bookshelves/Linear_Algebra/Introduction_to_Matrix_Algebra_(Kaw)/01%3A_Chapters/1.08%3A_Gauss-Seidel_Method)
 
 <a id="lu-decomposition-method"></a>
-### LU Factorization
+### 3. LU Factorization
 
 **Theory**
 1. **The main idea**: Given a square matrix (**A**), it will be rewritten as $A = LU$, where **L** is a lower triangular matrix and **U** is an upper triangular matrix.
@@ -600,8 +401,7 @@ function solve_LU(Matrix A, Vector b):
 
 ## B. Solution of Non-linear Equations
 
-<a id="bisection-method"></a>
-### Bisection Method
+### 1. Bisection Method
 
 **Theory**
 The Bisection Method is a simple and dynamic numerical technique used to find roots of continuous functions. It is also known as:
@@ -648,8 +448,7 @@ BisectionMethod(f, a, b, tolerance, max_iter):
   Step 3: Return (a + b) / 2 as the approximate root
 ```
 
-<a id="false-position-method"></a>
-### False Position Method (Regula-Falsi)
+### 2. False Position Method (Regula-Falsi)
 
 **Algorithm of False Position Method:**
 
@@ -684,8 +483,7 @@ FalsePositionMethod(f, a, b, tolerance, max_iter):
   Step 3: Return x0 as the approximate root
 ```
 
-<a id="secant-method"></a>
-### Secant Method
+### 3. Secant Method
 
 **Theory**
 The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points x(n-1) and xn :
@@ -721,8 +519,7 @@ for i = 1 to max_iter:
 return x2
 ```
 
-<a id="newton-raphson-method"></a>
-### Newton-Raphson Method
+### 4. Newton-Raphson Method
 
 **Theory**
 The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess ( xn ), the tangent line at that point is:
@@ -766,8 +563,7 @@ return x1
 
 ## C. Interpolation and Approximation
 
-<a id="newton-forward-interpolation"></a>
-### Newton Forward Interpolation
+### 1. Newton Forward Interpolation
 
 **Theory**
 Newton's Forward Interpolation is used to approximate the value of a function $f(x)$ at valid points, based on a set of known data points that are **equally spaced**.
@@ -804,8 +600,7 @@ function newton_forward(x[], y[][], n, value):
     return sum
 ```
 
-<a id="newton-backward-interpolation"></a>
-### Newton Backward Interpolation
+### 2. Newton Backward Interpolation
 
 **Theory**
 Newton's Backward Interpolation is similar to the forward method but is more accurate for interpolating values near the **end** of the dataset.
@@ -843,8 +638,7 @@ function newton_backward(x[], y[][], n, value):
 ```
 
 
-<a id="error-analysis"></a>
-### 11. Error Analysis
+### 3. Error Analysis
 
 **Theory**
 Numerical errors arise from the use of approximations to represent exact mathematical operations and quantities. The total error is the sum of truncation error (due to cutting off an infinite series) and round-off error (due to finite precision of computers).
@@ -853,8 +647,7 @@ $$E_{total} = E_{truncation} + E_{round-off}$$
 
 ---
 
-<a id="newton-divided-difference-interpolation"></a>
-### Newton Divided Difference Interpolation
+### 4. Newton Divided Difference Interpolation
 
 **Theory**
 Newton's Divided Difference Interpolation is a method for constructing an interpolating polynomial for a given set of data points where the interval between data points is **not necessarily equal**.
@@ -889,8 +682,7 @@ function newton_divided(x[], y[][], n, value):
 
 ## D. Numerical Differentiation
 
-<a id="equal-interval"></a>
-### Equal-Interval Interpolation Method
+### 1. Equal-Interval Interpolation Method
 
 **Theory: Differentiating the Polynomial**
 When data points are spaced equally (with a constant step size $h$), we can approximate the function $f(x)$ using Newton's Interpolation formulas (Forward or Backward) and then differentiate that polynomial.
@@ -939,8 +731,7 @@ Output: Derivative value dy/dx
 **Further Study**
 * [Numerical Differentiation - Math.OHIO.edu](https://web.math.ohio.edu.cn/~courses/math3600/Lecture13.pdf)
 
-<a id="second-order-derivative"></a>
-### Second-Order Derivative Formula
+### 2. Second-Order Derivative Formula
 
 **Theory**
 The second-order derivative $f''(x)$ represents the rate of change of the slope. Using Newton's Forward Difference formula, we can approximate the second derivative by differentiating the interpolation polynomial twice.
@@ -970,8 +761,7 @@ SecondOrderDerivative(x, y, n, value):
   return result / (h * h)
 ```
 
-<a id="lagrange-differentiation"></a>
-### Lagrange’s Interpolation-Based Differentiation
+### 3. Lagrange’s Interpolation-Based Differentiation
 
 **Theory**
 When data points are **unequally spaced**, Newton’s difference methods cannot be used. Instead, we differentiate the Lagrange Interpolating Polynomial.
@@ -1006,8 +796,7 @@ LagrangeDifferentiation(x[], y[], n, value):
 
 ## E. Solution of Differential Equations
 
-<a id="runge-kutta-rk-method"></a>
-### Runge-Kutta Method
+### 1. Runge-Kutta Method
 
 **Theory**
 The Runge-Kutta method (specifically the fourth-order RK4) is a widely used technique for the approximate solution of ordinary differential equations (ODEs).
@@ -1046,8 +835,7 @@ function solve_rk4(x0, y0, xn, h):
 
 ## F. Numerical Integration
 
-<a id="simpsons-13-rule"></a>
-### Simpson’s 1/3 Rule
+### 1. Simpson’s 1/3 Rule
 
 **Theory: Parabolic Approximation**
 Simpson’s 1/3 Rule improves upon the Trapezoidal Rule by approximating the function $f(x)$ not as a straight line, but as a **second-order polynomial (parabola)** connecting every three points.
@@ -1092,8 +880,7 @@ Return Result
 * [Simpson’s 1/3 Rule - GeeksforGeeks (Implementation)](https://www.geeksforgeeks.org/program-simpsons-13-rule/)
 * [Simpson's Rule Derivation - Wolfram MathWorld](https://mathworld.wolfram.com/SimpsonsRule.html)
 
-<a id="simpsons-38-rule"></a>
-### Simpson’s 3/8 Rule
+### 2. Simpson’s 3/8 Rule
 
 **Theory: Cubic Approximation**
 While the 1/3 rule uses parabolas (3 points), Simpson’s 3/8 Rule fits a **third-order polynomial (cubic curve)** through every four points. This generally provides slightly better accuracy for functions that are smoother.
@@ -1138,8 +925,7 @@ Return Result
 * [Simpson’s 3/8 Rule - GeeksforGeeks](https://www.geeksforgeeks.org/simpsons-38-rule-python/)
 * [Numerical Integration Rules - Swarthmore College](https://lpsa.swarthmore.edu/NumInt/NumIntMain.html)
 
-<a id="trapezium-rule"></a>
-### Trapezium/Trapezoidal Rule
+### 3. Trapezium/Trapezoidal Rule
 
 **Theory**
 The Trapezoidal Rule approximates the area under the curve by approximating the function $f(x)$ as a straight line between two points. The area is then calculated as the area of the trapezoid formed.
@@ -1167,8 +953,7 @@ TrapezoidalRule(f, a, b, n):
 
 ## G. Curve Fitting
 
-<a id="least-squares-linear"></a>
-### Least-Squares Straight Lines
+### 1. Least-Squares Straight Lines
 
 **Theory: Fitting a Straight Line**
 This is the simplest form of regression. We assume the relationship between the dependent variable $y$ and independent variable $x$ is a straight line:
@@ -1220,66 +1005,13 @@ Print "Equation: y = " + a0 + " + " + a1 + "x"
 * [Linear Regression - Yale University](http://www.stat.yale.edu/Courses/1997-98/101/linreg.htm)
 * [Least Squares Regression - MathWorld](https://mathworld.wolfram.com/LeastSquaresFitting.html)
 
-<a id="least-squares-transcendental"></a>
-### Non-Linear Curve Fitting
-
-**Theory: Linearization of Non-Linear Models**
-Sometimes data does not fit a straight line but follows an exponential ($y = ae^{bx}$) or power ($y = ax^b$) law. We cannot apply the standard least-squares formulas directly to these non-linear forms.
-
-
-
-Instead, we **linearize** the equation using logarithms:
-* **Exponential Model ($y = ae^{bx}$):** Take $\ln$ of both sides $\rightarrow \ln(y) = \ln(a) + bx$.
-    * This looks like a line $Y = A_0 + A_1x$, where $Y = \ln(y)$, $A_0 = \ln(a)$, and $A_1 = b$.
-* **Power Model ($y = ax^b$):** Take $\log$ of both sides $\rightarrow \log(y) = \log(a) + b\log(x)$.
-    * This looks like $Y = A_0 + A_1X$, where $Y = \log(y)$ and $X = \log(x)$.
-
-Once linearized, we calculate the slope and intercept using the standard linear formulas, then transform them back to find the original constants $a$ and $b$.
-
-**Algorithm (for Exponential $y = ae^{bx}$)**
-1.  **Transform Data:** Create a new array $Z$ where $Z_i = \ln(y_i)$.
-2.  **Apply Linear Regression:** Perform standard linear regression on the pairs $(x_i, Z_i)$.
-3.  **Calculate $a_1$ (slope):** This corresponds directly to $b$.
-4.  **Calculate $a_0$ (intercept):** This corresponds to $\ln(a)$.
-5.  **Inverse Transform:** Calculate $a = e^{a_0}$.
-6.  **Final Model:** $y = a e^{bx}$.
-
-**Pseudocode**
-```text
-Input: Arrays x[] and y[], integer n
-Output: Coefficients a and b for y = ae^(bx)
-
-sum_x = 0, sum_z = 0, sum_xz = 0, sum_x2 = 0
-
-For i from 0 to n-1:
-    z = ln(y[i])  // Linearize y
-    sum_x  = sum_x + x[i]
-    sum_z  = sum_z + z
-    sum_xz = sum_xz + (x[i] * z)
-    sum_x2 = sum_x2 + (x[i] * x[i])
-
-denom = (n * sum_x2) - (sum_x * sum_x)
-b = ((n * sum_xz) - (sum_x * sum_z)) / denom  // Slope
-A0 = (sum_z / n) - (b * (sum_x / n))          // Intercept
-
-a = exp(A0) // Inverse transform
-
-Print "Equation: y = " + a + " * e^(" + b + "x)"
-```
-**Further Study**
-* [Curve Fitting: Exponential and Power Laws - Math For Engineers](https://www.google.com/search?q=https://www.mathforcollege.com/nm/topics/textbook_index.html)
-* [Linearization of Exponential Models - Ximera OSU](https://www.google.com/search?q=https://ximera.osu.edu/mooculus/calculus2/linearization/digInLinearization)
-
-<a id="least-squares-polynomial"></a>
-### Least-Squares Polynomials
+### 2. Least-Squares Polynomials
 
 **Theory: Extending to Higher Orders**
 When data shows a curve with peaks and valleys, a straight line is insufficient. We can fit a polynomial of degree $m$:
 $$y = a_0 + a_1x + a_2x^2 + \dots + a_mx^m$$
 
 Although this looks non-linear in terms of $x$, it is **linear in terms of the coefficients** $a_0, a_1, \dots$. We minimize the squared error just like before. This results in a system of $(m+1)$ linear equations (Normal Equations) that must be solved simultaneously (often using Gaussian Elimination).
-
-For a 2nd-degree polynomial (Parabola: $y = a_0 + a_1x + a_2x^2$), the matrix system is:
 
 For a 2nd-degree polynomial (Parabola: $y = a_0 + a_1x + a_2x^2$), the matrix system is:
 
@@ -1337,3 +1069,52 @@ Return coefficients
 **Further Study**
 * [Polynomial Regression - GeeksforGeeks](https://www.geeksforgeeks.org/polynomial-regression-for-non-linear-data-ml/)
 * [Least Squares Fitting of Polynomials - Wolfram MathWorld](https://mathworld.wolfram.com/LeastSquaresFittingPolynomial.html)
+
+### 3. Non-Linear Curve Fitting
+
+**Theory: Linearization of Non-Linear Models**
+Sometimes data does not fit a straight line but follows an exponential ($y = ae^{bx}$) or power ($y = ax^b$) law. We cannot apply the standard least-squares formulas directly to these non-linear forms.
+
+
+
+Instead, we **linearize** the equation using logarithms:
+* **Exponential Model ($y = ae^{bx}$):** Take $\ln$ of both sides $\rightarrow \ln(y) = \ln(a) + bx$.
+    * This looks like a line $Y = A_0 + A_1x$, where $Y = \ln(y)$, $A_0 = \ln(a)$, and $A_1 = b$.
+* **Power Model ($y = ax^b$):** Take $\log$ of both sides $\rightarrow \log(y) = \log(a) + b\log(x)$.
+    * This looks like $Y = A_0 + A_1X$, where $Y = \log(y)$ and $X = \log(x)$.
+
+Once linearized, we calculate the slope and intercept using the standard linear formulas, then transform them back to find the original constants $a$ and $b$.
+
+**Algorithm (for Exponential $y = ae^{bx}$)**
+1.  **Transform Data:** Create a new array $Z$ where $Z_i = \ln(y_i)$.
+2.  **Apply Linear Regression:** Perform standard linear regression on the pairs $(x_i, Z_i)$.
+3.  **Calculate $a_1$ (slope):** This corresponds directly to $b$.
+4.  **Calculate $a_0$ (intercept):** This corresponds to $\ln(a)$.
+5.  **Inverse Transform:** Calculate $a = e^{a_0}$.
+6.  **Final Model:** $y = a e^{bx}$.
+
+**Pseudocode**
+```text
+Input: Arrays x[] and y[], integer n
+Output: Coefficients a and b for y = ae^(bx)
+
+sum_x = 0, sum_z = 0, sum_xz = 0, sum_x2 = 0
+
+For i from 0 to n-1:
+    z = ln(y[i])  // Linearize y
+    sum_x  = sum_x + x[i]
+    sum_z  = sum_z + z
+    sum_xz = sum_xz + (x[i] * z)
+    sum_x2 = sum_x2 + (x[i] * x[i])
+
+denom = (n * sum_x2) - (sum_x * sum_x)
+b = ((n * sum_xz) - (sum_x * sum_z)) / denom  // Slope
+A0 = (sum_z / n) - (b * (sum_x / n))          // Intercept
+
+a = exp(A0) // Inverse transform
+
+Print "Equation: y = " + a + " * e^(" + b + "x)"
+```
+**Further Study**
+* [Curve Fitting: Exponential and Power Laws - Math For Engineers](https://www.google.com/search?q=https://www.mathforcollege.com/nm/topics/textbook_index.html)
+* [Linearization of Exponential Models - Ximera OSU](https://www.google.com/search?q=https://ximera.osu.edu/mooculus/calculus2/linearization/digInLinearization)
