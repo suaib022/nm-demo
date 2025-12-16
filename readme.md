@@ -2,16 +2,16 @@
 
 ## Summary
 ### A. Solution of Linear Equations
-*   Gauss Elimination
-*   Gauss-Jordan Elimination
+*   [Gauss Elimination](#gauss-elimination)
+*   [Gauss-Jordan Elimination](#gauss-jordan-elimination)
 *   [LU Factorization](#lu-decomposition-method)
-*   Iterative Methods: Jacobi and Gauss-Seidel methods
+*   [Iterative Methods: Jacobi and Gauss-Seidel](#iterative-methods)
 
 ### B. Solution of Non-linear Equations
-*   Bisection Method
-*   False Position Method (Regula-Falsi)
-*   Secant Method
-*   Newton-Raphson Method
+*   [Bisection Method](#bisection-method)
+*   [False Position Method (Regula-Falsi)](#false-position-method)
+*   [Secant Method](#secant-method)
+*   [Newton-Raphson Method](#newton-raphson-method)
 
 ### C. Interpolation and Approximation
 *   [Newton Forward Interpolation](#newton-forward-interpolation)
@@ -20,6 +20,210 @@
 *   [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
 
 ### D. Numerical Differentiation
+*   [Equal-Interval Interpolation Method](#equal-interval)
+
+### E. Solution of Differential Equations
+*   [Runge-Kutta Method](#runge-kutta-rk-method)
+
+### F. Numerical Integration
+*   [Simpson’s 1/3 Rule](#simpsons-13-rule)
+*   [Simpson’s 3/8 Rule](#simpsons-38-rule)
+
+### G. Curve Fitting
+*   [Least-Squares Straight Lines](#least-squares-linear)
+*   [Non-Linear Curve Fitting](#least-squares-transcendental)
+*   [Least-Squares Polynomials](#least-squares-polynomial)
+
+---
+
+**Introduction:**
+In numerical analysis, finding the roots of equations is a fundamental problem. Many real-world problems in science and engineering lead to non-linear equations, which often cannot be solved analytically. Hence, numerical methods like the Bracketing Methods are used.
+**Linear Equation:** An equation in which the highest power (degree) of the variable is 1. Example:(3x - 2 = 0).
+**Non-Linear Equation:** An equation in which the variable appears with power greater than 1 or in non-linear forms such as exponential, trigonometric, logarithmic. Example:(e^x - 3x = 0), (x^2 - 4x - 10 = 0).
+
+**Bracketing Methods:**
+Bracketing methods are a class of numerical techniques used to locate the root of a nonlinear equation by assuming the root is within a closed interval. The process begins by selecting two initial points, a and b, such that: [f(a).f(b) < 0]
+This condition indicates that the function values at the two points a and b have opposite signs, which implies that at least one real root must lie within the interval [a, b] provided that the function f(x) is continuous in that region.
+Once such an interval is found, bracketing methods use a systematic procedure to gradually shrink the width of the interval, thereby narrowing down the location of the root and ultimately converging to the root.
+
+There are two types of Bracketing Methods:
+1. Bisection Method
+2. False Position (Regula Falsi) Method
+
+<a id="bisection-method"></a>
+### Bisection Method
+
+**Theory**
+The Bisection Method is a simple and dynamic numerical technique used to find roots of continuous functions. It is also known as:
+1. Binary chopping method
+2. Half-interval method
+
+**Algorithm of Bisection Method:**
+
+Step 1: Choosing two numbers (x1) and (x2) such that:
+[ f(x1) f(x2) < 0 ]
+
+Step 2: Computing the midpoint:
+[ x0 = (x1 + x2)/2 ]
+
+Step 3: Evaluating f(x0).
+
+Step 4:
+If (f(x0) == 0), then (x0) is the exact root.
+If (f(x0) .f(x1) < 0), setting (x2 = x0).
+If (f(x0) .f(x2) < 0), setting (x1 = x0).
+
+Step 5: Repeating until the stopping criterion is met:
+|x2 - x1| < E
+
+Step 6: Stopping. The approximate root is (x0).
+
+**Pseudocode:**
+```text
+BisectionMethod(f, a, b, tolerance, max_iter):
+
+  Step 1: Check if: f(a).f(b) < 0
+          If not, print "Invalid interval" and stop.
+  Step 2: For i = 1 to max_iter:
+            x0 = (a + b) / 2
+            fx0 = f(x0)
+            If |fx0| < tolerance:
+                Return x0 as the root
+            Else If f(a) . fx0 < 0:
+                b = x0
+            Else:
+                a = x0
+            End For
+
+  Step 3: Return (a + b) / 2 as the approximate root
+```
+
+<a id="false-position-method"></a>
+### False Position Method
+
+**Algorithm of False Position Method:**
+
+Step 1: Choosing two numbers x1 and x2 such that:
+    f(x1).f(x2)<0
+Step 2: Compute the root approximation:
+    x0 = x1 - (f(x1).(x2-x1))/(f(x2)-f(x1))
+Step 3: Evaluate f(x0).
+Step 4:
+If f(x0)=0, then x0 is the exact root.
+If f(x0).f(x1)<0  then, x2=x0
+If f(x0).f(x2)<0  then, x1=x0
+Step 5: Repeat until the stopping criterion is met:
+|x2-x1|<E
+Step 6: Stop. The approximate root is x0
+
+**Pseudocode:**
+```text
+FalsePositionMethod(f, a, b, tolerance, max_iter):
+
+  Step 1: Check if f(a) . f(b) < 0
+          If not, print "Invalid interval" and stop.
+  Step 2: For i = 1 to max_iter:
+            x0 = a - f(a) * (b - a) / (f(b) - f(a))
+            fx0 = f(x0)
+            If |fx0| < tolerance:
+                Return x0 as the root
+            Else If f(a) . fx0 < 0:
+                b = x0
+            Else:
+                a = x0
+  Step 3: Return x0 as the approximate root
+```
+
+<a id="secant-method"></a>
+### Secant Method
+
+
+**Theory**
+The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess ( xn ), the tangent line at that point is:
+
+[y = f(xn) + f'(xn)(x - xn)]
+
+Setting (y = 0): [0 = f(xn) + f'(xn)(x - xn)]
+
+Solving for (x): [x(n+1) = xn - f(xn)/f'(xn)]
+
+This is the Newton-Raphson formula.
+
+**Algorithm of Newton-Raphson Method**
+
+Step 1: Choosing an initial guess x0.
+Step 2: Computing derivative f'(xn).
+Step 3: Computing next approximation:
+    [x(n+1) = xn - f(xn)/f'(xn)]
+Step 4: Checking stopping criterion:
+    |x(n+1)-xn| < E
+
+If satisfied => Stop.
+Else => setting (xn = x(n+1)) and repeating.
+
+**Pseudocode**
+```text
+NewtonRaphson(f, df, x0, tolerance, max_iter):
+for i = 1 to max_iter:
+    fx = f(x0)
+    dfx = df(x0)
+    if dfx == 0:
+        break
+    x1 = x0 - fx/dfx
+    if abs(x1 - x0) < tolerance:
+        return x1
+    x0 = x1
+return x1
+```
+
+```
+
+<a id="newton-raphson-method"></a>
+### Newton-Raphson Method
+
+
+**Theory**
+The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points x(n-1) and xn :
+
+f'(xn) = (f(xn) - f(x(n-1))) / (xn - x(n-1))
+
+Substituting this into Newton's formula:
+
+[x(n+1) = xn - f(xn) * (xn - x(n-1)) / (f(xn) - f(x(n-1)))]
+
+**Algorithm of Secant Method**
+
+Step 1: Choosing two initial approximations x0 and x1.
+Step 2: Applying:
+[ x(n+1) = xn - f(xn) * (xn - x(n-1)) / (f(xn) - f(x(n-1))) ]
+Step 3: Checking:
+| x(n+1) - xn | < E
+
+If yes -> Stop.
+Else -> set x(n-1) = xn, xn = x(n+1) and repeat.
+
+**Pseudocode**
+```text
+SecantMethod(f, x0, x1, tolerance, max_iter):
+for i = 1 to max_iter:
+    f0 = f(x0)
+    f1 = f(x1)
+    x2 = x1 - f1*(x1 - x0)/(f1 - f0)
+    if abs(x2 - x1) < tolerance:
+        return x2
+    x0 = x1
+    x1 = x2
+return x2
+```
+
+### C. Interpolation and Approximation
+*   [Newton Forward Interpolation](#newton-forward-interpolation)
+*   [Newton Backward Interpolation](#newton-backward-interpolation)
+*   Error Analysis
+*   [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
+
+### D. Numerical Differentiation
+<a id="equal-interval"></a>
 *   Equal-Interval Interpolation Method
 *   Second-Order Derivative Formula
 *   Lagrange’s Interpolation-Based Differentiation
@@ -28,14 +232,19 @@
 *   [Runge-Kutta Method](#runge-kutta-rk-method)
 
 ### F. Numerical Integration
+<a id="simpsons-13-rule"></a>
 *   Simpson’s 1/3 Rule
+<a id="simpsons-38-rule"></a>
 *   Simpson’s 3/8 Rule
 *   Trapezium/Trapezoidal Rule
 *   One-third Rule (alternate naming for Simpson’s 1/3)
 
 ### G. Curve Fitting
+<a id="least-squares-linear"></a>
 *   Least-Squares Straight Lines
+<a id="least-squares-polynomial"></a>
 *   Least-Squares Polynomials
+<a id="least-squares-transcendental"></a>
 *   Non-Linear Curve Fitting
 
 ### H. Matrix Inversion Approach
@@ -44,10 +253,208 @@
 
 ## A. Solution of Linear Equations
 
-In numerical analysis, solving linear systems (typically written as $Ax = b$) is fundamental. While you might be familiar with "Direct Methods" like Cramer's Rule or Gaussian Elimination that attempt to find the exact solution in a finite number of steps, they can become computationally expensive for very large systems.
+In numerical analysis, solving linear systems (typically written as $Ax = b$) is fundamental.
+
+<a id="gauss-elimination"></a>
+### 1. Gauss Elimination
+
+**Theory**
+Gauss Elimination is a direct method that converts a system of linear equations into an upper triangular system using forward elimination. After the matrix becomes upper triangular, back substitution is applied to determine the values of the unknowns. Gauss Elimination produces one of the following outcomes:
+1. Unique Solution
+2. No Solution (Inconsistent System)
+3. Infinitely Many Solutions (Dependent System)
+
+The process of finding the solution includes writing the augmented matrix [A|B]. Applying forward elimination to make all elements below the diagonal equal to zero. After forward elimination, the matrix becomes upper triangular. Applying back substitution starting from the last equation to find the solutions.
+
+Detecting:
+* If a row becomes [0 0 0 | c] with c != 0 => No Solution
+* If a row becomes [0 0 0 | 0] => Infinite Solutions
+
+**Algorithm**
+Input:
+    Number of equations n
+    Augmented matrix A[n][n+1]
+
+Steps:
+1. Forward Elimination:
+   For each column k = 1 to n-1:
+    a. Pivoting:
+        Finding row with maximum absolute value in column k
+        Swapping the pivot row with row k
+    b. Elimination:
+        For each row i = k+1 to n:
+        m = A[i][k] / A[k][k]
+        For each column j = k to n+1:
+        A[i][j] = A[i][j] - m * A[k][j]
+
+2. Checking for No Solution:
+   If a row is [0 0 0 | c] where c != 0 => No solution
+
+3. Checking for Infinite Solutions:
+   If a row is [0 0 0 ... 0 | 0] and rank(A) = rank(A|b) < n => Infinite solutions
+
+4. Back Substitution:
+   For i = n down to 1:
+   sum = Σ (A[i][j] * x[j]) for j = i+1 to n
+   x[i] = (A[i][n+1] - sum) / A[i][i]
+
+**Pseudocode**
+```text
+START
+Input n
+Input augmented matrix A[n][n+1]
+
+# FORWARD ELIMINATION
+for k = 1 to n-1:
+    # Pivoting
+    pivot_row = k
+    for i = k+1 to n:
+        if abs(A[i][k]) > abs(A[pivot_row][k]):
+            pivot_row = i
+    swap rows A[k] and A[pivot_row]
+
+    if A[k][k] == 0:
+        continue
+
+    # Eliminate rows below pivot
+    for i = k+1 to n:
+        m = A[i][k] / A[k][k]
+        for j = k to n+1:
+            A[i][j] = A[i][j] - m * A[k][j]
+
+# CHECK SOLUTION TYPE
+infinite_flag = false
+no_solution_flag = false
+
+for i = 1 to n:
+    if all A[i][1..n] == 0 AND A[i][n+1] != 0:
+        no_solution_flag = true
+    if all A[i][1..n] == 0 AND A[i][n+1] == 0:
+        infinite_flag = true
+
+if no_solution_flag:
+    PRINT "No Solution"
+    STOP
+
+if infinite_flag:
+    PRINT "Infinite Solutions"
+    STOP
+
+# BACK SUBSTITUTION
+Create vector x[n]
+
+for i = n to 1 step -1:
+    sum = 0
+    for j = i+1 to n:
+        sum = sum + A[i][j] * x[j]
+    x[i] = (A[i][n+1] - sum) / A[i][i]
+
+PRINT "Unique Solution: ", x
+STOP
+```
+
+<a id="gauss-jordan-elimination"></a>
+### 2. Gauss-Jordan Elimination
+
+**Theory**
+Gauss-Jordan Elimination is an extended form of Gauss Elimination. Instead of producing an upper triangular matrix, it reduces the augmented matrix directly to reduced row echelon form (RREF). This eliminates the need for back substitution.
+
+The method for solving system of linear equations include writing the augmented matrix [A|B]. Converting the matrix to upper triangular form (like Gauss elimination). Continuing eliminating values above the diagonal to create a diagonal matrix. Converting diagonal elements to 1 by dividing the row.
+The matrix becomes:
+    [ I | X ]
+Where I = identity matrix, X = solutions.
+
+**Algorithm**
+Input:
+    Number of equations n
+    Augmented matrix A[n][n+1]
+
+Steps:
+1. For each pivot column k = 1 to n:
+    a. Pivoting:
+        Find row with maximum absolute value in column k
+        Swap it with row k
+    b. Normalize Pivot:
+        pivot = A[k][k]
+        Divide entire row k by pivot to make pivot = 1
+    c. Eliminate All Other Rows:
+        For each row i != k:
+            m = A[i][k]
+            For each column j = k to n+1:
+            A[i][j] = A[i][j] - m * A[k][j]
+
+2. Detect Solution Type:
+    No solution if row is [0 0 0 | c], c != 0
+    Infinite solutions if row is [0 0 0 | 0] and rank < n
+
+3. Extract solution:
+    If unique, solution x[i] = A[i][n+1]
+
+**Pseudocode**
+```text
+Algorithm GaussJordan(AugmentedMatrix M):
+Input : M is an m x (n+1) augmented matrix [A | b]
+Output: RREF of M and type of solution (unique / none / infinite)
+
+# Step 1 - Initialization
+pivot_row <- 0
+pivot_col <- 0
+
+# Step 2 - Looping over all columns except the last one (which is b)
+while pivot_row < m AND pivot_col < n:
+
+    # Step 2.1 - Finding a row with a non-zero entry in pivot_col
+    row_with_pivot <- -1
+    for r from pivot_row to m-1:
+        if M[r][pivot_col] != 0:
+            row_with_pivot <- r
+            break
+    
+    # If no pivot found in this column => move to next column
+    if row_with_pivot == -1:
+        pivot_col <- pivot_col + 1
+        continue
+
+    # Step 2.2 - Swap pivot row into correct position
+    SwapRows(M, pivot_row, row_with_pivot)
+
+    # Step 2.3 - Normalize pivot row (make pivot = 1)
+    pivot_value <- M[pivot_row][pivot_col]
+    for c from pivot_col to n:
+        M[pivot_row][c] <- M[pivot_row][c] / pivot_value
+
+    # Step 2.4 - Eliminate all other rows
+    for r from 0 to m-1:
+        if r != pivot_row:
+            factor <- M[r][pivot_col]
+            for c from pivot_col to n:
+                M[r][c] <- M[r][c] - factor * M[pivot_row][c]
+
+    # Move to next pivot location
+    pivot_row <- pivot_row + 1
+    pivot_col <- pivot_col + 1
+
+# Step 3 - Analyze RREF for solutions
+contradiction <- false
+for r from 0 to m-1:
+    if (all M[r][0..n-1] == 0) AND (M[r][n] != 0):
+        contradiction <- true
+
+if contradiction:
+    return ("No solution", M)
+
+# Count pivot rows
+rank <- number of rows that contain a pivot (leading 1)
+
+if rank = n:
+    return ("Unique solution", M)
+else:
+    return ("Infinite solutions", M)
+```
 
 This is where **Iterative Methods** shine. Instead of trying to solve the problem in one go, these methods start with a guess and refine it over and over again until the error is negligible.
 
+<a id="iterative-methods"></a>
 ### 1. Iterative Methods: The Art of Successive Refinement
 
 **Why "Iterative"?**
@@ -215,6 +622,186 @@ function solve_LU(Matrix A, Vector b):
 
 ---
 
+## B. Solution of Non-linear Equations
+
+**Introduction:**
+In numerical analysis, finding the roots of equations is a fundamental problem. Many real-world problems in science and engineering lead to non-linear equations, which often cannot be solved analytically. Hence, numerical methods like the Bracketing Methods are used.
+**Linear Equation:** An equation in which the highest power (degree) of the variable is 1. Example:(3x - 2 = 0).
+**Non-Linear Equation:** An equation in which the variable appears with power greater than 1 or in non-linear forms such as exponential, trigonometric, logarithmic. Example:(e^x - 3x = 0), (x^2 - 4x - 10 = 0).
+
+**Bracketing Methods:**
+Bracketing methods are a class of numerical techniques used to locate the root of a nonlinear equation by assuming the root is within a closed interval. The process begins by selecting two initial points, a and b, such that: [f(a).f(b) < 0]
+This condition indicates that the function values at the two points a and b have opposite signs, which implies that at least one real root must lie within the interval [a, b] provided that the function f(x) is continuous in that region.
+Once such an interval is found, bracketing methods use a systematic procedure to gradually shrink the width of the interval, thereby narrowing down the location of the root and ultimately converging to the root.
+
+There are two types of Bracketing Methods:
+1. Bisection Method
+2. False Position (Regula Falsi) Method
+
+<a id="bisection-method"></a>
+### Bisection Method
+
+**Theory**
+The Bisection Method is a simple and dynamic numerical technique used to find roots of continuous functions. It is also known as:
+1. Binary chopping method
+2. Half-interval method
+
+**Algorithm of Bisection Method:**
+
+Step 1: Choosing two numbers (x1) and (x2) such that:
+[ f(x1) f(x2) < 0 ]
+
+Step 2: Computing the midpoint:
+[ x0 = (x1 + x2)/2 ]
+
+Step 3: Evaluating f(x0).
+
+Step 4:
+If (f(x0) == 0), then (x0) is the exact root.
+If (f(x0) .f(x1) < 0), setting (x2 = x0).
+If (f(x0) .f(x2) < 0), setting (x1 = x0).
+
+Step 5: Repeating until the stopping criterion is met:
+|x2 - x1| < E
+
+Step 6: Stopping. The approximate root is (x0).
+
+**Pseudocode:**
+```text
+BisectionMethod(f, a, b, tolerance, max_iter):
+
+  Step 1: Check if: f(a).f(b) < 0
+          If not, print "Invalid interval" and stop.
+  Step 2: For i = 1 to max_iter:
+            x0 = (a + b) / 2
+            fx0 = f(x0)
+            If |fx0| < tolerance:
+                Return x0 as the root
+            Else If f(a) . fx0 < 0:
+                b = x0
+            Else:
+                a = x0
+            End For
+
+  Step 3: Return (a + b) / 2 as the approximate root
+```
+
+<a id="false-position-method"></a>
+### False Position Method
+
+**Algorithm of False Position Method:**
+
+Step 1: Choosing two numbers x1 and x2 such that:
+    f(x1).f(x2)<0
+Step 2: Compute the root approximation:
+    x0 = x1 - (f(x1).(x2-x1))/(f(x2)-f(x1))
+Step 3: Evaluate f(x0).
+Step 4:
+If f(x0)=0, then x0 is the exact root.
+If f(x0).f(x1)<0  then, x2=x0
+If f(x0).f(x2)<0  then, x1=x0
+Step 5: Repeat until the stopping criterion is met:
+|x2-x1|<E
+Step 6: Stop. The approximate root is x0
+
+**Pseudocode:**
+```text
+FalsePositionMethod(f, a, b, tolerance, max_iter):
+
+  Step 1: Check if f(a) . f(b) < 0
+          If not, print "Invalid interval" and stop.
+  Step 2: For i = 1 to max_iter:
+            x0 = a - f(a) * (b - a) / (f(b) - f(a))
+            fx0 = f(x0)
+            If |fx0| < tolerance:
+                Return x0 as the root
+            Else If f(a) . fx0 < 0:
+                b = x0
+            Else:
+                a = x0
+  Step 3: Return x0 as the approximate root
+```
+
+<a id="secant-method"></a>
+### Secant Method
+
+**Theory**
+The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points x(n-1) and xn :
+
+f'(xn) = (f(xn) - f(x(n-1))) / (xn - x(n-1))
+
+Substituting this into Newton's formula:
+
+[x(n+1) = xn - f(xn) * (xn - x(n-1)) / (f(xn) - f(x(n-1)))]
+
+**Algorithm of Secant Method**
+
+Step 1: Choosing two initial approximations x0 and x1.
+Step 2: Applying:
+[ x(n+1) = xn - f(xn) * (xn - x(n-1)) / (f(xn) - f(x(n-1))) ]
+Step 3: Checking:
+| x(n+1) - xn | < E
+
+If yes -> Stop.
+Else -> set x(n-1) = xn, xn = x(n+1) and repeat.
+
+**Pseudocode**
+```text
+SecantMethod(f, x0, x1, tolerance, max_iter):
+for i = 1 to max_iter:
+    f0 = f(x0)
+    f1 = f(x1)
+    x2 = x1 - f1*(x1 - x0)/(f1 - f0)
+    if abs(x2 - x1) < tolerance:
+        return x2
+    x0 = x1
+    x1 = x2
+return x2
+```
+
+<a id="newton-raphson-method"></a>
+### Newton-Raphson Method
+
+**Theory**
+The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess ( xn ), the tangent line at that point is:
+
+[y = f(xn) + f'(xn)(x - xn)]
+
+Setting (y = 0): [0 = f(xn) + f'(xn)(x - xn)]
+
+Solving for (x): [x(n+1) = xn - f(xn)/f'(xn)]
+
+This is the Newton-Raphson formula.
+
+**Algorithm of Newton-Raphson Method**
+
+Step 1: Choosing an initial guess x0.
+Step 2: Computing derivative f'(xn).
+Step 3: Computing next approximation:
+    [x(n+1) = xn - f(xn)/f'(xn)]
+Step 4: Checking stopping criterion:
+    |x(n+1)-xn| < E
+
+If satisfied => Stop.
+Else => setting (xn = x(n+1)) and repeating.
+
+**Pseudocode**
+```text
+NewtonRaphson(f, df, x0, tolerance, max_iter):
+for i = 1 to max_iter:
+    fx = f(x0)
+    dfx = df(x0)
+    if dfx == 0:
+        break
+    x1 = x0 - fx/dfx
+    if abs(x1 - x0) < tolerance:
+        return x1
+    x0 = x1
+return x1
+```
+
+---
+
 ## C. Interpolation and Approximation
 
 <a id="newton-forward-interpolation"></a>
@@ -333,6 +920,7 @@ Numerical differentiation is the process of calculating the derivative (rate of 
 
 Instead of taking the limit as $h \to 0$ analytically, we approximate the slope using finite steps $h$.
 
+<a id="equal-interval"></a>
 ### 1. Equal-Interval Interpolation Method
 
 **Theory: Differentiating the Polynomial**
@@ -431,6 +1019,7 @@ Numerical integration, often called "numerical quadrature," is the process of ca
 
 This is critical in simulations where $f(x)$ is not a simple formula but a stream of data points (e.g., calculating distance from a velocity-time log).
 
+<a id="simpsons-13-rule"></a>
 ### 1. Simpson’s 1/3 Rule
 
 **Theory: Parabolic Approximation**
@@ -476,6 +1065,7 @@ Return Result
 * [Simpson’s 1/3 Rule - GeeksforGeeks (Implementation)](https://www.geeksforgeeks.org/program-simpsons-13-rule/)
 * [Simpson's Rule Derivation - Wolfram MathWorld](https://mathworld.wolfram.com/SimpsonsRule.html)
 
+<a id="simpsons-38-rule"></a>
 ### 2. Simpson’s 3/8 Rule
 
 **Theory: Cubic Approximation**
@@ -531,6 +1121,7 @@ The most common technique is the **Method of Least Squares**. It tries to minimi
 
 
 
+<a id="least-squares-linear"></a>
 ### 1. Least-Squares Regression: Linear Equation
 
 **Theory: Fitting a Straight Line**
@@ -583,6 +1174,7 @@ Print "Equation: y = " + a0 + " + " + a1 + "x"
 * [Linear Regression - Yale University](http://www.stat.yale.edu/Courses/1997-98/101/linreg.htm)
 * [Least Squares Regression - MathWorld](https://mathworld.wolfram.com/LeastSquaresFitting.html)
 
+<a id="least-squares-transcendental"></a>
 ### 2. Least-Squares Regression: Transcendental Equation
 
 **Theory: Linearization of Non-Linear Models**
@@ -632,6 +1224,7 @@ Print "Equation: y = " + a + " * e^(" + b + "x)"
 * [Curve Fitting: Exponential and Power Laws - Math For Engineers](https://www.google.com/search?q=https://www.mathforcollege.com/nm/topics/textbook_index.html)
 * [Linearization of Exponential Models - Ximera OSU](https://www.google.com/search?q=https://ximera.osu.edu/mooculus/calculus2/linearization/digInLinearization)
 
+<a id="least-squares-polynomial"></a>
 ### 3. Least-Squares Regression: Polynomial Equation
 
 **Theory: Extending to Higher Orders**
