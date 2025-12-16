@@ -1005,6 +1005,7 @@ Print "Equation: y = " + a0 + " + " + a1 + "x"
 * [Linear Regression - Yale University](http://www.stat.yale.edu/Courses/1997-98/101/linreg.htm)
 * [Least Squares Regression - MathWorld](https://mathworld.wolfram.com/LeastSquaresFitting.html)
 
+<a id="least-squares-polynomial"></a>
 ### 2. Least-Squares Polynomials
 
 **Theory: Extending to Higher Orders**
@@ -1070,6 +1071,7 @@ Return coefficients
 * [Polynomial Regression - GeeksforGeeks](https://www.geeksforgeeks.org/polynomial-regression-for-non-linear-data-ml/)
 * [Least Squares Fitting of Polynomials - Wolfram MathWorld](https://mathworld.wolfram.com/LeastSquaresFittingPolynomial.html)
 
+<a id="least-squares-transcendental"></a>
 ### 3. Non-Linear Curve Fitting
 
 **Theory: Linearization of Non-Linear Models**
