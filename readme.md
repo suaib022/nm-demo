@@ -4,6 +4,7 @@
 *   [LU Decomposition Method](#lu-decomposition-method)
 *   [Newton Forward Interpolation](#newton-forward-interpolation)
 *   [Newton Backward Interpolation](#newton-backward-interpolation)
+*   [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
 *   [Runge-Kutta (RK) Method](#runge-kutta-rk-method)
 
 ---
@@ -66,54 +67,24 @@ And set $L_{k,k} = 1$.
 
 If pivoting is used row swaps are done before continuing whenever needed.
 
-## Procedure
-
-**Step 1: Check the matrix**
-*   Make sure (**A**) is a square matrix.
-
-**Step 2: Decompose (A)**
-*   Find (**L**) and (**U**) such that:
-    *   ($A = LU$)
-    *   ($PA = LU$)
-
-**Step 3: Solve the first triangular matrix**
-*   Solve: $Ly = b$
-
-**Step 4: Solve the second triangular system**
-*   Solve: $Ux = b$ (Note: The image said $Ux = b$ but scientifically it should be $Ux = y$, however, the text in image 3 Step 4 says "Solve: Ux = b", but solving for X. Contextually it usually means "Solve for x using the equation Ux=y". Wait, Image 3 Step 4 explicitly says "Solve: Ux = b". That might be a typo in the user's source image or a simplification where 'b' is the modified vector. I will write $Ux = y$ as in Theory section to be correct, but mention the step from image)
-
-*Correction based on Image 1 Theory*: "Then, solve Ux=y".
-*Correction based on Image 3 Procedure*: "Solve: Ux=b".
-*Decision*: I will use **Ux = y** to be mathematically consistent with the Theory section, as Step 4 in the image says "The vector X is the solution", implying the final step. $Ux=b$ would imply $y$ wasn't used. I'll stick to $Ux=y$.
-
-**Step 4: Solve the second triangular system**
-*   Solve: $Ux = y$
-
-The vector **X** is the solution of the problem.
-
 ## Pseudocode
 ```cpp
-// Doolittle's Algorithm with Partial Pivoting
 function solve_LU(Matrix A, Vector b):
     n = size(A)
     L = IdentityMatrix(n)
     U = ZeroMatrix(n)
     
-    // Decomposition
     for i from 0 to n-1:
-        // Partial Pivoting (Optional but recommended)
         pivot_row = find_max_in_column(i, from: i to n-1)
         swap_rows(A, i, pivot_row)
-        swap_rows(b, i, pivot_row) // Apply swap to b vector as well (or keep track in P)
+        swap_rows(b, i, pivot_row) 
         
-        // Calculate U (Upper Triangular)
         for k from i to n-1:
             prod_sum = 0
             for j from 0 to i-1:
                 prod_sum += L[i][j] * U[j][k]
             U[i][k] = A[i][k] - prod_sum
             
-        // Calculate L (Lower Triangular)
         for k from i to n-1:
             if i == k:
                 L[i][i] = 1
@@ -123,12 +94,10 @@ function solve_LU(Matrix A, Vector b):
                     prod_sum += L[k][j] * U[j][i]
                 L[k][i] = (A[k][i] - prod_sum) / U[i][i]
 
-    // Check for unique solution
     for i from 0 to n-1:
         if abs(U[i][i]) < epsilon:
             return "No unique solution"
 
-    // Forward Substitution: Ly = b
     Vector y(n)
     for i from 0 to n-1:
         sum = 0
@@ -136,7 +105,6 @@ function solve_LU(Matrix A, Vector b):
             sum += L[i][j] * y[j]
         y[i] = b[i] - sum
 
-    // Backward Substitution: Ux = y
     Vector x(n)
     for i from n-1 down to 0:
         sum = 0
@@ -180,20 +148,17 @@ Where:
 ## Pseudocode
 ```cpp
 function newton_forward(x[], y[][], n, value):
-    // Construct Difference Table
     for i from 1 to n-1:
         for j from 0 to n-i-1:
             y[j][i] = y[j+1][i-1] - y[j][i-1]
 
-    // Calculate u
     sum = y[0][0]
     u = (value - x[0]) / (x[1] - x[0])
     
-    // Apply Formula
     for i from 1 to n-1:
         u_term = 1
         for k from 0 to i-1:
-            u_term = u_term * (u - k) // Calculate u(u-1)...
+            u_term = u_term * (u - k) 
         
         factorial = fact(i)
         sum = sum + (u_term * y[0][i]) / factorial
@@ -231,24 +196,60 @@ Where:
 ## Pseudocode
 ```cpp
 function newton_backward(x[], y[][], n, value):
-    // Construct Difference Table
-    // (Notice indices usually allow for implicit backward calculation or same table logic)
     for i from 1 to n-1:
         for j from n-1 down to i:
              y[j][i] = y[j][i-1] - y[j-1][i-1]
 
-    // Calculate u (based on last element)
     sum = y[n-1][0]
     u = (value - x[n-1]) / (x[1] - x[0])
 
-    // Apply Formula
     for i from 1 to n-1:
         u_term = 1
         for k from 0 to i-1:
-             u_term = u_term * (u + k) // Note: (u+k) for backward
+             u_term = u_term * (u + k) 
              
         factorial = fact(i)
         sum = sum + (u_term * y[n-1][i]) / factorial
+
+    return sum
+```
+
+---
+
+<a id="newton-divided-difference-interpolation"></a>
+# Newton Divided Difference Interpolation
+
+## Theory
+Newton's Divided Difference Interpolation is a method for constructing an interpolating polynomial for a given set of data points where the interval between data points is **not necessarily equal**.
+
+The formula is given by:
+$$f(x) = f(x_0) + (x-x_0)f[x_0, x_1] + (x-x_0)(x-x_1)f[x_0, x_1, x_2] + \dots + (x-x_0)\dots(x-x_{n-1})f[x_0, \dots, x_n]$$
+
+Where divided differences are defined recursively:
+$$f[x_i, x_j] = \frac{f(x_j) - f(x_i)}{x_j - x_i}$$
+
+## Algorithm
+1.  **Input**: Read ($n$) data points ($x, y$) and the value to interpolate ($value$).
+2.  **Table**: Construct the divided difference table using the recursive formula.
+3.  **Compute**: Initialize $sum = y[0][0]$.
+    *   Iterate $i$ from 1 to $n-1$.
+    *   Accumulate product term: $\prod_{j=0}^{i-1} (value - x_j)$
+    *   Add ($product \times y[0][i]$) to sum.
+4.  **Output**: Display the interpolated value.
+
+## Pseudocode
+```cpp
+function newton_divided(x[], y[][], n, value):
+    for i from 1 to n-1:
+        for j from 0 to n-i-1:
+            y[j][i] = (y[j+1][i-1] - y[j][i-1]) / (x[i+j] - x[j])
+
+    sum = y[0][0]
+    for i from 1 to n-1:
+        pro = 1
+        for j from 0 to i-1:
+            pro = pro * (value - x[j])
+        sum = sum + (pro * y[0][i])
 
     return sum
 ```
