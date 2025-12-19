@@ -1218,3 +1218,61 @@ Print "Equation: y = " + a + " * e^(" + b + "x)"
 **Further Study**
 * [Curve Fitting: Exponential and Power Laws - Math For Engineers](https://www.google.com/search?q=https://www.mathforcollege.com/nm/topics/textbook_index.html)
 * [Linearization of Exponential Models - Ximera OSU](https://www.google.com/search?q=https://ximera.osu.edu/mooculus/calculus2/linearization/digInLinearization)
+
+---
+
+## 5. Environment Setup
+
+Since all implementations are written in **C++**, this section explains:
+- Required environment setup  
+- Compiler requirements  
+- How to run the programs  
+
+> [!NOTE]
+> Please ensure you have a standard C++ compiler installed (e.g., G++, Clang, or MSVC).
+
+---
+
+## 6. Sample Runs and Examples
+
+This section contains:
+- One sample example  
+- Demonstration of how to run the code  
+- Sample input and corresponding output  
+
+*(Examples will be added here)*
+
+---
+
+## 7. Contribution
+
+### a. Our Contribution
+This project is developed by a **three-member team**:
+
+| Full Name | GitHub Username | Roll Number |
+|-----------|-----------------|-------------|
+| MD SUAIB AHMED SAFI | [suaib022](https://github.com/suaib022) | 2207115 |
+| ASHRAFUR RAHMAN NIHAD | [ARN101](https://github.com/ARN101) | 2207116 |
+| DADHICHI SAREKR SHAYON | [Dadhichi-Sarker-Shayon](https://github.com/Dadhichi-Sarker-Shayon) | 2207118 |
+
+### b. Future Contribution
+If anyone wants to contribute to this project, this section explains:
+- What they can contribute  
+- How they can contribute  
+
+---
+
+## 8. Further Learning
+
+This section provides:
+- Useful links  
+- Additional resources for learning numerical methods  
+
+---
+
+## 9. References
+
+This section lists:
+- Books  
+- Articles  
+- Academic resources used in this project
