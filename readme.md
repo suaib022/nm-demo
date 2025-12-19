@@ -516,29 +516,26 @@ Includes:
 ### 1. Bisection Method
 
 **Theory**
-The Bisection Method is a simple and dynamic numerical technique used to find roots of continuous functions. It is also known as:
-1. Binary chopping method
-2. Half-interval method
 
-**Algorithm of Bisection Method:**
+The Bisection Method is a simple and robust numerical technique used to find roots of continuous functions. It is also known as the Binary Chopping Method or Half-Interval Method.
 
-Step 1: Choosing two numbers (x1) and (x2) such that:
-[ f(x1) f(x2) < 0 ]
+Given two points $x_1$ and $x_2$ where $f(x_1) \cdot f(x_2) < 0$, the midpoint approximation is:
 
-Step 2: Computing the midpoint:
-[ x0 = (x1 + x2)/2 ]
+$$x_0 = \frac{x_1 + x_2}{2}$$
 
-Step 3: Evaluating f(x0).
+The method repeatedly bisects the interval and selects the subinterval where the root lies.
 
-Step 4:
-If (f(x0) == 0), then (x0) is the exact root.
-If (f(x0) .f(x1) < 0), setting (x2 = x0).
-If (f(x0) .f(x2) < 0), setting (x1 = x0).
+**Algorithm**
 
-Step 5: Repeating until the stopping criterion is met:
-|x2 - x1| < E
-
-Step 6: Stopping. The approximate root is (x0).
+1. **Choose interval:** Select $x_1$ and $x_2$ such that $f(x_1) \cdot f(x_2) < 0$
+2. **Compute midpoint:** Calculate $x_0 = \frac{x_1 + x_2}{2}$
+3. **Evaluate:** Compute $f(x_0)$
+4. **Update interval:**
+   - If $f(x_0) = 0$, then $x_0$ is the exact root
+   - If $f(x_0) \cdot f(x_1) < 0$, set $x_2 = x_0$
+   - If $f(x_0) \cdot f(x_2) < 0$, set $x_1 = x_0$
+5. **Check convergence:** Repeat until $|x_2 - x_1| < \epsilon$
+6. **Output:** The approximate root is $x_0$
 
 **Pseudocode:**
 ```text
@@ -637,24 +634,21 @@ Includes:
 ### 3. Secant Method
 
 **Theory**
-The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points x(n-1) and xn :
 
-f'(xn) = (f(xn) - f(x(n-1))) / (xn - x(n-1))
+The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points $x_{n-1}$ and $x_n$:
 
-Substituting this into Newton's formula:
+$$f'(x_n) \approx \frac{f(x_n) - f(x_{n-1})}{x_n - x_{n-1}}$$
 
-[x(n+1) = xn - f(xn) * (xn - x(n-1)) / (f(xn) - f(x(n-1)))]
+Substituting this into Newton's formula gives the Secant iteration:
 
-**Algorithm of Secant Method**
+$$x_{n+1} = x_n - \frac{f(x_n) \cdot (x_n - x_{n-1})}{f(x_n) - f(x_{n-1})}$$
 
-Step 1: Choosing two initial approximations x0 and x1.
-Step 2: Applying:
-[ x(n+1) = xn - f(xn) * (xn - x(n-1)) / (f(xn) - f(x(n-1))) ]
-Step 3: Checking:
-| x(n+1) - xn | < E
+**Algorithm**
 
-If yes -> Stop.
-Else -> set x(n-1) = xn, xn = x(n+1) and repeat.
+1. **Initialize:** Choose two initial approximations $x_0$ and $x_1$
+2. **Iterate:** Apply the Secant formula to compute $x_{n+1}$
+3. **Check convergence:** If $|x_{n+1} - x_n| < \epsilon$, stop
+4. **Update:** Set $x_{n-1} = x_n$ and $x_n = x_{n+1}$, then repeat
 
 **Pseudocode**
 ```text
@@ -688,27 +682,24 @@ Includes:
 ### 4. Newton Raphson Method
 
 **Theory**
-The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess ( xn ), the tangent line at that point is:
 
-[y = f(xn) + f'(xn)(x - xn)]
+The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess $x_n$, the tangent line at that point is:
 
-Setting (y = 0): [0 = f(xn) + f'(xn)(x - xn)]
+$$y = f(x_n) + f'(x_n)(x - x_n)$$
 
-Solving for (x): [x(n+1) = xn - f(xn)/f'(xn)]
+Setting $y = 0$ and solving for $x$:
+
+$$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
 
 This is the Newton-Raphson formula.
 
-**Algorithm of Newton-Raphson Method**
+**Algorithm**
 
-Step 1: Choosing an initial guess x0.
-Step 2: Computing derivative f'(xn).
-Step 3: Computing next approximation:
-    [x(n+1) = xn - f(xn)/f'(xn)]
-Step 4: Checking stopping criterion:
-    |x(n+1)-xn| < E
-
-If satisfied => Stop.
-Else => setting (xn = x(n+1)) and repeating.
+1. **Initialize:** Choose an initial guess $x_0$
+2. **Compute derivative:** Calculate $f'(x_n)$
+3. **Compute next approximation:** Apply $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$
+4. **Check convergence:** If $|x_{n+1} - x_n| < \epsilon$, stop
+5. **Update:** Set $x_n = x_{n+1}$ and repeat
 
 **Pseudocode**
 ```text
