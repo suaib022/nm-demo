@@ -570,7 +570,6 @@ Includes:
 
 **Further Study**
 - [Bisection Method - Wikipedia](https://en.wikipedia.org/wiki/Bisection_method)
-- [Bisection Method - Math is Fun](https://www.mathsisfun.com/algebra/bisection.html)
 - Numerical Methods for Engineers - Chapra & Canale
 
 <a id="false_position"></a>
@@ -782,7 +781,6 @@ Includes:
 
 **Further Study**
 - [Newton Forward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
-- [Newton Forward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
 - Numerical Methods for Engineers - Chapra & Canale
 
 <a id="newton-backward"></a>
@@ -833,7 +831,6 @@ Includes:
 - Output file
 
 **Further Study**
-- [Newton Backward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
 - [Newton Backward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
 - Numerical Methods for Engineers - Chapra & Canale
 
