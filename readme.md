@@ -14,6 +14,61 @@ This project is a comprehensive collection of numerical methods implemented in C
 
 ---
 
+## Project Structure
+
+```text
+rootX/
+│
+├── README.md                       # Central documentation (this file)
+│
+├── Linear_Equations/
+│   ├── Gauss_Elimination/
+│   │   ├── theory.pdf
+│   │   ├── code.cpp
+│   │   ├── input.txt
+│   │   └── output.txt
+│   ├── Gauss_Jordan/
+│   ├── LU_Factorization/
+│   └── Iterative_Methods/
+│       ├── Jacobi/
+│       └── Gauss_Seidel/
+│
+├── Non_Linear_Equations/
+│   ├── Bisection/
+│   ├── Regula_Falsi/
+│   ├── Secant/
+│   └── Newton_Raphson/
+│
+├── Interpolation_Approximation/
+│   ├── Newton_Forward/
+│   ├── Newton_Backward/
+│   ├── Divided_Difference/
+│   └── Error_Analysis/
+│
+├── Numerical_Differentiation/
+│   ├── Equal_Interval/
+│   ├── Second_Order_Derivative/
+│   └── Lagrange_Based/
+│
+├── Differential_Equations/
+│   └── Runge_Kutta/
+│
+├── Numerical_Integration/
+│   ├── Trapezoidal/
+│   ├── Simpson_One_Third/
+│   └── Simpson_Three_Eighth/
+│
+├── Curve_Fitting/
+│   ├── Least_Squares_Line/
+│   ├── Least_Squares_Polynomial/
+│   └── Non_Linear_Fitting/
+│
+└── docs/
+    └── extra_resources.md
+```
+
+---
+
 ## Table of Contents
 
 ### A. Solution of Linear Equations
@@ -794,13 +849,13 @@ SecondOrderDerivative(x, y, n, value):
 
 **Theory**
 
-When data points are **unequally spaced**, Newton’s difference methods cannot be used. Instead, we differentiate the Lagrange Interpolating Polynomial.
+When data points are **unequally spaced**, Newton's difference methods cannot be used. Instead, we differentiate the Lagrange Interpolating Polynomial.
 
 For three points $(x_0, y_0), (x_1, y_1), (x_2, y_2)$:
 
-$$
+```math
 f'(x) \approx y_0 L'_0(x) + y_1 L'_1(x) + y_2 L'_2(x)
-$$
+```
 
 **Algorithm**
 1. **Select points:** Choose appropriate data points near target $x$.
@@ -969,9 +1024,9 @@ Return Result
 
 The Trapezoidal Rule approximates the area under the curve by approximating the function $f(x)$ as a straight line between two points. The area is then calculated as the area of the trapezoid formed.
 
-$$
+```math
 I \approx \frac{h}{2} \left[ y_0 + 2(y_1 + y_2 + \dots + y_{n-1}) + y_n \right]
-$$
+```
 
 **Algorithm**
 1. **Divide:** Split interval $[a, b]$ into $n$ sub-intervals of width $h = (b-a)/n$.
