@@ -67,7 +67,8 @@ nm/
 2.  [Newton Backward Interpolation](#newton-backward)
 
 ### E. Solution of Differential Equations
-1.  [Runge Kutta Method](#runge-kutta)
+1.  [Newton Forward Differentiation](#newton-forward-differentiation)
+2.  [Runge Kutta Method](#runge-kutta)
 
 ### F. Numerical Integration
 1.  [Simpson 1 by 3](#simpson-1-by-3)
@@ -838,6 +839,83 @@ Includes:
 
 
 ## E. Solution of Differential Equations
+
+<a id="newton-forward-differentiation"></a>
+### 1. Newton Forward Differentiation
+
+**Theory**
+
+Newton's Forward Differentiation formula is used to compute the derivative of a function at a given point using a forward difference table. It is based on Newton's Forward Interpolation formula.
+
+For equally spaced data points, the first derivative is approximated by:
+
+$$f'(x) = \frac{1}{h} \left[ \Delta y_0 - \frac{2u-1}{2!} \Delta^2 y_0 + \frac{3u^2 - 6u + 2}{3!} \Delta^3 y_0 - \cdots \right]$$
+
+Where:
+- $h$ is the step size (interval between consecutive x values)
+- $u = \frac{x - x_0}{h}$
+- $\Delta y_0, \Delta^2 y_0, \ldots$ are forward differences
+
+**Algorithm**
+
+1. **Input:** Read $n$ data points $(x_i, y_i)$, the value at which derivative is needed, and the order of derivative.
+2. **Difference Table:** Construct the forward difference table.
+3. **Calculate $u$:** Compute $u = \frac{x - x_0}{h}$ where $h = x_1 - x_0$.
+4. **Apply Formula:** Use the appropriate Newton's forward differentiation formula based on the order.
+5. **Output:** Display the derivative value.
+
+**Pseudocode**
+```text
+START
+
+Read n
+Read x[i], y[i][0]
+
+FOR i = 1 to n-1
+    FOR j = 0 to n-i-1
+        y[j][i] = y[j+1][i-1] - y[j][i-1]
+    END FOR
+END FOR
+
+Read value, order
+
+h = x[1] - x[0]
+u = (value - x[0]) / h
+
+derivative = 0
+P = 1
+
+FOR k = 0 to n-1
+    IF k > 0
+        P = P × (u - (k-1))
+    END IF
+
+    IF k ≥ order
+        Differentiate P (order times)
+        derivative += (y[0][k] / k!) × P(u)
+    END IF
+END FOR
+
+derivative = derivative / h^order
+
+Print derivative
+
+END
+```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/E.%20Solution%20of%20Differential%20Equations/Newton%20Forward%20Differentiation)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [Numerical Differentiation - Wikipedia](https://en.wikipedia.org/wiki/Numerical_differentiation)
+- [Newton's Forward Difference Formula - MathWorld](https://mathworld.wolfram.com/ForwardDifference.html)
+- Numerical Methods for Engineers - Chapra & Canale
 
 <a id="runge-kutta"></a>
 ### 2. Runge Kutta Method
