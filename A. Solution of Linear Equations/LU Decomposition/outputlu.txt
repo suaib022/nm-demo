@@ -1,0 +1,47 @@
+Case 1:
+Lower Triangular Matrix :
+   1.000    0.000    0.000 
+   0.033    1.000    0.000 
+   0.100   -0.027    1.000 
+
+Upper Triangular Matrix :
+   3.000   -0.100   -0.200 
+   0.000    7.003   -0.293 
+   0.000    0.000   10.012 
+
+Solution:
+x1 = 3.0000
+x2 = -2.5000
+x3 = 7.0000
+
+The system has a unique solution.
+
+
+Case 2:
+Lower Triangular Matrix :
+   1.000    0.000    0.000 
+   1.000    1.000    0.000 
+   1.000    0.000    1.000 
+
+Upper Triangular Matrix :
+   1.000    1.000    1.000 
+   0.000    0.000    0.000 
+   0.000    0.000    2.000 
+
+The system has no solution.
+
+
+Case 3:
+Lower Triangular Matrix :
+   1.000    0.000    0.000 
+   2.000    1.000    0.000 
+   1.000    0.000    1.000 
+
+Upper Triangular Matrix :
+   1.000    1.000    1.000 
+   0.000    0.000    0.000 
+   0.000    0.000    2.000 
+
+The system has infinite solutions.
+
+

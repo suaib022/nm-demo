@@ -1,0 +1,10 @@
+Case 1:
+Data Points: 5
+Transcendental Fit Equation (y = ae^bx):
+y = 0.3245e^(0.7824x)
+
+Case 2:
+Data Points: 4
+Transcendental Fit Equation (y = ae^bx):
+y = 0.9940e^(1.0020x)
+

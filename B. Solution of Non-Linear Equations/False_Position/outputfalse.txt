@@ -1,0 +1,12 @@
+Problem 1
+Function: f(x)=1x^5 -15x^4 +85x^3 -225x^2 +274x^1 -120x^0 
+Interval: [0, 6], Tolerance: 0.0001, Step: 0.01
+Roots found : 
+1.000000
+2.000000
+3.000000
+4.000000
+5.000000
+
+
+

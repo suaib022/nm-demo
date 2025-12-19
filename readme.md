@@ -1,4 +1,4 @@
-# Numerical Methods
+# Numerical Methods Console Application
 
 ## Collaborators
 
@@ -17,54 +17,40 @@ This project is a comprehensive collection of numerical methods implemented in C
 ## Project Structure
 
 ```text
-rootX/
+nm/
+├── readme.md
 │
-├── README.md                       # Central documentation (this file)
-│
-├── Linear_Equations/
-│   ├── Gauss_Elimination/
-│   │   ├── theory.pdf
-│   │   ├── code.cpp
-│   │   ├── input.txt
-│   │   └── output.txt
-│   ├── Gauss_Jordan/
-│   ├── LU_Factorization/
-│   └── Iterative_Methods/
+├── A. Solution of Linear Equations/
+│   ├── Gauss Elimination/
+│   ├── Gauss Jordan/
+│   ├── LU Decomposition/
+│   ├── Matrix Inverse/
+│   └── Iterative Methods/
 │       ├── Jacobi/
-│       └── Gauss_Seidel/
+│       └── GaussSeidel/
 │
-├── Non_Linear_Equations/
+├── B. Solution of Non-Linear Equations/
 │   ├── Bisection/
-│   ├── Regula_Falsi/
+│   ├── False_Position/
 │   ├── Secant/
 │   └── Newton_Raphson/
 │
-├── Interpolation_Approximation/
-│   ├── Newton_Forward/
-│   ├── Newton_Backward/
-│   ├── Divided_Difference/
-│   └── Error_Analysis/
+├── C. Interpolation and Approximation/
+│   ├── Newton Forward/
+│   └── Newton Backward/
 │
-├── Numerical_Differentiation/
-│   ├── Equal_Interval/
-│   ├── Second_Order_Derivative/
-│   └── Lagrange_Based/
+├── E. Solution of Differential Equations/
+│   ├── Newton Forward Differentiation/
+│   └── Runge Kutta/
 │
-├── Differential_Equations/
-│   └── Runge_Kutta/
+├── F. Numerical Integration/
+│   ├── Simpson 1 by 3/
+│   └── Simpson 3 by 8/
 │
-├── Numerical_Integration/
-│   ├── Trapezoidal/
-│   ├── Simpson_One_Third/
-│   └── Simpson_Three_Eighth/
-│
-├── Curve_Fitting/
-│   ├── Least_Squares_Line/
-│   ├── Least_Squares_Polynomial/
-│   └── Non_Linear_Fitting/
-│
-└── docs/
-    └── extra_resources.md
+└── G. Curve Fitting/
+    ├── Linear/
+    ├── Polynomial/
+    └── Transcendental/
 ```
 
 ---
@@ -72,40 +58,33 @@ rootX/
 ## Table of Contents
 
 ### A. Solution of Linear Equations
-1.  [Gauss Elimination](#gauss-elimination)
-2.  [Gauss-Jordan Elimination](#gauss-jordan-elimination)
-3.  [LU Factorization](#lu-decomposition-method)
-4.  [Iterative Methods: Jacobi and Gauss-Seidel](#iterative-methods)
+1.  [Gauss Elimination Method](#gauss-elimination)
+2.  [Gauss Jordan Method](#gauss-jordan)
+3.  [LU Decomposition Method](#lu-decomposition)
+4.  [Jacobi Method](#jacobi)
+5.  [GaussSeidel Method](#gaussseidel)
 
-### B. Solution of Non-linear Equations
-1.  [Bisection Method](#bisection-method)
-2.  [False Position Method (Regula-Falsi)](#false-position-method)
-3.  [Secant Method](#secant-method)
-4.  [Newton-Raphson Method](#newton-raphson-method)
+### B. Solution of Non-Linear Equations
+1.  [Bisection Method](#bisection)
+2.  [False Position Method](#false_position)
+3.  [Secant Method](#secant)
+4.  [Newton Raphson Method](#newton_raphson)
 
 ### C. Interpolation and Approximation
-1.  [Newton Forward Interpolation](#newton-forward-interpolation)
-2.  [Newton Backward Interpolation](#newton-backward-interpolation)
-3.  [Error Analysis](#error-analysis)
-4.  [Newton Divided Difference Interpolation](#newton-divided-difference-interpolation)
-
-### D. Numerical Differentiation
-1.  [Equal-Interval Interpolation Method](#equal-interval)
-2.  [Second-Order Derivative Formula](#second-order-derivative)
-3.  [Lagrange’s Interpolation-Based Differentiation](#lagrange-differentiation)
+1.  [Newton Forward Interpolation](#newton-forward)
+2.  [Newton Backward Interpolation](#newton-backward)
 
 ### E. Solution of Differential Equations
-1.  [Runge-Kutta Method](#runge-kutta-rk-method)
+1.  [Runge Kutta Method](#runge-kutta)
 
 ### F. Numerical Integration
-1.  [Simpson’s 1/3 Rule](#simpsons-13-rule)
-2.  [Simpson’s 3/8 Rule](#simpsons-38-rule)
-3.  [Trapezium/Trapezoidal Rule](#trapezium-rule)
+1.  [Simpson 1 by 3](#simpson-1-by-3)
+2.  [Simpson 3 by 8](#simpson-3-by-8)
 
-### G. Curve Fitting
-1.  [Least-Squares Straight Lines](#least-squares-linear)
-2.  [Least-Squares Polynomials](#least-squares-polynomial)
-3.  [Non-Linear Curve Fitting](#least-squares-transcendental)
+### G. Curve Fitting Methods
+1.  [Linear Equation](#linear)
+2.  [Polynomial Equation](#polynomial)
+3.  [Transcendental Equation](#transcendental)
 
 ---
 
@@ -114,7 +93,7 @@ rootX/
 ## A. Solution of Linear Equations
 
 <a id="gauss-elimination"></a>
-### 1. Gauss Elimination
+### 1. Gauss Elimination Method
 
 **Theory**
 Gauss Elimination is a direct method that converts a system of linear equations into an upper triangular system using forward elimination. After the matrix becomes upper triangular, back substitution is applied to determine the values of the unknowns. Gauss Elimination produces one of the following outcomes:
@@ -211,8 +190,8 @@ PRINT "Unique Solution: ", x
 STOP
 ```
 
-<a id="gauss-jordan-elimination"></a>
-### 2. Gauss-Jordan Elimination
+<a id="gauss-jordan"></a>
+### 2. Gauss Jordan Method
 
 **Theory**
 Gauss-Jordan Elimination is an extended form of Gauss Elimination. Instead of producing an upper triangular matrix, it reduces the augmented matrix directly to reduced row echelon form (RREF). This eliminates the need for back substitution.
@@ -310,8 +289,8 @@ else:
     return ("Infinite solutions", M)
 ```
 
-<a id="lu-decomposition-method"></a>
-### 3. LU Factorization
+<a id="lu-decomposition"></a>
+### 3. LU Decomposition Method 
 
 **Theory**
 1. **The main idea**: Given a square matrix (**A**), it will be rewritten as $A = LU$, where **L** is a lower triangular matrix and **U** is an upper triangular matrix.
@@ -383,6 +362,7 @@ function solve_LU(Matrix A, Vector b):
 <a id="iterative-methods"></a>
 ### 4. Iterative Methods: Jacobi and Gauss-Seidel methods
 
+<a id="jacobi"></a>
 #### (i) Jacobi Iterative Method
 
 **Theory: Simultaneous Displacement**
@@ -422,6 +402,7 @@ For k from 1 to N:
 * [Jacobi Method - Wikipedia (Comprehensive Theory)](https://en.wikipedia.org/wiki/Jacobi_method)
 * [Jacobi Method Explained - GeeksforGeeks (Examples & Code)](https://www.geeksforgeeks.org/engineering-mathematics/jacobian-method/)
 
+<a id="gaussseidel"></a>
 #### (ii) Gauss-Seidel Iterative Method
 
 **Theory: Successive Displacement**
@@ -474,7 +455,7 @@ For k from 1 to N:
 
 ## B. Solution of Non-linear Equations
 
-<a id="bisection-method"></a>
+<a id="bisection"></a>
 ### 1. Bisection Method
 
 **Theory**
@@ -522,8 +503,8 @@ BisectionMethod(f, a, b, tolerance, max_iter):
   Step 3: Return (a + b) / 2 as the approximate root
 ```
 
-<a id="false-position-method"></a>
-### 2. False Position Method (Regula-Falsi)
+<a id="false_position"></a>
+### 2. False Position Method
 
 **Algorithm of False Position Method:**
 
@@ -558,7 +539,7 @@ FalsePositionMethod(f, a, b, tolerance, max_iter):
   Step 3: Return x0 as the approximate root
 ```
 
-<a id="secant-method"></a>
+<a id="secant"></a>
 ### 3. Secant Method
 
 **Theory**
@@ -595,8 +576,8 @@ for i = 1 to max_iter:
 return x2
 ```
 
-<a id="newton-raphson-method"></a>
-### 4. Newton-Raphson Method
+<a id="newton_raphson"></a>
+### 4. Newton Raphson Method
 
 **Theory**
 The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess ( xn ), the tangent line at that point is:
@@ -640,8 +621,8 @@ return x1
 
 ## C. Interpolation and Approximation
 
-<a id="newton-forward-interpolation"></a>
-### 1. Newton Forward Interpolation
+<a id="newton-forward"></a>
+### 1. Newton Forward Interpolation Method
 
 **Theory**
 Newton's Forward Interpolation is used to approximate the value of a function $f(x)$ at valid points, based on a set of known data points that are **equally spaced**.
@@ -678,8 +659,8 @@ function newton_forward(x[], y[][], n, value):
     return sum
 ```
 
-<a id="newton-backward-interpolation"></a>
-### 2. Newton Backward Interpolation
+<a id="newton-backward"></a>
+### 2. Newton Backward Interpolation Method
 
 **Theory**
 Newton's Backward Interpolation is similar to the forward method but is more accurate for interpolating values near the **end** of the dataset.
@@ -717,176 +698,10 @@ function newton_backward(x[], y[][], n, value):
 ```
 
 
-<a id="error-analysis"></a>
-### 3. Error Analysis
-
-**Theory**
-Numerical errors arise from the use of approximations to represent exact mathematical operations and quantities. The total error is the sum of truncation error (due to cutting off an infinite series) and round-off error (due to finite precision of computers).
-
-$$E_{total} = E_{truncation} + E_{round-off}$$
-
----
-
-<a id="newton-divided-difference-interpolation"></a>
-### 4. Newton Divided Difference Interpolation
-
-**Theory**
-Newton's Divided Difference Interpolation is a method for constructing an interpolating polynomial for a given set of data points where the interval between data points is **not necessarily equal**.
-
-The formula is given by:
-$$f(x) = f(x_0) + (x-x_0)f[x_0, x_1] + (x-x_0)(x-x_1)f[x_0, x_1, x_2] + \dots + (x-x_0)\dots(x-x_{n-1})f[x_0, \dots, x_n]$$
-
-**Algorithm**
-1.  **Input**: Read ($n$) data points ($x, y$) and the value to interpolate ($value$).
-2.  **Table**: Construct the divided difference table using the recursive formula.
-3.  **Compute**: Apply formula.
-4.  **Output**: Display the interpolated value.
-
-**Pseudocode**
-```cpp
-function newton_divided(x[], y[][], n, value):
-    for i from 1 to n-1:
-        for j from 0 to n-i-1:
-            y[j][i] = (y[j+1][i-1] - y[j][i-1]) / (x[i+j] - x[j])
-
-    sum = y[0][0]
-    for i from 1 to n-1:
-        pro = 1
-        for j from 0 to i-1:
-            pro = pro * (value - x[j])
-        sum = sum + (pro * y[0][i])
-
-    return sum
-```
-
----
-
-## D. Numerical Differentiation
-
-<a id="equal-interval"></a>
-### 1. Equal-Interval Interpolation Method
-
-**Theory: Differentiating the Polynomial**
-When data points are spaced equally (with a constant step size $h$), we can approximate the function $f(x)$ using Newton's Interpolation formulas (Forward or Backward) and then differentiate that polynomial.
-
-For a point $x$ near the beginning of the data set, we use **Newton's Forward Difference formula**. The first derivative is approximated as:
-
-$$\frac{dy}{dx} = \frac{1}{h} \left[ \Delta y_0 + \frac{2p-1}{2} \Delta^2 y_0 + \frac{3p^2-6p+2}{6} \Delta^3 y_0 + \dots \right]$$
-
-Where $p = \frac{x - x_0}{h}$.
-If we are calculating the derivative exactly at a tabulated point ($x = x_0$, so $p=0$), the formula simplifies significantly to:
-$$f'(x_0) \approx \frac{1}{h} \left( \Delta y_0 - \frac{1}{2}\Delta^2 y_0 + \frac{1}{3}\Delta^3 y_0 - \dots \right)$$
-
-**Algorithm**
-1.  **Check Interval:** Verify that all $x$ values have a constant difference $h$.
-2.  **Difference Table:** Construct the Forward Difference Table ($\Delta$) if $x$ is near the start, or Backward Difference Table ($\nabla$) if $x$ is near the end.
-3.  **Calculate $p$:** Determine the position factor $p = (x_{target} - x_0) / h$.
-4.  **Apply Series:** Substitute the difference values ($\Delta y_0, \Delta^2 y_0, \dots$) and $p$ into the differentiation formula.
-5.  **Scale:** Divide the result by step size $h$ to get the final derivative.
-
-**Pseudocode**
-```text
-Input: Arrays x[] and y[], value xp (point to differentiate at)
-Output: Derivative value dy/dx
-
-1. Calculate step size h = x[1] - x[0]
-2. Generate Forward Difference Table diff[n][n]
-   For j = 1 to n-1:
-       For i = 0 to n-j-1:
-           diff[i][j] = diff[i+1][j-1] - diff[i][j-1]
-
-3. Find index i such that x[i] is closest to xp
-4. Calculate p = (xp - x[i]) / h
-5. Initialize sum = 0
-
-6. Apply Formula (Example for 1st derivative):
-   term1 = diff[i][0]
-   term2 = (2*p - 1) * diff[i][1] / 2
-   term3 = (3*p*p - 6*p + 2) * diff[i][2] / 6
-   ... (continue for higher orders)
-   
-   sum = term1 + term2 + term3 + ...
-
-7. Result = sum / h
-8. Return Result
-```
-**Further Study**
-* [Numerical Differentiation - Math.OHIO.edu](https://web.math.ohio.edu.cn/~courses/math3600/Lecture13.pdf)
-
-<a id="second-order-derivative"></a>
-### 2. Second-Order Derivative Formula
-
-**Theory**
-The second-order derivative $f''(x)$ represents the rate of change of the slope. Using Newton's Forward Difference formula, we can approximate the second derivative by differentiating the interpolation polynomial twice.
-
-$$ \frac{d^2y}{dx^2} = \frac{1}{h^2} \left[ \Delta^2 y_0 + (p - 1)\Delta^3 y_0 + \frac{6p^2 - 18p + 11}{12}\Delta^4 y_0 + \dots \right] $$
-
-For $x = x_0$ (where $p=0$):
-$$ f''(x_0) \approx \frac{1}{h^2} (\Delta^2 y_0 - \Delta^3 y_0 + \frac{11}{12}\Delta^4 y_0 - \dots) $$
-
-**Algorithm**
-1. **Input:** Data points ($x, y$) and target $x$.
-2. **Difference Table:** Construct valid difference table (Forward/Backward).
-3. **Compute derivatives:** Apply the formula for the 2nd derivative.
-4. **Scale:** Divide by $h^2$.
-
-**Pseudocode**
-```text
-SecondOrderDerivative(x, y, n, value):
-  h = x[1] - x[0]
-  Calculate finite difference table diff[][]
-  
-  sum = 0
-  p = (value - x[0]) / h
-  
-  // Example for simple 3-point approximation at x0
-  result = (diff[0][2] - diff[0][3] + ...) // Apply series terms
-  return result / (h * h)
-```
-
-<a id="lagrange-differentiation"></a>
-### 3. Lagrange’s Interpolation-Based Differentiation
-
-**Theory**
-
-When data points are **unequally spaced**, Newton's difference methods cannot be used. Instead, we differentiate the Lagrange Interpolating Polynomial.
-
-For three points $(x_0, y_0), (x_1, y_1), (x_2, y_2)$:
-
-```math
-f'(x) \approx y_0 L'_0(x) + y_1 L'_1(x) + y_2 L'_2(x)
-```
-
-**Algorithm**
-1. **Select points:** Choose appropriate data points near target $x$.
-2. **Compute Weights:** Calculate derivative of Lagrange basis polynomials $L'_i(x)$.
-3. **Sum:** Multiply $y_i$ by $L'_i(x)$ and sum.
-
-**Pseudocode**
-```text
-LagrangeDifferentiation(x[], y[], n, value):
-  sum = 0
-  For i = 0 to n:
-    term = 0
-    // Calculate L'(x_i)
-    For j = 0 to n:
-       if i != j:
-          prod = 1
-          For k = 0 to n:
-             if k != i and k != j:
-                prod = prod * (value - x[k])
-          term = term + prod / (x[i] - x[j]) 
-    sum = sum + y[i] * term
-  Return sum
-```
-
-
----
-
 ## E. Solution of Differential Equations
 
-<a id="runge-kutta-rk-method"></a>
-### 1. Runge-Kutta Method
+<a id="runge-kutta"></a>
+### 2. Runge Kutta Method
 
 **Theory**
 The Runge-Kutta method (specifically the fourth-order RK4) is a widely used technique for the approximate solution of ordinary differential equations (ODEs).
@@ -925,7 +740,7 @@ function solve_rk4(x0, y0, xn, h):
 
 ## F. Numerical Integration
 
-<a id="simpsons-13-rule"></a>
+<a id="simpson-1-by-3"></a>
 ### 1. Simpson’s 1/3 Rule
 
 **Theory: Parabolic Approximation**
@@ -971,7 +786,7 @@ Return Result
 * [Simpson’s 1/3 Rule - GeeksforGeeks (Implementation)](https://www.geeksforgeeks.org/program-simpsons-13-rule/)
 * [Simpson's Rule Derivation - Wolfram MathWorld](https://mathworld.wolfram.com/SimpsonsRule.html)
 
-<a id="simpsons-38-rule"></a>
+<a id="simpson-3-by-8"></a>
 ### 2. Simpson’s 3/8 Rule
 
 **Theory: Cubic Approximation**
@@ -1017,41 +832,12 @@ Return Result
 * [Simpson’s 3/8 Rule - GeeksforGeeks](https://www.geeksforgeeks.org/simpsons-38-rule-python/)
 * [Numerical Integration Rules - Swarthmore College](https://lpsa.swarthmore.edu/NumInt/NumIntMain.html)
 
-<a id="trapezium-rule"></a>
-### 3. Trapezium/Trapezoidal Rule
-
-**Theory**
-
-The Trapezoidal Rule approximates the area under the curve by approximating the function $f(x)$ as a straight line between two points. The area is then calculated as the area of the trapezoid formed.
-
-```math
-I \approx \frac{h}{2} \left[ y_0 + 2(y_1 + y_2 + \dots + y_{n-1}) + y_n \right]
-```
-
-**Algorithm**
-1. **Divide:** Split interval $[a, b]$ into $n$ sub-intervals of width $h = (b-a)/n$.
-2. **Sum Ends:** Add $y_0$ and $y_n$.
-3. **Sum Middle:** Add $2 \times$ all intermediate $y$ values.
-4. **Multiply:** Multiply total sum by $h/2$.
-
-**Pseudocode**
-```text
-TrapezoidalRule(f, a, b, n):
-  h = (b - a) / n
-  sum = f(a) + f(b)
-  
-  For i = 1 to n-1:
-      sum = sum + 2 * f(a + i*h)
-      
-  Return sum * (h / 2)
-```
-
 ---
 
-## G. Curve Fitting
+## G. Curve Fitting Methods
 
-<a id="least-squares-linear"></a>
-### 1. Least-Squares Straight Lines
+<a id="linear"></a>
+### 1. Linear Equation 
 
 **Theory: Fitting a Straight Line**
 This is the simplest form of regression. We assume the relationship between the dependent variable $y$ and independent variable $x$ is a straight line:
@@ -1103,8 +889,8 @@ Print "Equation: y = " + a0 + " + " + a1 + "x"
 * [Linear Regression - Yale University](http://www.stat.yale.edu/Courses/1997-98/101/linreg.htm)
 * [Least Squares Regression - MathWorld](https://mathworld.wolfram.com/LeastSquaresFitting.html)
 
-<a id="least-squares-polynomial"></a>
-### 2. Least-Squares Polynomials
+<a id="polynomial"></a>
+### 2. Polynomial Equation
 
 **Theory: Extending to Higher Orders**
 When data shows a curve with peaks and valleys, a straight line is insufficient. We can fit a polynomial of degree $m$:
@@ -1169,10 +955,10 @@ Return coefficients
 * [Polynomial Regression - GeeksforGeeks](https://www.geeksforgeeks.org/polynomial-regression-for-non-linear-data-ml/)
 * [Least Squares Fitting of Polynomials - Wolfram MathWorld](https://mathworld.wolfram.com/LeastSquaresFittingPolynomial.html)
 
-<a id="least-squares-transcendental"></a>
-### 3. Non-Linear Curve Fitting
+<a id="transcendental"></a>
+### 3. Transcendental Equation
 
-**Theory: Linearization of Non-Linear Models**
+**Theory: Linearizatio of Non-Linear Models**
 Sometimes data does not fit a straight line but follows an exponential ($y = ae^{bx}$) or power ($y = ax^b$) law. We cannot apply the standard least-squares formulas directly to these non-linear forms.
 
 

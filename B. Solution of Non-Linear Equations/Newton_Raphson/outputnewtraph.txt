@@ -1,0 +1,17 @@
+Polynomial 1:
+f(x) = 1x^3-6x^2+11x-6
+f'(x) = 3x^2-12x+11
+Roots:
+1
+2
+3
+
+
+Polynomial 2:
+f(x) = 1x^2-3x+2
+f'(x) = 2x-3
+Roots:
+1
+2
+
+

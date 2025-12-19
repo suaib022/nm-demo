@@ -1,0 +1,8 @@
+Case 1:
+Data Points: 4, Degree: 2
+Polynomial Fit Equation: y = 1.1500 + 0.1000x^1 + 0.1000x^2
+
+Case 2:
+Data Points: 5, Degree: 2
+Polynomial Fit Equation: y = 1.0000 + 2.0000x^1 + 3.0000x^2
+

@@ -1,0 +1,18 @@
+Case 1:
+Lower Limit: 0, Upper Limit: 1, Subintervals: 6
+Calculated Value: 0.785
+Exact Value:      0.785
+Absolute Error:   2.301e-006
+
+Case 2:
+Lower Limit: 0.000e+000, Upper Limit: 6.000e+000, Subintervals: 12
+Calculated Value: 1.400
+Exact Value:      1.406
+Absolute Error:   6.037e-003
+
+Case 3:
+Lower Limit: 1.000e+000, Upper Limit: 2.000e+000, Subintervals: 18
+Calculated Value: 0.322
+Exact Value:      0.322
+Absolute Error:   2.609e-008
+

@@ -1,0 +1,27 @@
+Problem 1
+Function: f(x)=1x^2 -4x^1 -10x^0 
+Interval: [5, 6], Tolerance: 0.0001, Step: 0.01
+Roots found : 
+5.741641
+
+
+
+Problem 2
+Function: f(x)=1x^3 +0x^2 -1x^1 -2x^0 
+Interval: [-2.000000, 3.000000], Tolerance: 0.000100, Step: 0.010000
+Roots found : 
+1.521328
+
+
+
+Problem 3
+Function: f(x)=1x^5 -15x^4 +85x^3 -225x^2 +274x^1 -120x^0 
+Interval: [0.000000, 5.000000], Tolerance: 0.000100, Step: 0.010000
+Roots found : 
+0.999922
+1.999922
+3.000000
+4.000000
+
+
+
