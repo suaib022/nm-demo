@@ -1,5 +1,21 @@
 # Numerical Methods
 
+## Collaborators
+
+| Full Name | GitHub Username | Roll Number |
+|-----------|-----------------|-------------|
+| [Your Name 1](https://github.com/username1) | @username1 | 1234567 |
+| [Your Name 2](https://github.com/username2) | @username2 | 1234568 |
+| [Your Name 3](https://github.com/username3) | @username3 | 1234569 |
+
+## Overview
+
+This project is a comprehensive collection of numerical methods implemented in C++. It covers fundamental algorithms for solving linear and non-linear equations, interpolation, numerical differentiation and integration, differential equations, and curve fitting techniques.
+
+---
+
+## Table of Contents
+
 ### A. Solution of Linear Equations
 1.  [Gauss Elimination](#gauss-elimination)
 2.  [Gauss-Jordan Elimination](#gauss-jordan-elimination)
@@ -779,7 +795,9 @@ SecondOrderDerivative(x, y, n, value):
 **Theory**
 When data points are **unequally spaced**, Newton’s difference methods cannot be used. Instead, we differentiate the Lagrange Interpolating Polynomial.
 For three points $(x_0, y_0), (x_1, y_1), (x_2, y_2)$:
-$$ f'(x) \approx y_0 L'_0(x) + y_1 L'_1(x) + y_2 L'_2(x) $$
+$$
+f'(x) \approx y_0 L'_0(x) + y_1 L'_1(x) + y_2 L'_2(x)
+$$
 
 **Algorithm**
 1. **Select points:** Choose appropriate data points near target $x$.
@@ -945,8 +963,12 @@ Return Result
 ### 3. Trapezium/Trapezoidal Rule
 
 **Theory**
+
 The Trapezoidal Rule approximates the area under the curve by approximating the function $f(x)$ as a straight line between two points. The area is then calculated as the area of the trapezoid formed.
-$$ I \approx \frac{h}{2} [y_0 + 2(y_1 + y_2 + \dots + y_{n-1}) + y_n] $$
+
+$$
+I \approx \frac{h}{2} \left[ y_0 + 2(y_1 + y_2 + \dots + y_{n-1}) + y_n \right]
+$$
 
 **Algorithm**
 1. **Divide:** Split interval $[a, b]$ into $n$ sub-intervals of width $h = (b-a)/n$.
