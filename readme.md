@@ -407,7 +407,7 @@ Because each update is independent of the others within the same step, this meth
 
 **Algorithm**
 1.  **Arrangement:** Rewrite the system so that $x_1$ is on the left of equation 1, $x_2$ on the left of equation 2, etc.
-    * *Note: The system must be diagonally dominant ($|a_{ii}| > \sum |a_{ij}|$) for guaranteed convergence.*
+    - *Note: The system must be diagonally dominant for guaranteed convergence.*
 2.  **Guess:** Start with an initial guess $x^{(0)}$ (often all zeros).
 3.  **Iterate:** For each variable $x_i$, compute the new value using only the old values from step $k$.
 4.  **Stop:** Repeat until the difference between the new and old values is less than your allowed error tolerance ($\epsilon$).
@@ -575,6 +575,16 @@ Includes:
 
 <a id="false_position"></a>
 ### 2. False Position Method
+
+**Theory**
+
+The False Position Method (also known as Regula Falsi) is a bracketing method similar to Bisection, but instead of using the midpoint, it uses a linear interpolation to find a better approximation of the root.
+
+Given two points $x_1$ and $x_2$ where $f(x_1) \cdot f(x_2) < 0$, the next approximation is:
+
+$$x_0 = x_1 - \frac{f(x_1) \cdot (x_2 - x_1)}{f(x_2) - f(x_1)}$$
+
+This method converges faster than Bisection because it uses the function values to estimate where the root lies, rather than simply bisecting the interval.
 
 **Algorithm of False Position Method:**
 
