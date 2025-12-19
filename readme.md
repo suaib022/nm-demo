@@ -1,13 +1,5 @@
 # Numerical Methods Console Application
 
-## Collaborators
-
-| Full Name | GitHub Username | Roll Number |
-|-----------|-----------------|-------------|
-| MD SUAIB AHMED SAFI | [suaib022](https://github.com/suaib022) | 2207115 |
-| ASHRAFUR RAHMAN NIHAD | [ARN101](https://github.com/ARN101) | 2207116 |
-| DADHICHI SAREKR SHAYON | [Dadhichi-Sarker-Shayon](https://github.com/Dadhichi-Sarker-Shayon) | 2207118 |
-
 ## Overview
 
 This project is a comprehensive collection of numerical methods implemented in C++. It covers fundamental algorithms for solving linear and non-linear equations, interpolation, numerical differentiation and integration, differential equations, and curve fitting techniques.
@@ -190,6 +182,20 @@ PRINT "Unique Solution: ", x
 STOP
 ```
 
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/Gauss%20Elimination)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [Gauss Elimination - Wikipedia](https://en.wikipedia.org/wiki/Gaussian_elimination)
+- [Gauss Elimination Method - GeeksforGeeks](https://www.geeksforgeeks.org/gaussian-elimination/)
+- Numerical Methods for Engineers - Chapra & Canale
+
 <a id="gauss-jordan"></a>
 ### 2. Gauss Jordan Method
 
@@ -289,6 +295,20 @@ else:
     return ("Infinite solutions", M)
 ```
 
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/Gauss%20Jordan)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [Gauss-Jordan Elimination - Wikipedia](https://en.wikipedia.org/wiki/Gaussian_elimination#Gauss%E2%80%93Jordan_elimination)
+- [Gauss Jordan Method - GeeksforGeeks](https://www.geeksforgeeks.org/gauss-jordan-elimination-method/)
+- Numerical Methods for Engineers - Chapra & Canale
+
 <a id="lu-decomposition"></a>
 ### 3. LU Decomposition Method 
 
@@ -359,6 +379,20 @@ function solve_LU(Matrix A, Vector b):
     return x
 ```
 
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/LU%20Decomposition)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [LU Decomposition - Wikipedia](https://en.wikipedia.org/wiki/LU_decomposition)
+- [LU Decomposition Method - GeeksforGeeks](https://www.geeksforgeeks.org/l-u-decomposition-system-linear-equations/)
+- Numerical Methods for Engineers - Chapra & Canale
+
 <a id="iterative-methods"></a>
 ### 4. Iterative Methods: Jacobi and Gauss-Seidel methods
 
@@ -398,9 +432,20 @@ For k from 1 to N:
     
     x_old = x_new // Update for next cycle
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/Iterative%20Methods/Jacobi)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
 **Further Study**
 * [Jacobi Method - Wikipedia (Comprehensive Theory)](https://en.wikipedia.org/wiki/Jacobi_method)
 * [Jacobi Method Explained - GeeksforGeeks (Examples & Code)](https://www.geeksforgeeks.org/engineering-mathematics/jacobian-method/)
+* Numerical Methods for Engineers - Chapra & Canale
 
 <a id="gaussseidel"></a>
 #### (ii) Gauss-Seidel Iterative Method
@@ -445,9 +490,20 @@ For k from 1 to N:
         Print "Converged"
         Return x
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/Iterative%20Methods/GaussSeidel)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
 **Further Study**
 * [Gauss-Seidel Method - GeeksforGeeks](https://www.geeksforgeeks.org/gauss-seidel-method/)
 * [Iterative Methods: Jacobi vs Gauss-Seidel - Math LibreTexts](https://math.libretexts.org/Bookshelves/Linear_Algebra/Introduction_to_Matrix_Algebra_(Kaw)/01%3A_Chapters/1.08%3A_Gauss-Seidel_Method)
+* Numerical Methods for Engineers - Chapra & Canale
 
 
 
@@ -503,6 +559,20 @@ BisectionMethod(f, a, b, tolerance, max_iter):
   Step 3: Return (a + b) / 2 as the approximate root
 ```
 
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/B.%20Solution%20of%20Non-Linear%20Equations/Bisection)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [Bisection Method - Wikipedia](https://en.wikipedia.org/wiki/Bisection_method)
+- [Bisection Method - GeeksforGeeks](https://www.geeksforgeeks.org/bisection-method/)
+- Numerical Methods for Engineers - Chapra & Canale
+
 <a id="false_position"></a>
 ### 2. False Position Method
 
@@ -538,6 +608,20 @@ FalsePositionMethod(f, a, b, tolerance, max_iter):
                 a = x0
   Step 3: Return x0 as the approximate root
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/B.%20Solution%20of%20Non-Linear%20Equations/False_Position)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [False Position Method - Wikipedia](https://en.wikipedia.org/wiki/Regula_falsi)
+- [False Position Method - GeeksforGeeks](https://www.geeksforgeeks.org/program-for-method-of-false-position/)
+- Numerical Methods for Engineers - Chapra & Canale
 
 <a id="secant"></a>
 ### 3. Secant Method
@@ -575,6 +659,20 @@ for i = 1 to max_iter:
     x1 = x2
 return x2
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/B.%20Solution%20of%20Non-Linear%20Equations/Secant)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [Secant Method - Wikipedia](https://en.wikipedia.org/wiki/Secant_method)
+- [Secant Method - GeeksforGeeks](https://www.geeksforgeeks.org/program-to-find-root-of-an-equations-using-secant-method/)
+- Numerical Methods for Engineers - Chapra & Canale
 
 <a id="newton_raphson"></a>
 ### 4. Newton Raphson Method
@@ -616,6 +714,20 @@ for i = 1 to max_iter:
     x0 = x1
 return x1
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/B.%20Solution%20of%20Non-Linear%20Equations/Newton_Raphson)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [Newton-Raphson Method - Wikipedia](https://en.wikipedia.org/wiki/Newton%27s_method)
+- [Newton-Raphson Method - GeeksforGeeks](https://www.geeksforgeeks.org/newton-raphson-method/)
+- Numerical Methods for Engineers - Chapra & Canale
 
 ---
 
@@ -659,6 +771,20 @@ function newton_forward(x[], y[][], n, value):
     return sum
 ```
 
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/C.%20Interpolation%20and%20Approximation/Newton%20Forward)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [Newton Forward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
+- [Newton Forward Interpolation - GeeksforGeeks](https://www.geeksforgeeks.org/newton-forward-difference-interpolation/)
+- Numerical Methods for Engineers - Chapra & Canale
+
 <a id="newton-backward"></a>
 ### 2. Newton Backward Interpolation Method
 
@@ -696,6 +822,22 @@ function newton_backward(x[], y[][], n, value):
 
     return sum
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/C.%20Interpolation%20and%20Approximation/Newton%20Backward)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [Newton Backward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
+- [Newton Backward Interpolation - GeeksforGeeks](https://www.geeksforgeeks.org/newton-backward-difference-interpolation/)
+- Numerical Methods for Engineers - Chapra & Canale
+
+---
 
 
 ## E. Solution of Differential Equations
@@ -735,6 +877,20 @@ function solve_rk4(x0, y0, xn, h):
         
     return y
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/E.%20Solution%20of%20Differential%20Equations/Runge%20Kutta)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
+**Further Study**
+- [Runge-Kutta Methods - Wikipedia](https://en.wikipedia.org/wiki/Runge%E2%80%93Kutta_methods)
+- [Runge-Kutta Method - GeeksforGeeks](https://www.geeksforgeeks.org/runge-kutta-4th-order-method-solve-differential-equation/)
+- Numerical Methods for Engineers - Chapra & Canale
 
 ---
 
@@ -782,6 +938,16 @@ For i from 1 to n-1:
 Result = sum * (h / 3)
 Return Result
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/F.%20Numerical%20Integration/Simpson%201%20by%203)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
 **Further Study**
 * [Simpson’s 1/3 Rule - GeeksforGeeks (Implementation)](https://www.geeksforgeeks.org/program-simpsons-13-rule/)
 * [Simpson's Rule Derivation - Wolfram MathWorld](https://mathworld.wolfram.com/SimpsonsRule.html)
@@ -828,6 +994,16 @@ For i from 1 to n-1:
 Result = sum * (3 * h / 8)
 Return Result
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/F.%20Numerical%20Integration/Simpson%203%20by%208)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
 **Further Study**
 * [Simpson’s 3/8 Rule - GeeksforGeeks](https://www.geeksforgeeks.org/simpsons-38-rule-python/)
 * [Numerical Integration Rules - Swarthmore College](https://lpsa.swarthmore.edu/NumInt/NumIntMain.html)
@@ -885,6 +1061,16 @@ a0 = (sum_y / n) - (a1 * (sum_x / n))
 
 Print "Equation: y = " + a0 + " + " + a1 + "x"
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/G.%20Curve%20Fitting/Linear)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
 **Further Study**
 * [Linear Regression - Yale University](http://www.stat.yale.edu/Courses/1997-98/101/linreg.htm)
 * [Least Squares Regression - MathWorld](https://mathworld.wolfram.com/LeastSquaresFitting.html)
@@ -951,6 +1137,16 @@ coefficients = GaussianElimination(B, C)
 Return coefficients
 ```
 
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/G.%20Curve%20Fitting/Polynomial)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
 **Further Study**
 * [Polynomial Regression - GeeksforGeeks](https://www.geeksforgeeks.org/polynomial-regression-for-non-linear-data-ml/)
 * [Least Squares Fitting of Polynomials - Wolfram MathWorld](https://mathworld.wolfram.com/LeastSquaresFittingPolynomial.html)
@@ -1001,6 +1197,90 @@ a = exp(A0) // Inverse transform
 
 Print "Equation: y = " + a + " * e^(" + b + "x)"
 ```
+
+**Implementation**
+
+👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/G.%20Curve%20Fitting/Transcendental)
+
+Includes:
+- C++ source code
+- Input file
+- Output file
+
 **Further Study**
 * [Curve Fitting: Exponential and Power Laws - Math For Engineers](https://www.google.com/search?q=https://www.mathforcollege.com/nm/topics/textbook_index.html)
 * [Linearization of Exponential Models - Ximera OSU](https://www.google.com/search?q=https://ximera.osu.edu/mooculus/calculus2/linearization/digInLinearization)
+
+---
+
+## Environment Setup
+
+### Requirements
+- C++ Compiler (GCC / MinGW / Clang)
+- C++11 or later
+
+### Compile & Run
+
+```bash
+g++ code.cpp -o run
+./run
+```
+
+---
+
+## Sample Run
+
+### Input
+
+```text
+Enter number of equations: 3
+Enter coefficients...
+```
+
+### Output
+
+```text
+Solution:
+x = 1.0
+y = 2.0
+z = 3.0
+```
+
+---
+
+## Contribution
+
+### Our Team Contribution
+
+| Full Name | GitHub Username | Roll Number |
+|-----------|-----------------|-------------|
+| MD SUAIB AHMED SAFI | [suaib022](https://github.com/suaib022) | 2207115 |
+| ASHRAFUR RAHMAN NIHAD | [ARN101](https://github.com/ARN101) | 2207116 |
+| DADHICHI SAREKR SHAYON | [Dadhichi-Sarker-Shayon](https://github.com/Dadhichi-Sarker-Shayon) | 2207118 |
+
+- **Member 1:** Method implementation & testing
+- **Member 2:** Mathematical theory & PDFs
+- **Member 3:** Repository structure & documentation
+
+---
+
+## Future Contributions
+
+We welcome contributions! 🙌
+
+**How to contribute:**
+1. Fork the repository
+2. Create a new branch
+3. Add method / optimize code / improve documentation
+4. Submit a pull request
+
+---
+
+## References
+
+1. Chapra, S. C., & Canale, R. P. *Numerical Methods for Engineers*
+2. Burden & Faires, *Numerical Analysis*
+3. NPTEL Lecture Notes on Numerical Methods
+4. *Numerical Methods for Engineers* — Steven Chapra
+5. MIT OpenCourseWare (Numerical Analysis)
+6. NPTEL Numerical Methods
