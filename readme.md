@@ -570,7 +570,7 @@ Includes:
 
 **Further Study**
 - [Bisection Method - Wikipedia](https://en.wikipedia.org/wiki/Bisection_method)
-- [Bisection Method - GeeksforGeeks](https://www.geeksforgeeks.org/bisection-method/)
+- [Bisection Method - Math is Fun](https://www.mathsisfun.com/algebra/bisection.html)
 - Numerical Methods for Engineers - Chapra & Canale
 
 <a id="false_position"></a>
@@ -782,7 +782,7 @@ Includes:
 
 **Further Study**
 - [Newton Forward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
-- [Newton Forward Interpolation - GeeksforGeeks](https://www.geeksforgeeks.org/newton-forward-difference-interpolation/)
+- [Newton Forward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
 - Numerical Methods for Engineers - Chapra & Canale
 
 <a id="newton-backward"></a>
@@ -834,7 +834,7 @@ Includes:
 
 **Further Study**
 - [Newton Backward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
-- [Newton Backward Interpolation - GeeksforGeeks](https://www.geeksforgeeks.org/newton-backward-difference-interpolation/)
+- [Newton Backward Interpolation - Wikipedia](https://en.wikipedia.org/wiki/Newton_polynomial)
 - Numerical Methods for Engineers - Chapra & Canale
 
 ---
@@ -1005,8 +1005,8 @@ Includes:
 - Output file
 
 **Further Study**
-* [Simpson’s 3/8 Rule - GeeksforGeeks](https://www.geeksforgeeks.org/simpsons-38-rule-python/)
-* [Numerical Integration Rules - Swarthmore College](https://lpsa.swarthmore.edu/NumInt/NumIntMain.html)
+* [Simpson’s 3/8 Rule - GeeksforGeeks](https://en.wikipedia.org/wiki/Simpson%27s_rule#Simpson's_3/8_rule)
+* [Numerical Integration Rules - Paul's Online Math Notes](https://tutorial.math.lamar.edu/Classes/CalcII/ApproximatingDefIntegrals.aspx)
 
 ---
 
@@ -1208,8 +1208,8 @@ Includes:
 - Output file
 
 **Further Study**
-* [Curve Fitting: Exponential and Power Laws - Math For Engineers](https://www.google.com/search?q=https://www.mathforcollege.com/nm/topics/textbook_index.html)
-* [Linearization of Exponential Models - Ximera OSU](https://www.google.com/search?q=https://ximera.osu.edu/mooculus/calculus2/linearization/digInLinearization)
+* [Curve Fitting - Wikipedia](https://en.wikipedia.org/wiki/Curve_fitting)
+* [Exponential Curve Fitting - MathWorld](https://mathworld.wolfram.com/LeastSquaresFittingExponential.html)
 
 ---
 
@@ -1284,3 +1284,5 @@ We welcome contributions! 🙌
 4. *Numerical Methods for Engineers* — Steven Chapra
 5. MIT OpenCourseWare (Numerical Analysis)
 6. NPTEL Numerical Methods
+
+
