@@ -4,9 +4,9 @@
 
 | Full Name | GitHub Username | Roll Number |
 |-----------|-----------------|-------------|
-| [Your Name 1](https://github.com/username1) | @username1 | 1234567 |
-| [Your Name 2](https://github.com/username2) | @username2 | 1234568 |
-| [Your Name 3](https://github.com/username3) | @username3 | 1234569 |
+| MD SUAIB AHMED SAFI | [suaib022](https://github.com/suaib022) | 2207115 |
+| ASHRAFUR RAHMAN NIHAD | [ARN101](https://github.com/ARN101) | 2207116 |
+| DADHICHI SAREKR SHAYON | [Dadhichi-Sarker-Shayon](https://github.com/Dadhichi-Sarker-Shayon) | 2207118 |
 
 ## Overview
 
@@ -793,8 +793,11 @@ SecondOrderDerivative(x, y, n, value):
 ### 3. Lagrange’s Interpolation-Based Differentiation
 
 **Theory**
+
 When data points are **unequally spaced**, Newton’s difference methods cannot be used. Instead, we differentiate the Lagrange Interpolating Polynomial.
+
 For three points $(x_0, y_0), (x_1, y_1), (x_2, y_2)$:
+
 $$
 f'(x) \approx y_0 L'_0(x) + y_1 L'_1(x) + y_2 L'_2(x)
 $$
