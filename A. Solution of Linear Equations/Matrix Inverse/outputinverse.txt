@@ -1,0 +1,56 @@
+Case 1:
+Given Matrix:
+3	0	2	
+2	0	-2	
+0	1	1	
+
+Determinant: 10
+
+Cofactor Matrix:
+2	-2	2	
+2	3	-3	
+0	10	0	
+
+Adjoint Matrix:
+2	2	0	
+-2	3	10	
+2	-3	0	
+
+Inverse Matrix:
+0.200000	0.200000	0.000000	
+-0.200000	0.300000	1.000000	
+0.200000	-0.300000	0.000000	
+
+Case 2:
+Given Matrix:
+1	2	3	
+0	1	4	
+5	6	0	
+
+Determinant: 1
+
+Cofactor Matrix:
+-24	20	-5	
+18	-15	4	
+5	-4	1	
+
+Adjoint Matrix:
+-24	18	5	
+20	-15	-4	
+-5	4	1	
+
+Inverse Matrix:
+-24.000000	18.000000	5.000000	
+20.000000	-15.000000	-4.000000	
+-5.000000	4.000000	1.000000	
+
+Case 3:
+Given Matrix:
+1	2	3	
+4	5	6	
+7	8	9	
+
+Determinant: 0
+
+Singular Matrix, Inverse does not exist.
+
