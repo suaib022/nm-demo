@@ -1,50 +1,78 @@
 # Numerical Methods Console Application
 
-## Overview
+## 👋 Welcome to FindX
 
-This project is a comprehensive collection of numerical methods implemented in C++. It covers fundamental algorithms for solving linear and non-linear equations, interpolation, numerical differentiation and integration, differential equations, and curve fitting techniques.
+**FindX** is a Numerical Methods laboratory project for the course **CSE 2208 — Numerical Method**. It organizes the numerical techniques taught in the course into a clear and structured repository, combining **mathematical theory**, **algorithmic steps**, and **C++ implementations**. The project is designed for academic learning, and quick revision, with a focus on clarity, correctness, and practical application.
 
 ---
 
 ## Project Structure
 
 ```text
-nm/
+Numerical Methods
 ├── readme.md
 │
-├── A. Solution of Linear Equations/
-│   ├── Gauss Elimination/
-│   ├── Gauss Jordan/
-│   ├── LU Decomposition/
-│   ├── Matrix Inverse/
-│   └── Iterative Methods/
-│       ├── Jacobi/
-│       └── GaussSeidel/
+├── A. Solution of Linear Equations
+│   ├── Gauss Elimination
+│   ├── Gauss Jordan
+│   ├── LU Decomposition
+│   ├── Matrix Inverse
+│   └── Iterative Methods
+│       ├── Jacobi
+│       └── GaussSeidel
 │
-├── B. Solution of Non-Linear Equations/
-│   ├── Bisection/
-│   ├── False_Position/
-│   ├── Secant/
-│   └── Newton_Raphson/
+├── B. Solution of Non-Linear Equations
+│   ├── Bisection
+│   ├── False_Position
+│   ├── Secant
+│   └── Newton_Raphson
 │
-├── C. Interpolation and Approximation/
-│   ├── Newton Forward/
-│   └── Newton Backward/
+├── C. Interpolation and Approximation
+│   ├── Newton Forward
+│   └── Newton Backward
+│
+├── D. Numerical Differentiation/
+│   ├── Newton Forward Differentiation/
 │
 ├── E. Solution of Differential Equations/
-│   ├── Newton Forward Differentiation/
 │   └── Runge Kutta/
 │
-├── F. Numerical Integration/
-│   ├── Simpson 1 by 3/
-│   └── Simpson 3 by 8/
+├── F. Numerical Integration
+│   ├── Simpson 1 by 3
+│   └── Simpson 3 by 8
 │
-└── G. Curve Fitting/
-    ├── Linear/
-    ├── Polynomial/
-    └── Transcendental/
+└── G. Curve Fitting
+    ├── Linear
+    ├── Polynomial
+    └── Transcendental
 ```
 
+---
+
+## Environment Setup
+
+To run the numerical method implementations in this repository, you will need a standard C++ development environment. All code is written in **Standard C++ (C++11 or later)** to ensure compatibility.
+
+### Prerequisites
+* **C++ Compiler:** G++ (via MinGW for Windows, or GCC for Linux/macOS).
+* **Code Editor/IDE:** Visual Studio Code (recommended), CLion, or Dev-C++.
+
+You can compile and run the programs using any IDE or directly from the terminal.
+
+**Using Terminal (Command Line):**
+1.  Navigate to the directory of the specific method you want to run.
+2.  Compile the source code:
+    ```bash
+    g++ main.cpp -o run
+    ```
+3.  Execute the program:
+    * **Windows:** `run.exe`
+    * **Linux/Mac:** `./run`
+
+**Using VS Code:**
+* Open the folder containing the source code.
+* Ensure the C/C++ extension is installed.
+* Press `Ctrl + Shift + B` (Build) or use the "Run Code" button if you have Code Runner installed.
 ---
 
 ## Table of Contents
@@ -66,9 +94,12 @@ nm/
 1.  [Newton Forward Interpolation](#newton-forward)
 2.  [Newton Backward Interpolation](#newton-backward)
 
-### E. Solution of Differential Equations
+### D. Numerical Differentiation
 1.  [Newton Forward Differentiation](#newton-forward-differentiation)
-2.  [Runge Kutta Method](#runge-kutta)
+
+
+### E. Solution of Differential Equations
+1.  [Runge Kutta Method](#runge-kutta)
 
 ### F. Numerical Integration
 1.  [Simpson 1 by 3](#simpson-1-by-3)
@@ -182,6 +213,359 @@ for i = n to 1 step -1:
 PRINT "Unique Solution: ", x
 STOP
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+void print_matrix(vector<vector<double>> &a, ostream &out)
+{
+    int n = a.size();
+    int m = a[0].size();
+    for (int i = 0; i < n; i++)
+    {
+
+        for (int j = 0; j < m; j++)
+        {
+            out << fixed << setprecision(6) << a[i][j] << " ";
+        }
+        out << "\n";
+    }
+    out << "\n";
+}
+
+int gauss_elimination(vector<vector<double>> a, vector<double> &root, ostream &out)
+{
+    int n = a.size();
+
+    out << "Initial Augmented Matrix:\n";
+    print_matrix(a, out);
+
+    for (int i = 0; i < n; i++)
+    {
+        int pivot = i;
+
+        for (int r = i + 1; r < n; r++)
+            if (fabs(a[r][i]) > fabs(a[pivot][i]))
+                pivot = r;
+
+        if (fabs(a[pivot][i]) < 1e-12)
+            continue;
+
+        swap(a[i], a[pivot]);
+
+        for (int r = i + 1; r < n; r++)
+        {
+            if (fabs(a[r][i]) < 1e-12)
+                continue;
+
+            double factor = a[r][i] / a[i][i];
+            for (int c = i; c <= n; c++)
+                a[r][c] -= factor * a[i][c];
+        }
+
+        out << "After eliminating column " << i + 1 << ":\n";
+        print_matrix(a, out);
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        bool zeroRow = true;
+        for (int j = 0; j < n; j++)
+            if (fabs(a[i][j]) > 1e-12)
+                zeroRow = false;
+
+        if (zeroRow && fabs(a[i][n]) > 1e-12)
+            return -1;
+        if (zeroRow && fabs(a[i][n]) < 1e-12)
+            return 0;
+    }
+
+    root.assign(n, 0.0);
+    for (int i = n - 1; i >= 0; i--)
+    {
+        double sum = a[i][n];
+        for (int j = i + 1; j < n; j++)
+            sum -= a[i][j] * root[j];
+
+        if (fabs(a[i][i]) < 1e-12)
+            return 0;
+        root[i] = sum / a[i][i];
+    }
+
+    return 1;
+}
+
+int main()
+{
+    ifstream fin("inputgauss.txt");
+    ofstream fout("outputgauss.txt");
+
+    int T;
+    fin >> T;
+
+    for (int t = 1; t <= T; t++)
+    {
+        int n;
+        fin >> n;
+
+        vector<vector<double>> a(n, vector<double>(n + 1));
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j <= n; j++)
+                fin >> a[i][j];
+
+        fout << t << " (Gauss Elimination)\n";
+
+        vector<double> root;
+        int status = gauss_elimination(a, root, fout);
+
+        if (status == 1)
+        {
+            fout << "Unique Solution:\n";
+            for (int i = 0; i < n; i++)
+                fout << "x" << i + 1 << " = " << root[i] << "\n";
+        }
+        else if (status == 0)
+            fout << "Infinite Solutions\n";
+        else
+            fout << "No Solution\n";
+
+        fout << "\n\n";
+    }
+
+    return 0;
+}
+
+```
+
+#### Input
+```
+9
+3
+2 1 -1 8
+-3 -1 2 -11
+-2 1 2 -3
+3
+1 1 1 6
+0 2 5 -4
+2 5 -1 27
+3
+4 -2 1 9
+1 1 1 6
+3 4 -2 -1
+3
+1 -2 3 4
+2 -4 6 10
+3 1 -1 2
+3
+1 1 1 3
+2 2 2 7
+1 -1 2 4
+3
+3 -6 9 12
+1 -2 3 5
+2 4 -1 7
+3
+1 2 -1 3
+2 4 -2 6
+3 6 -3 9
+3
+2 1 -3 4
+4 2 -6 8
+1 0.5 -1.5 2
+3
+1 -1 2 3
+2 -2 4 6
+3 -3 6 9
+
+```
+
+#### Output
+```
+System 1 (Gauss-Jordan)
+Initial Augmented Matrix:
+2.000000 1.000000 -1.000000 8.000000 
+-3.000000 -1.000000 2.000000 -11.000000 
+-2.000000 1.000000 2.000000 -3.000000 
+
+After pivot normalization in row 1:
+1.000000 0.333333 -0.666667 3.666667 
+0.000000 0.333333 0.333333 0.666667 
+0.000000 1.666667 0.666667 4.333333 
+
+After pivot normalization in row 2:
+1.000000 0.000000 -0.800000 2.800000 
+0.000000 1.000000 0.400000 2.600000 
+0.000000 0.000000 0.200000 -0.200000 
+
+After pivot normalization in row 3:
+1.000000 0.000000 0.000000 2.000000 
+0.000000 1.000000 0.000000 3.000000 
+0.000000 0.000000 1.000000 -1.000000 
+
+Unique Solution:
+x1 = 2.000000
+x2 = 3.000000
+x3 = -1.000000
+
+
+System 2 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 1.000000 1.000000 6.000000 
+0.000000 2.000000 5.000000 -4.000000 
+2.000000 5.000000 -1.000000 27.000000 
+
+After pivot normalization in row 1:
+1.000000 2.500000 -0.500000 13.500000 
+0.000000 2.000000 5.000000 -4.000000 
+0.000000 -1.500000 1.500000 -7.500000 
+
+After pivot normalization in row 2:
+1.000000 0.000000 -6.750000 18.500000 
+0.000000 1.000000 2.500000 -2.000000 
+0.000000 0.000000 5.250000 -10.500000 
+
+After pivot normalization in row 3:
+1.000000 0.000000 0.000000 5.000000 
+0.000000 1.000000 0.000000 3.000000 
+0.000000 0.000000 1.000000 -2.000000 
+
+Unique Solution:
+x1 = 5.000000
+x2 = 3.000000
+x3 = -2.000000
+
+
+System 3 (Gauss-Jordan)
+Initial Augmented Matrix:
+4.000000 -2.000000 1.000000 9.000000 
+1.000000 1.000000 1.000000 6.000000 
+3.000000 4.000000 -2.000000 -1.000000 
+
+After pivot normalization in row 1:
+1.000000 -0.500000 0.250000 2.250000 
+0.000000 1.500000 0.750000 3.750000 
+0.000000 5.500000 -2.750000 -7.750000 
+
+After pivot normalization in row 2:
+1.000000 0.000000 0.000000 1.545455 
+0.000000 1.000000 -0.500000 -1.409091 
+0.000000 0.000000 1.500000 5.863636 
+
+After pivot normalization in row 3:
+1.000000 0.000000 0.000000 1.545455 
+0.000000 1.000000 0.000000 0.545455 
+0.000000 0.000000 1.000000 3.909091 
+
+Unique Solution:
+x1 = 1.545455
+x2 = 0.545455
+x3 = 3.909091
+
+
+System 4 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 -2.000000 3.000000 4.000000 
+2.000000 -4.000000 6.000000 10.000000 
+3.000000 1.000000 -1.000000 2.000000 
+
+After pivot normalization in row 1:
+1.000000 0.333333 -0.333333 0.666667 
+0.000000 -4.666667 6.666667 8.666667 
+0.000000 -2.333333 3.333333 3.333333 
+
+After pivot normalization in row 2:
+1.000000 0.000000 0.142857 1.285714 
+-0.000000 1.000000 -1.428571 -1.857143 
+0.000000 0.000000 0.000000 -1.000000 
+
+No Solution
+
+
+System 5 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 1.000000 1.000000 3.000000 
+2.000000 2.000000 2.000000 7.000000 
+1.000000 -1.000000 2.000000 4.000000 
+
+After pivot normalization in row 1:
+1.000000 1.000000 1.000000 3.500000 
+0.000000 0.000000 0.000000 -0.500000 
+0.000000 -2.000000 1.000000 0.500000 
+
+After pivot normalization in row 2:
+1.000000 0.000000 1.500000 3.750000 
+-0.000000 1.000000 -0.500000 -0.250000 
+0.000000 0.000000 0.000000 -0.500000 
+
+No Solution
+
+
+System 6 (Gauss-Jordan)
+Initial Augmented Matrix:
+3.000000 -6.000000 9.000000 12.000000 
+1.000000 -2.000000 3.000000 5.000000 
+2.000000 4.000000 -1.000000 7.000000 
+
+After pivot normalization in row 1:
+1.000000 -2.000000 3.000000 4.000000 
+0.000000 0.000000 0.000000 1.000000 
+0.000000 8.000000 -7.000000 -1.000000 
+
+After pivot normalization in row 2:
+1.000000 0.000000 1.250000 3.750000 
+0.000000 1.000000 -0.875000 -0.125000 
+0.000000 0.000000 0.000000 1.000000 
+
+No Solution
+
+
+System 7 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 2.000000 -1.000000 3.000000 
+2.000000 4.000000 -2.000000 6.000000 
+3.000000 6.000000 -3.000000 9.000000 
+
+After pivot normalization in row 1:
+1.000000 2.000000 -1.000000 3.000000 
+0.000000 0.000000 0.000000 0.000000 
+0.000000 0.000000 0.000000 0.000000 
+
+Infinite Solutions
+
+
+System 8 (Gauss-Jordan)
+Initial Augmented Matrix:
+2.000000 1.000000 -3.000000 4.000000 
+4.000000 2.000000 -6.000000 8.000000 
+1.000000 0.500000 -1.500000 2.000000 
+
+After pivot normalization in row 1:
+1.000000 0.500000 -1.500000 2.000000 
+0.000000 0.000000 0.000000 0.000000 
+0.000000 0.000000 0.000000 0.000000 
+
+Infinite Solutions
+
+
+System 9 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 -1.000000 2.000000 3.000000 
+2.000000 -2.000000 4.000000 6.000000 
+3.000000 -3.000000 6.000000 9.000000 
+
+After pivot normalization in row 1:
+1.000000 -1.000000 2.000000 3.000000 
+0.000000 0.000000 0.000000 0.000000 
+0.000000 0.000000 0.000000 0.000000 
+
+Infinite Solutions
+
+
+
+```
+
+---
 
 **Implementation**
 
@@ -295,6 +679,353 @@ if rank = n:
 else:
     return ("Infinite solutions", M)
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+void print_matrix(vector<vector<double>> &a, ostream &out)
+{
+    int n = a.size();
+    int m = a[0].size();
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < m; j++)
+        {
+            out << fixed << setprecision(6) << a[i][j] << " ";
+        }
+        out << "\n";
+    }
+    out << "\n";
+}
+
+int gauss_jordan(vector<vector<double>> a, vector<double> &root, ostream &out)
+{
+    int n = a.size();
+
+    out << "Initial Augmented Matrix:\n";
+    print_matrix(a, out);
+
+    for (int i = 0; i < n; i++)
+    {
+        int pivot = i;
+
+        for (int r = i + 1; r < n; r++)
+            if (fabs(a[r][i]) > fabs(a[pivot][i]))
+                pivot = r;
+
+        if (fabs(a[pivot][i]) < 1e-12)
+            continue;
+
+        swap(a[i], a[pivot]);
+
+        double div = a[i][i];
+        for (int c = 0; c <= n; c++)
+            a[i][c] /= div;
+
+        for (int r = 0; r < n; r++)
+        {
+            if (r == i)
+                continue;
+            double factor = a[r][i];
+            for (int c = 0; c <= n; c++)
+                a[r][c] -= factor * a[i][c];
+        }
+
+        out << "After pivot normalization in row " << i + 1 << ":\n";
+        print_matrix(a, out);
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        bool zeroRow = true;
+        for (int j = 0; j < n; j++)
+            if (fabs(a[i][j]) > 1e-12)
+                zeroRow = false;
+
+        if (zeroRow && fabs(a[i][n]) > 1e-12)
+            return -1;
+        if (zeroRow && fabs(a[i][n]) < 1e-12)
+            return 0;
+    }
+
+    root.assign(n, 0.0);
+    for (int i = 0; i < n; i++)
+        root[i] = a[i][n];
+
+    return 1;
+}
+
+int main()
+{
+    ifstream fin("inputgauss.txt");
+    ofstream fout("outputgauss.txt");
+
+    int T;
+    fin >> T;
+
+    for (int t = 1; t <= T; t++)
+    {
+        int n;
+        fin >> n;
+
+        vector<vector<double>> a(n, vector<double>(n + 1));
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j <= n; j++)
+                fin >> a[i][j];
+
+        fout << "System " << t << " (Gauss-Jordan)\n";
+
+        vector<double> root;
+        int status = gauss_jordan(a, root, fout);
+
+        if (status == 1)
+        {
+            fout << "Unique Solution:\n";
+            for (int i = 0; i < n; i++)
+                fout << "x" << i + 1 << " = " << root[i] << "\n";
+        }
+        else if (status == 0)
+            fout << "Infinite Solutions\n";
+        else
+            fout << "No Solution\n";
+
+        fout << "\n\n";
+    }
+
+    return 0;
+}
+
+```
+
+#### Input
+```
+9
+3
+2 1 -1 8
+-3 -1 2 -11
+-2 1 2 -3
+3
+1 1 1 6
+0 2 5 -4
+2 5 -1 27
+3
+4 -2 1 9
+1 1 1 6
+3 4 -2 -1
+3
+1 -2 3 4
+2 -4 6 10
+3 1 -1 2
+3
+1 1 1 3
+2 2 2 7
+1 -1 2 4
+3
+3 -6 9 12
+1 -2 3 5
+2 4 -1 7
+3
+1 2 -1 3
+2 4 -2 6
+3 6 -3 9
+3
+2 1 -3 4
+4 2 -6 8
+1 0.5 -1.5 2
+3
+1 -1 2 3
+2 -2 4 6
+3 -3 6 9
+
+```
+
+#### Output
+```
+System 1 (Gauss-Jordan)
+Initial Augmented Matrix:
+2.000000 1.000000 -1.000000 8.000000 
+-3.000000 -1.000000 2.000000 -11.000000 
+-2.000000 1.000000 2.000000 -3.000000 
+
+After pivot normalization in row 1:
+1.000000 0.333333 -0.666667 3.666667 
+0.000000 0.333333 0.333333 0.666667 
+0.000000 1.666667 0.666667 4.333333 
+
+After pivot normalization in row 2:
+1.000000 0.000000 -0.800000 2.800000 
+0.000000 1.000000 0.400000 2.600000 
+0.000000 0.000000 0.200000 -0.200000 
+
+After pivot normalization in row 3:
+1.000000 0.000000 0.000000 2.000000 
+0.000000 1.000000 0.000000 3.000000 
+0.000000 0.000000 1.000000 -1.000000 
+
+Unique Solution:
+x1 = 2.000000
+x2 = 3.000000
+x3 = -1.000000
+
+
+System 2 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 1.000000 1.000000 6.000000 
+0.000000 2.000000 5.000000 -4.000000 
+2.000000 5.000000 -1.000000 27.000000 
+
+After pivot normalization in row 1:
+1.000000 2.500000 -0.500000 13.500000 
+0.000000 2.000000 5.000000 -4.000000 
+0.000000 -1.500000 1.500000 -7.500000 
+
+After pivot normalization in row 2:
+1.000000 0.000000 -6.750000 18.500000 
+0.000000 1.000000 2.500000 -2.000000 
+0.000000 0.000000 5.250000 -10.500000 
+
+After pivot normalization in row 3:
+1.000000 0.000000 0.000000 5.000000 
+0.000000 1.000000 0.000000 3.000000 
+0.000000 0.000000 1.000000 -2.000000 
+
+Unique Solution:
+x1 = 5.000000
+x2 = 3.000000
+x3 = -2.000000
+
+
+System 3 (Gauss-Jordan)
+Initial Augmented Matrix:
+4.000000 -2.000000 1.000000 9.000000 
+1.000000 1.000000 1.000000 6.000000 
+3.000000 4.000000 -2.000000 -1.000000 
+
+After pivot normalization in row 1:
+1.000000 -0.500000 0.250000 2.250000 
+0.000000 1.500000 0.750000 3.750000 
+0.000000 5.500000 -2.750000 -7.750000 
+
+After pivot normalization in row 2:
+1.000000 0.000000 0.000000 1.545455 
+0.000000 1.000000 -0.500000 -1.409091 
+0.000000 0.000000 1.500000 5.863636 
+
+After pivot normalization in row 3:
+1.000000 0.000000 0.000000 1.545455 
+0.000000 1.000000 0.000000 0.545455 
+0.000000 0.000000 1.000000 3.909091 
+
+Unique Solution:
+x1 = 1.545455
+x2 = 0.545455
+x3 = 3.909091
+
+
+System 4 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 -2.000000 3.000000 4.000000 
+2.000000 -4.000000 6.000000 10.000000 
+3.000000 1.000000 -1.000000 2.000000 
+
+After pivot normalization in row 1:
+1.000000 0.333333 -0.333333 0.666667 
+0.000000 -4.666667 6.666667 8.666667 
+0.000000 -2.333333 3.333333 3.333333 
+
+After pivot normalization in row 2:
+1.000000 0.000000 0.142857 1.285714 
+-0.000000 1.000000 -1.428571 -1.857143 
+0.000000 0.000000 0.000000 -1.000000 
+
+No Solution
+
+
+System 5 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 1.000000 1.000000 3.000000 
+2.000000 2.000000 2.000000 7.000000 
+1.000000 -1.000000 2.000000 4.000000 
+
+After pivot normalization in row 1:
+1.000000 1.000000 1.000000 3.500000 
+0.000000 0.000000 0.000000 -0.500000 
+0.000000 -2.000000 1.000000 0.500000 
+
+After pivot normalization in row 2:
+1.000000 0.000000 1.500000 3.750000 
+-0.000000 1.000000 -0.500000 -0.250000 
+0.000000 0.000000 0.000000 -0.500000 
+
+No Solution
+
+
+System 6 (Gauss-Jordan)
+Initial Augmented Matrix:
+3.000000 -6.000000 9.000000 12.000000 
+1.000000 -2.000000 3.000000 5.000000 
+2.000000 4.000000 -1.000000 7.000000 
+
+After pivot normalization in row 1:
+1.000000 -2.000000 3.000000 4.000000 
+0.000000 0.000000 0.000000 1.000000 
+0.000000 8.000000 -7.000000 -1.000000 
+
+After pivot normalization in row 2:
+1.000000 0.000000 1.250000 3.750000 
+0.000000 1.000000 -0.875000 -0.125000 
+0.000000 0.000000 0.000000 1.000000 
+
+No Solution
+
+
+System 7 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 2.000000 -1.000000 3.000000 
+2.000000 4.000000 -2.000000 6.000000 
+3.000000 6.000000 -3.000000 9.000000 
+
+After pivot normalization in row 1:
+1.000000 2.000000 -1.000000 3.000000 
+0.000000 0.000000 0.000000 0.000000 
+0.000000 0.000000 0.000000 0.000000 
+
+Infinite Solutions
+
+
+System 8 (Gauss-Jordan)
+Initial Augmented Matrix:
+2.000000 1.000000 -3.000000 4.000000 
+4.000000 2.000000 -6.000000 8.000000 
+1.000000 0.500000 -1.500000 2.000000 
+
+After pivot normalization in row 1:
+1.000000 0.500000 -1.500000 2.000000 
+0.000000 0.000000 0.000000 0.000000 
+0.000000 0.000000 0.000000 0.000000 
+
+Infinite Solutions
+
+
+System 9 (Gauss-Jordan)
+Initial Augmented Matrix:
+1.000000 -1.000000 2.000000 3.000000 
+2.000000 -2.000000 4.000000 6.000000 
+3.000000 -3.000000 6.000000 9.000000 
+
+After pivot normalization in row 1:
+1.000000 -1.000000 2.000000 3.000000 
+0.000000 0.000000 0.000000 0.000000 
+0.000000 0.000000 0.000000 0.000000 
+
+Infinite Solutions
+
+
+
+```
+
+---
 
 **Implementation**
 
@@ -379,6 +1110,225 @@ function solve_LU(Matrix A, Vector b):
         
     return x
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ifstream infile("inputlu.txt");
+    ofstream outfile("outputlu.txt");
+
+    if (!infile || !outfile)
+    {
+        return 1;
+    }
+
+    int n;
+    int caseNum = 1;
+
+    while (infile >> n)
+    {
+        vector<vector<double>> a(n, vector<double>(n));
+        vector<double> b(n);
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+                infile >> a[i][j];
+            infile >> b[i];
+        }
+
+        vector<vector<double>> l(n, vector<double>(n, 0));
+        vector<vector<double>> u(n, vector<double>(n, 0));
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int k = i; k < n; k++)
+            {
+                double sum = 0;
+                for (int j = 0; j < i; j++)
+                    sum += l[i][j] * u[j][k];
+                u[i][k] = a[i][k] - sum;
+            }
+
+            for (int k = i; k < n; k++)
+            {
+                if (i == k)
+                    l[i][i] = 1;
+                else
+                {
+                    double sum = 0;
+                    for (int j = 0; j < i; j++)
+                        sum += l[k][j] * u[j][i];
+
+                    if (abs(u[i][i]) > 1e-9)
+                        l[k][i] = (a[k][i] - sum) / u[i][i];
+                    else
+                        l[k][i] = 0;
+                }
+            }
+        }
+
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Lower Triangular Matrix :" << endl;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+                outfile << fixed << setprecision(3) << setw(8) << l[i][j] << " ";
+            outfile << endl;
+        }
+        outfile << endl;
+
+        outfile << "Upper Triangular Matrix :" << endl;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+                outfile << fixed << setprecision(3) << setw(8) << u[i][j] << " ";
+            outfile << endl;
+        }
+
+        vector<double> y(n);
+        for (int i = 0; i < n; i++)
+        {
+            double sum = 0;
+            for (int j = 0; j < i; j++)
+                sum += l[i][j] * y[j];
+            y[i] = b[i] - sum;
+        }
+
+        bool unique = true;
+        bool inconsistent = false;
+
+        for (int i = 0; i < n; i++)
+        {
+            if (abs(u[i][i]) < 1e-9)
+            {
+                unique = false;
+                bool allZero = true;
+                for (int j = i + 1; j < n; j++)
+                {
+                    if (abs(u[i][j]) > 1e-9)
+                    {
+                        allZero = false;
+                        break;
+                    }
+                }
+
+                if (allZero && abs(y[i]) > 1e-9)
+                {
+                    inconsistent = true;
+                    break;
+                }
+            }
+        }
+
+        if (unique)
+        {
+            vector<double> x(n);
+            for (int i = n - 1; i >= 0; i--)
+            {
+                double sum = 0;
+                for (int j = i + 1; j < n; j++)
+                    sum += u[i][j] * x[j];
+                x[i] = (y[i] - sum) / u[i][i];
+            }
+
+            outfile << "\nSolution:" << endl;
+            for (int i = 0; i < n; i++)
+                outfile << "x" << i + 1 << " = " << fixed << setprecision(4) << x[i] << endl;
+
+            outfile << "\nThe system has a unique solution." << endl;
+        }
+        else
+        {
+            if (inconsistent)
+                outfile << "\nThe system has no solution." << endl;
+            else
+                outfile << "\nThe system has infinite solutions." << endl;
+        }
+        outfile << endl
+                << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+3
+3 -0.1 -0.2 7.85
+0.1 7 -0.3 -19.3
+0.3 -0.2 10 71.4
+3
+1 1 1 6
+1 1 1 7
+1 2 3 14
+3
+1 1 1 6
+2 2 2 12
+1 2 3 14
+
+```
+
+#### Output
+```
+Case 1:
+Lower Triangular Matrix :
+   1.000    0.000    0.000 
+   0.033    1.000    0.000 
+   0.100   -0.027    1.000 
+
+Upper Triangular Matrix :
+   3.000   -0.100   -0.200 
+   0.000    7.003   -0.293 
+   0.000    0.000   10.012 
+
+Solution:
+x1 = 3.0000
+x2 = -2.5000
+x3 = 7.0000
+
+The system has a unique solution.
+
+
+Case 2:
+Lower Triangular Matrix :
+   1.000    0.000    0.000 
+   1.000    1.000    0.000 
+   1.000    0.000    1.000 
+
+Upper Triangular Matrix :
+   1.000    1.000    1.000 
+   0.000    0.000    0.000 
+   0.000    0.000    2.000 
+
+The system has no solution.
+
+
+Case 3:
+Lower Triangular Matrix :
+   1.000    0.000    0.000 
+   2.000    1.000    0.000 
+   1.000    0.000    1.000 
+
+Upper Triangular Matrix :
+   1.000    1.000    1.000 
+   0.000    0.000    0.000 
+   0.000    0.000    2.000 
+
+The system has infinite solutions.
+
+
+
+```
+
+---
 
 **Implementation**
 
@@ -433,6 +1383,177 @@ For k from 1 to N:
     
     x_old = x_new // Update for next cycle
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ifstream infile("inputjacobi.txt");
+    ofstream outfile("outputjacobi.txt");
+
+    if (!infile || !outfile)
+        return 1;
+    int n;
+    int caseNum = 1;
+
+    while (infile >> n)
+    {
+        vector<vector<double>> a(n, vector<double>(n));
+        vector<double> b(n);
+        vector<double> x(n, 0.0);
+        vector<double> new_x(n);
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                infile >> a[i][j];
+            }
+            infile >> b[i];
+        }
+
+        double tol;
+        int max_iter;
+        infile >> tol >> max_iter;
+
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Iteration\t";
+        for (int i = 0; i < n; i++)
+            outfile << "x" << i + 1 << "\t\t";
+        outfile << "Error" << endl;
+        outfile << endl;
+
+        int iter = 0;
+        double error = 0.0;
+
+        do
+        {
+            error = 0.0;
+            for (int i = 0; i < n; i++)
+            {
+                double sum = 0.0;
+                for (int j = 0; j < n; j++)
+                {
+                    if (j != i)
+                    {
+                        sum += a[i][j] * x[j];
+                    }
+                }
+                new_x[i] = (b[i] - sum) / a[i][i];
+                double diff = abs(new_x[i] - x[i]);
+                if (diff > error)
+                {
+                    error = diff;
+                }
+            }
+
+            x = new_x;
+            iter++;
+
+            outfile << iter << "\t\t";
+            for (int i = 0; i < n; i++)
+                outfile << fixed << setprecision(3) << x[i] << "\t";
+            outfile << scientific << setprecision(3) << error << endl;
+
+        } while (error > tol && iter < max_iter);
+
+        outfile << endl;
+        if (iter < max_iter)
+        {
+            outfile << "Converged in " << iter << " iterations." << endl;
+        }
+        else
+        {
+            outfile << "Maximum iterations reached." << endl;
+        }
+
+        outfile << "Solution:" << endl;
+        for (int i = 0; i < n; i++)
+        {
+            outfile << "x" << i + 1 << " = " << fixed << setprecision(3) << x[i] << endl;
+        }
+        outfile << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+3
+3 -0.1 -0.2 7.85
+0.1 7 -0.3 -19.3
+0.3 -0.2 10 71.4
+0.00001
+100
+3
+4 1 1 2
+1 5 2 -6
+1 2 4 -4
+0.0001
+100
+
+```
+
+#### Output
+```
+Case 1:
+Iteration	x1		x2		x3		Error
+
+1		2.617	-2.757	7.140	7.140e+000
+2		3.001	-2.489	7.006	3.841e-001
+3		3.001	-2.500	7.000	1.121e-002
+4		3.000	-2.500	7.000	7.839e-004
+5		3.000	-2.500	7.000	2.385e-005
+6		3.000	-2.500	7.000	1.266e-006
+
+Converged in 6 iterations.
+Solution:
+x1 = 3.000
+x2 = -2.500
+x3 = 7.000
+
+Case 2:
+Iteration	x1		x2		x3		Error
+
+1		0.500	-1.200	-1.000	1.200e+000
+2		1.050	-0.900	-0.525	5.500e-001
+3		0.856	-1.200	-0.812	3.000e-001
+4		1.003	-1.046	-0.614	1.984e-001
+5		0.915	-1.155	-0.728	1.136e-001
+6		0.971	-1.092	-0.651	7.639e-002
+7		0.936	-1.134	-0.697	4.542e-002
+8		0.958	-1.108	-0.667	2.955e-002
+9		0.944	-1.125	-0.685	1.801e-002
+10		0.952	-1.115	-0.674	1.151e-002
+11		0.947	-1.121	-0.681	7.107e-003
+12		0.950	-1.117	-0.676	4.496e-003
+13		0.948	-1.120	-0.679	2.796e-003
+14		0.950	-1.118	-0.677	1.760e-003
+15		0.949	-1.119	-0.678	1.099e-003
+16		0.949	-1.118	-0.678	6.899e-004
+17		0.949	-1.119	-0.678	4.313e-004
+18		0.949	-1.119	-0.678	2.705e-004
+19		0.949	-1.119	-0.678	1.693e-004
+20		0.949	-1.119	-0.678	1.061e-004
+21		0.949	-1.119	-0.678	6.643e-005
+
+Converged in 21 iterations.
+Solution:
+x1 = 0.949
+x2 = -1.119
+x3 = -0.678
+
+
+```
+
+---
 
 **Implementation**
 
@@ -491,6 +1612,164 @@ For k from 1 to N:
         Print "Converged"
         Return x
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+    ifstream infile("inputseidel.txt");
+    ofstream outfile("outputseidel.txt");
+
+    if (!infile)
+        return 1;
+    if (!outfile)
+        return 1;
+
+    int n;
+    int caseNum = 1;
+
+    while (infile >> n)
+    {
+        vector<vector<double>> a(n, vector<double>(n));
+        vector<double> b(n);
+        vector<double> x(n, 0.0);
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                infile >> a[i][j];
+            }
+            infile >> b[i];
+        }
+
+        double tol;
+        int max_iter;
+        infile >> tol >> max_iter;
+
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Iteration\t";
+        for (int i = 0; i < n; i++)
+            outfile << "x" << i + 1 << "\t\t";
+        outfile << "Error" << endl;
+        outfile << endl;
+
+        int iter = 0;
+        double error = 0.0;
+
+        do
+        {
+            error = 0.0;
+            for (int i = 0; i < n; i++)
+            {
+                double sum = 0.0;
+                for (int j = 0; j < n; j++)
+                {
+                    if (j != i)
+                    {
+                        sum += a[i][j] * x[j];
+                    }
+                }
+                double new_val = (b[i] - sum) / a[i][i];
+                double diff = abs(new_val - x[i]);
+                if (diff > error)
+                {
+                    error = diff;
+                }
+                x[i] = new_val;
+            }
+
+            iter++;
+
+            outfile << iter << "\t\t";
+            for (int i = 0; i < n; i++)
+                outfile << fixed << setprecision(6) << x[i] << "\t";
+            outfile << scientific << setprecision(4) << error << endl;
+
+        } while (error > tol && iter < max_iter);
+
+        outfile << endl;
+        if (iter < max_iter)
+        {
+            outfile << "Converged in " << iter << " iterations." << endl;
+        }
+        else
+        {
+            outfile << "Maximum iterations reached." << endl;
+        }
+
+        outfile << "Solution:" << endl;
+        for (int i = 0; i < n; i++)
+        {
+            outfile << "x" << i + 1 << " = " << fixed << setprecision(3) << x[i] << endl;
+        }
+        outfile << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+3
+3 -0.1 -0.2 7.85
+0.1 7 -0.3 -19.3
+0.3 -0.2 10 71.4
+0.00001
+100
+3
+4 1 1 2
+1 5 2 -6
+1 2 4 -4
+0.0001
+100
+
+```
+
+#### Output
+```
+Case 1:
+Iteration	x1		x2		x3		Error
+
+1		2.616667	-2.794524	7.005610	7.0056e+000
+2		2.990557	-2.499625	7.000291	3.7389e-001
+3		3.000032	-2.499988	6.999999	9.4754e-003
+4		3.000000	-2.500000	7.000000	3.1545e-005
+5		3.000000	-2.500000	7.000000	3.5441e-007
+
+Converged in 5 iterations.
+Solution:
+x1 = 3.000
+x2 = -2.500
+x3 = 7.000
+
+Case 2:
+Iteration	x1		x2		x3		Error
+
+1		0.500000	-1.300000	-0.475000	1.3000e+000
+2		0.943750	-1.198750	-0.636563	4.4375e-001
+3		0.958828	-1.137141	-0.671137	6.1609e-002
+4		0.952069	-1.121959	-0.677038	1.5181e-002
+5		0.949749	-1.119135	-0.677870	2.8244e-003
+6		0.949251	-1.118702	-0.677962	4.9806e-004
+7		0.949166	-1.118649	-0.677967	8.5190e-005
+
+Converged in 7 iterations.
+Solution:
+x1 = 0.949
+x2 = -1.119
+x3 = -0.678
+
+
+```
+
+---
 
 **Implementation**
 
@@ -556,6 +1835,209 @@ BisectionMethod(f, a, b, tolerance, max_iter):
 
   Step 3: Return (a + b) / 2 as the approximate root
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double f(const vector<double> &coeffs, double x)
+{
+    double result = 0.0;
+    int n = coeffs.size();
+    for (int i = 0; i < n; i++)
+    {
+        result += coeffs[i] * pow(x, n - i - 1);
+    }
+    return result;
+}
+
+bool stop(double prev, double curr, double tol)
+{
+    return fabs(prev - curr) < tol;
+}
+
+vector<double> Bisection(const vector<double> &coeffs, double l, double u, double tol, double step)
+{
+    vector<pair<double, double>> intervals;
+    vector<double> roots;
+
+    for (double x = l; x <= u - step; x += step)
+    {
+        double fx = f(coeffs, x);
+        double fx_next = f(coeffs, x + step);
+
+        if (fabs(fx) < 1e-12)
+        {
+            roots.push_back(x);
+            continue;
+        }
+
+        if (fx * fx_next < 0)
+        {
+            intervals.push_back({x, x + step});
+        }
+    }
+
+    for (auto interval : intervals)
+    {
+        double a = interval.first;
+        double b = interval.second;
+        double fa = f(coeffs, a);
+        double fb = f(coeffs, b);
+
+        if (fa * fb > 0)
+            continue;
+
+        double prev = a;
+        double mid = (a + b) / 2.0;
+        int iter = 0;
+
+        while (!stop(prev, mid, tol))
+        {
+            double fmid = f(coeffs, mid);
+            if (fabs(fmid) < 1e-12)
+                break;
+
+            if (fa * fmid < 0)
+            {
+                b = mid;
+                fb = fmid;
+            }
+            else
+            {
+                a = mid;
+                fa = fmid;
+            }
+
+            prev = mid;
+            mid = (a + b) / 2.0;
+            iter++;
+        }
+
+        roots.push_back(mid);
+    }
+
+    sort(roots.begin(), roots.end());
+    roots.erase(unique(roots.begin(), roots.end(), [tol](double a, double b)
+                       { return fabs(a - b) < tol; }),
+                roots.end());
+
+    return roots;
+}
+
+string print_function(const vector<double> &coeffs)
+{
+    stringstream out;
+    int n = coeffs.size();
+    out << "f(x)=";
+    for (int i = 0; i < n; i++)
+    {
+        if (i != 0 && coeffs[i] >= 0)
+            out << "+";
+        out << coeffs[i] << "x^" << n - i - 1 << " ";
+    }
+    return out.str();
+}
+
+int main()
+{
+    ifstream infile("inputbisection.txt");
+    ofstream outfile("outputbisection.txt");
+
+    if (!infile)
+    {
+        return 1;
+    }
+
+    int numProblems;
+    infile >> numProblems;
+
+    for (int p = 0; p < numProblems; p++)
+    {
+        int degree;
+        infile >> degree;
+
+        vector<double> coeffs(degree + 1);
+        for (int i = 0; i <= degree; i++)
+        {
+            infile >> coeffs[i];
+        }
+
+        double l, u, tol, step;
+        infile >> l >> u >> tol >> step;
+
+        outfile << "Problem " << p + 1 << endl;
+        outfile << "Function: " << print_function(coeffs) << endl;
+        outfile << "Interval: [" << l << ", " << u << "], Tolerance: " << tol << ", Step: " << step << endl;
+
+        vector<double> roots = Bisection(coeffs, l, u, tol, step);
+
+        outfile << "Roots found : " << endl;
+        if (!roots.empty())
+        {
+            for (double root : roots)
+            {
+                outfile << fixed << setprecision(6) << root << endl;
+            }
+        }
+        outfile << "\n\n"
+                << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+3
+2
+1 -4 -10
+5 6 0.0001 0.01
+3
+1 0 -1 -2
+-2 3 0.0001 0.01
+5
+1 -15 85 -225 274 -120
+0 5 0.0001 0.01
+```
+
+#### Output
+```
+Problem 1
+Function: f(x)=1x^2 -4x^1 -10x^0 
+Interval: [5, 6], Tolerance: 0.0001, Step: 0.01
+Roots found : 
+5.741641
+
+
+
+Problem 2
+Function: f(x)=1x^3 +0x^2 -1x^1 -2x^0 
+Interval: [-2.000000, 3.000000], Tolerance: 0.000100, Step: 0.010000
+Roots found : 
+1.521328
+
+
+
+Problem 3
+Function: f(x)=1x^5 -15x^4 +85x^3 -225x^2 +274x^1 -120x^0 
+Interval: [0.000000, 5.000000], Tolerance: 0.000100, Step: 0.010000
+Roots found : 
+0.999922
+1.999922
+3.000000
+4.000000
+
+
+
+
+```
+
+---
 
 **Implementation**
 
@@ -615,6 +2097,183 @@ FalsePositionMethod(f, a, b, tolerance, max_iter):
                 a = x0
   Step 3: Return x0 as the approximate root
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double f(const vector<double> &coeffs, double x)
+{
+    double result = 0.0;
+    int n = coeffs.size();
+    for (int i = 0; i < n; i++)
+    {
+        result += coeffs[i] * pow(x, n - i - 1);
+    }
+    return result;
+}
+
+bool stop(double prev, double curr, double tol)
+{
+    return fabs(prev - curr) < tol;
+}
+
+vector<double> FalsePosition(const vector<double> &coeffs, double l, double u, double tol, double step)
+{
+    vector<pair<double, double>> intervals;
+    vector<double> roots;
+
+    for (double x = l; x <= u - step; x += step)
+    {
+        double fx = f(coeffs, x);
+        double fx_next = f(coeffs, x + step);
+
+        if (fabs(fx) < 1e-12)
+        {
+            roots.push_back(x);
+            continue;
+        }
+
+        if (fx * fx_next < 0)
+        {
+            intervals.push_back({x, x + step});
+        }
+    }
+
+    for (auto interval : intervals)
+    {
+        double a = interval.first;
+        double b = interval.second;
+        double fa = f(coeffs, a);
+        double fb = f(coeffs, b);
+
+        if (fa * fb > 0)
+            continue;
+
+        double prev = a;
+        double c = a - (fa * (b - a)) / (fb - fa);
+        int iter = 0;
+
+        while (!stop(prev, c, tol))
+        {
+            double fc = f(coeffs, c);
+            if (fabs(fc) < 1e-12)
+                break;
+
+            if (fa * fc < 0)
+            {
+                b = c;
+                fb = fc;
+            }
+            else
+            {
+                a = c;
+                fa = fc;
+            }
+
+            prev = c;
+            c = a - (fa * (b - a)) / (fb - fa);
+            iter++;
+        }
+
+        roots.push_back(c);
+    }
+
+    sort(roots.begin(), roots.end());
+    roots.erase(unique(roots.begin(), roots.end(), [tol](double a, double b)
+                       { return fabs(a - b) < tol; }),
+                roots.end());
+
+    return roots;
+}
+
+string print_function(const vector<double> &coeffs)
+{
+    stringstream out;
+    int n = coeffs.size();
+    out << "f(x)=";
+    for (int i = 0; i < n; i++)
+    {
+        if (i != 0 && coeffs[i] >= 0)
+            out << "+";
+        out << coeffs[i] << "x^" << n - i - 1 << " ";
+    }
+    return out.str();
+}
+
+int main()
+{
+    ifstream infile("inputfalse.txt");
+    ofstream outfile("outputfalse.txt");
+
+    if (!infile)
+    {
+        return 1;
+    }
+
+    int numProblems;
+    infile >> numProblems;
+
+    for (int p = 0; p < numProblems; p++)
+    {
+        int degree;
+        infile >> degree;
+
+        vector<double> coeffs(degree + 1);
+        for (int i = 0; i <= degree; i++)
+        {
+            infile >> coeffs[i];
+        }
+
+        double l, u, tol, step;
+        infile >> l >> u >> tol >> step;
+
+        outfile << "Problem " << p + 1 << endl;
+        outfile << "Function: " << print_function(coeffs) << endl;
+        outfile << "Interval: [" << l << ", " << u << "], Tolerance: " << tol << ", Step: " << step << endl;
+
+        vector<double> roots = FalsePosition(coeffs, l, u, tol, step);
+
+        outfile << "Roots found : " << endl;
+        if (!roots.empty())
+        {
+            for (double root : roots)
+            {
+                outfile << fixed << setprecision(6) << root << endl;
+            }
+        }
+        outfile << "\n\n"
+                << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+1
+5 1 -15 85 -225 274 -120 0 6 0.0001 0.01
+```
+
+#### Output
+```
+Problem 1
+Function: f(x)=1x^5 -15x^4 +85x^3 -225x^2 +274x^1 -120x^0 
+Interval: [0, 6], Tolerance: 0.0001, Step: 0.01
+Roots found : 
+1.000000
+2.000000
+3.000000
+4.000000
+5.000000
+
+```
+
+---
 
 **Implementation**
 
@@ -663,6 +2322,182 @@ for i = 1 to max_iter:
     x1 = x2
 return x2
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<double> coef;
+int degree;
+
+string polynomial_string(const vector<double> &c, int deg)
+{
+    stringstream ss;
+    bool first = true;
+    for (int i = 0; i <= deg; i++)
+    {
+        if (c[i] == 0)
+            continue;
+        if (!first && c[i] > 0)
+            ss << "+";
+        ss << c[i];
+        if (deg - i > 0)
+            ss << "x";
+        if (deg - i > 1)
+            ss << "^" << deg - i;
+        first = false;
+    }
+    return ss.str();
+}
+
+double f(double x)
+{
+    double value = 0.0;
+    for (int i = 0; i <= degree; i++)
+        value += coef[i] * pow(x, degree - i);
+    return value;
+}
+
+double df(double x)
+{
+    double value = 0.0;
+    for (int i = 0; i < degree; i++)
+        value += coef[i] * (degree - i) * pow(x, degree - i - 1);
+    return value;
+}
+
+vector<pair<double, double>> initial_guess_pairs(double step)
+{
+    double dmax = 0.0;
+    for (int j = 0; j <= degree; j++)
+        dmax = max(dmax, fabs(coef[j] / coef[0]));
+
+    double low = -(1 + dmax);
+    double high = (1 + dmax);
+    vector<pair<double, double>> res;
+
+    while (low < high)
+    {
+        double x1 = low, x2 = low + step;
+        if (f(x1) * f(x2) < 0)
+            res.push_back({x1, x2});
+        low += step;
+    }
+    return res;
+}
+
+double secant_method(double x0, double x1, double tol)
+{
+    double f0 = f(x0);
+    double f1 = f(x1);
+
+    int iter = 0;
+    while (fabs(x1 - x0) >= tol)
+    {
+        if (fabs(f1 - f0) < 1e-12)
+            return NAN;
+        double x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
+
+        x0 = x1;
+        f0 = f1;
+        x1 = x2;
+        f1 = f(x1);
+
+        iter++;
+        if (iter > 1000)
+            break;
+    }
+    return x1;
+}
+
+int main()
+{
+    ifstream fin("inputsecant.txt");
+    ofstream fout("outputsecant.txt");
+
+    int T;
+    fin >> T; 
+
+    for (int t = 1; t <= T; t++)
+    {
+        fin >> degree;
+        coef.resize(degree + 1);
+        for (int i = 0; i <= degree; i++)
+            fin >> coef[i];
+
+        fout << "Polynomial " << t << ":\n";
+        fout << "f(x) = " << polynomial_string(coef, degree) << "\n";
+
+ 
+        vector<double> dcoef(degree);
+        for (int i = 0; i < degree; i++)
+            dcoef[i] = coef[i] * (degree - i);
+        fout << "f'(x) = " << polynomial_string(dcoef, degree - 1) << "\n";
+
+        vector<pair<double, double>> guesses = initial_guess_pairs(0.45);
+        double tol = 1e-6;
+        vector<double> roots;
+
+        for (auto &p : guesses)
+        {
+            double root = secant_method(p.first, p.second, tol);
+            if (isnan(root))
+                continue;
+
+            bool unique = true;
+            for (double r : roots)
+                if (fabs(root - r) < tol)
+                    unique = false;
+
+            if (unique)
+                roots.push_back(root);
+        }
+
+        fout << "Roots:\n";
+        for (double r : roots)
+            fout << r << "\n";
+        fout << "\n\n";
+    }
+
+    fin.close();
+    fout.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+2
+3
+1 -6 11 -6
+2
+1 -3 2
+```
+
+#### Output
+```
+Polynomial 1:
+f(x) = 1x^3-6x^2+11x-6
+f'(x) = 3x^2-12x+11
+Roots:
+1
+2
+3
+
+
+Polynomial 2:
+f(x) = 1x^2-3x+2
+f'(x) = 2x-3
+Roots:
+1
+2
+
+
+
+```
+
+---
 
 **Implementation**
 
@@ -715,6 +2550,188 @@ for i = 1 to max_iter:
     x0 = x1
 return x1
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+vector<double> coef;
+int degree;
+
+string polynomial_string(const vector<double> &c, int deg)
+{
+    stringstream ss;
+    bool first = true;
+    for (int i = 0; i <= deg; i++)
+    {
+        if (c[i] == 0)
+            continue;
+        if (!first && c[i] > 0)
+            ss << "+";
+        ss << c[i];
+        if (deg - i > 0)
+            ss << "x";
+        if (deg - i > 1)
+            ss << "^" << deg - i;
+        first = false;
+    }
+    return ss.str();
+}
+
+double f(double x)
+{
+    double value = 0.0;
+    for (int i = 0; i <= degree; i++)
+        value += coef[i] * pow(x, degree - i);
+    return value;
+}
+
+double df(double x)
+{
+    double value = 0.0;
+    for (int i = 0; i < degree; i++)
+        value += coef[i] * (degree - i) * pow(x, degree - i - 1);
+    return value;
+}
+
+vector<double> rangess(double step)
+{
+    double dmax = 0.0;
+    for (int j = 0; j <= degree; j++)
+        dmax = max(dmax, fabs(coef[j] / coef[0]));
+
+    double low = -(1 + dmax);
+    double high = (1 + dmax);
+    vector<double> res;
+
+    while (low < high)
+    {
+        if (f(low) * f(low + step) < 0)
+        {
+            if (fabs(f(low)) < fabs(f(low + step)))
+                res.push_back(low);
+            else
+                res.push_back(low + step);
+        }
+        low += step;
+    }
+    return res;
+}
+
+double newton_raphson(double initial_guess, double tol)
+{
+    double x0 = initial_guess;
+    double fx = f(x0);
+    if (fabs(fx) < 1e-12)
+        return x0;
+
+    double dfx = df(x0);
+    if (fabs(dfx) <= 1e-12)
+        return NAN;
+
+    double x1 = x0 - fx / dfx;
+
+    while (fabs(x1 - x0) >= tol)
+    {
+        x0 = x1;
+        fx = f(x0);
+        if (fabs(fx) < 1e-12)
+            return x0;
+        dfx = df(x0);
+        if (fabs(dfx) <= 1e-12)
+            return NAN;
+        x1 = x0 - fx / dfx;
+    }
+    return x1;
+}
+
+int main()
+{
+    ifstream fin("inputnewtraph.txt");
+    ofstream fout("outputnewtraph.txt");
+
+    int T;
+    fin >> T;
+
+    for (int t = 1; t <= T; t++)
+    {
+        fin >> degree;
+        coef.resize(degree + 1);
+        for (int i = 0; i <= degree; i++)
+            fin >> coef[i];
+
+        fout << "Polynomial " << t << ":\n";
+        fout << "f(x) = " << polynomial_string(coef, degree) << "\n";
+
+        vector<double> dcoef(degree);
+        for (int i = 0; i < degree; i++)
+            dcoef[i] = coef[i] * (degree - i);
+        fout << "f'(x) = " << polynomial_string(dcoef, degree - 1) << "\n";
+
+        vector<double> initial_guesses = rangess(0.45);
+        double tol = 1e-6;
+        vector<double> roots;
+
+        for (double guess : initial_guesses)
+        {
+            double root = newton_raphson(guess, tol);
+            if (isnan(root))
+                continue;
+
+            bool unique = true;
+            for (double r : roots)
+                if (fabs(root - r) < tol)
+                    unique = false;
+
+            if (unique)
+                roots.push_back(root);
+        }
+
+        fout << "Roots:\n";
+        for (double r : roots)
+            fout << r << "\n";
+
+        fout << "\n\n";
+    }
+
+    fin.close();
+    fout.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+2
+3
+1 -6 11 -6
+2
+1 -3 2
+```
+
+#### Output
+```
+Polynomial 1:
+f(x) = 1x^3-6x^2+11x-6
+f'(x) = 3x^2-12x+11
+Roots:
+1
+2
+3
+
+
+Polynomial 2:
+f(x) = 1x^2-3x+2
+f'(x) = 2x-3
+Roots:
+1
+2
+
+
+```
+
+---
 
 **Implementation**
 
@@ -771,6 +2788,151 @@ function newton_forward(x[], y[][], n, value):
 
     return sum
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+double calculateU(double u, int n)
+{
+    double temp = u;
+    for (int i = 1; i < n; i++)
+        temp = temp * (u + i);
+    return temp;
+}
+
+double fact(int n)
+{
+    double f = 1;
+    for (int i = 2; i <= n; i++)
+        f *= i;
+    return f;
+}
+
+int main()
+{
+    ifstream infile("inputbackward.txt");
+    ofstream outfile("outputbackward.txt");
+
+    if (!infile || !outfile)
+    {
+        return 1;
+    }
+
+    int n;
+    int caseNum = 1;
+
+    while (infile >> n)
+    {
+        vector<double> x(n);
+        vector<vector<double>> y(n, vector<double>(n));
+
+        for (int i = 0; i < n; i++)
+        {
+            infile >> x[i] >> y[i][0];
+        }
+
+        for (int i = 1; i < n; i++)
+        {
+            for (int j = n - 1; j >= i; j--)
+                y[j][i] = y[j][i - 1] - y[j - 1][i - 1];
+        }
+
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Backward Difference Table:" << endl;
+        for (int i = 0; i < n; i++)
+        {
+            outfile << setw(10) << x[i];
+            for (int j = 0; j <= i; j++)
+                outfile << setw(10) << fixed << setprecision(4) << y[i][j];
+            outfile << endl;
+        }
+
+        double value;
+        infile >> value;
+
+        double sum = y[n - 1][0];
+        double u = (value - x[n - 1]) / (x[1] - x[0]);
+        double last_term = 0.0;
+
+        for (int i = 1; i < n; i++)
+        {
+            last_term = (calculateU(u, i) * y[n - 1][i]) / fact(i);
+            sum = sum + last_term;
+        }
+
+        outfile << endl
+                << "Value at " << value << " is " << fixed << setprecision(6) << sum << endl;
+
+        if (sum != 0)
+        {
+            double relative_error = abs(last_term / sum) * 100.0;
+            outfile << "Approximate Relative Error: " << relative_error << "%" << endl;
+        }
+        else
+        {
+            outfile << "Approximate Error: " << abs(last_term) << " (Cannot calculate percentage relative error as sum is 0)" << endl;
+        }
+
+        outfile << endl
+                << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+4
+45 0.7071
+50 0.7660
+55 0.8192
+60 0.8660
+46
+5
+1891 46
+1901 66
+1911 81
+1921 93
+1931 101
+1895
+
+
+```
+
+#### Output
+```
+Case 1:
+Difference Table:
+        45    0.7071    0.0589   -0.0057   -0.0007
+   50.0000    0.7660    0.0532   -0.0064
+   55.0000    0.8192    0.0468
+   60.0000    0.8660
+
+Value at 46.0000 is 0.719
+
+Case 2:
+Difference Table:
+  1891.000   46.0000   20.0000   -5.0000    2.0000   -3.0000
+ 1901.0000   66.0000   15.0000   -3.0000   -1.0000
+ 1911.0000   81.0000   12.0000   -4.0000
+ 1921.0000   93.0000    8.0000
+ 1931.0000  101.0000
+
+Value at 1895.0000 is 54.853
+
+
+
+
+
+```
+
+---
 
 **Implementation**
 
@@ -822,6 +2984,151 @@ function newton_backward(x[], y[][], n, value):
 
     return sum
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+
+using namespace std;
+
+double calculateU(double u, int n)
+{
+    double temp = u;
+    for (int i = 1; i < n; i++)
+        temp = temp * (u + i);
+    return temp;
+}
+
+double fact(int n)
+{
+    double f = 1;
+    for (int i = 2; i <= n; i++)
+        f *= i;
+    return f;
+}
+
+int main()
+{
+    ifstream infile("inputbackward.txt");
+    ofstream outfile("outputbackward.txt");
+
+    if (!infile || !outfile)
+    {
+        return 1;
+    }
+
+    int n;
+    int caseNum = 1;
+
+    while (infile >> n)
+    {
+        vector<double> x(n);
+        vector<vector<double>> y(n, vector<double>(n));
+
+        for (int i = 0; i < n; i++)
+        {
+            infile >> x[i] >> y[i][0];
+        }
+
+        for (int i = 1; i < n; i++)
+        {
+            for (int j = n - 1; j >= i; j--)
+                y[j][i] = y[j][i - 1] - y[j - 1][i - 1];
+        }
+
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Backward Difference Table:" << endl;
+        for (int i = 0; i < n; i++)
+        {
+            outfile << setw(10) << x[i];
+            for (int j = 0; j <= i; j++)
+                outfile << setw(10) << fixed << setprecision(4) << y[i][j];
+            outfile << endl;
+        }
+
+        double value;
+        infile >> value;
+
+        double sum = y[n - 1][0];
+        double u = (value - x[n - 1]) / (x[1] - x[0]);
+        double last_term = 0.0;
+
+        for (int i = 1; i < n; i++)
+        {
+            last_term = (calculateU(u, i) * y[n - 1][i]) / fact(i);
+            sum = sum + last_term;
+        }
+
+        outfile << endl
+                << "Value at " << value << " is " << fixed << setprecision(6) << sum << endl;
+
+        if (sum != 0)
+        {
+            double relative_error = abs(last_term / sum) * 100.0;
+            outfile << "Approximate Relative Error: " << relative_error << "%" << endl;
+        }
+        else
+        {
+            outfile << "Approximate Error: " << abs(last_term) << " (Cannot calculate percentage relative error as sum is 0)" << endl;
+        }
+
+        outfile << endl
+                << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+5
+35 31
+45 73
+55 124
+65 159
+75 190
+70
+4
+0 1
+1 2
+2 1
+3 10
+2.5
+
+```
+
+#### Output
+```
+Case 1:
+Backward Difference Table:
+        35   31.0000
+   45.0000   73.0000   42.0000
+   55.0000  124.0000   51.0000    9.0000
+   65.0000  159.0000   35.0000  -16.0000  -25.0000
+   75.0000  190.0000   31.0000   -4.0000   12.0000   37.0000
+
+Value at 70.0000 is 172.804688
+Approximate Relative Error: 0.836385%
+
+
+Case 2:
+Backward Difference Table:
+  0.000000    1.0000
+    1.0000    2.0000    1.0000
+    2.0000    1.0000   -1.0000   -2.0000
+    3.0000   10.0000    9.0000   10.0000   12.0000
+
+Value at 2.5000 is 3.500000
+Approximate Relative Error: 21.428571%
+
+
+
+```
+
+---
 
 **Implementation**
 
@@ -839,7 +3146,7 @@ Includes:
 ---
 
 
-## E. Solution of Differential Equations
+## D. Numerical Differentiation
 
 <a id="newton-forward-differentiation"></a>
 ### 1. Newton Forward Differentiation
@@ -903,6 +3210,197 @@ Print derivative
 
 END
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+typedef vector<double> Poly;
+
+Poly multiply(const Poly &p, double constant)
+{
+    Poly res(p.size() + 1, 0.0);
+    for (size_t i = 0; i < p.size(); i++)
+    {
+        res[i + 1] += p[i];
+        res[i] += constant * p[i];
+    }
+    return res;
+}
+
+Poly differentiate(const Poly &p)
+{
+    if (p.size() <= 1)
+        return {0.0};
+    Poly res;
+    for (size_t i = 1; i < p.size(); i++)
+    {
+        res.push_back(p[i] * i);
+    }
+    return res;
+}
+
+double evaluate(const Poly &p, double x)
+{
+    double res = 0;
+    double x_pow = 1;
+    for (double c : p)
+    {
+        res += c * x_pow;
+        x_pow *= x;
+    }
+    return res;
+}
+
+double fact(int n)
+{
+    double f = 1;
+    for (int i = 2; i <= n; i++)
+        f *= i;
+    return f;
+}
+
+int main()
+{
+    ifstream infile("inputdiff.txt");
+    ofstream outfile("outputdiff.txt");
+
+    if (!infile || !outfile)
+    {
+        return 1;
+    }
+
+    int n;
+    int caseNum = 1;
+
+    while (infile >> n)
+    {
+        vector<double> x(n);
+        vector<vector<double>> y(n, vector<double>(n));
+
+        for (int i = 0; i < n; i++)
+        {
+            infile >> x[i] >> y[i][0];
+        }
+        for (int i = 1; i < n; i++)
+        {
+            for (int j = 0; j < n - i; j++)
+                y[j][i] = y[j + 1][i - 1] - y[j][i - 1];
+        }
+
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Forward Difference Table:" << endl;
+        for (int i = 0; i < n; i++)
+        {
+            outfile << setw(10) << x[i];
+            for (int j = 0; j < n - i; j++)
+                outfile << setw(10) << fixed << setprecision(4) << y[i][j];
+            outfile << endl;
+        }
+
+        double value;
+        int order;
+        infile >> value >> order;
+
+        double h = x[1] - x[0];
+        double u = (value - x[0]) / h;
+
+        double derivative_val = 0;
+        Poly P = {1.0};
+
+        for (int k = 0; k < n; k++)
+        {
+            if (k > 0)
+            {
+                P = multiply(P, -(double)(k - 1));
+            }
+
+            if (k >= order)
+            {
+                Poly P_deriv = P;
+                for (int m = 0; m < order; m++)
+                {
+                    P_deriv = differentiate(P_deriv);
+                }
+
+                double term_val = evaluate(P_deriv, u);
+                derivative_val += (y[0][k] / fact(k)) * term_val;
+            }
+        }
+
+        derivative_val /= pow(h, order);
+
+        outfile << endl
+                << "For x = " << value << ":" << endl;
+        outfile << "Derivative Order: " << order << endl;
+        outfile << "Result: " << fixed << setprecision(3) << derivative_val << endl;
+        outfile << endl
+                << endl;
+    }
+    infile.close();
+    outfile.close();
+
+    return 0;
+}
+
+```
+
+#### Input
+```
+7
+1.0 2.7183
+1.2 3.3201
+1.4 4.0552
+1.6 4.9530
+1.8 6.0496
+2.0 7.3891
+2.2 9.0250
+1.2 1
+5
+0 0
+1 1
+2 8
+3 27
+4 64
+2 2
+
+```
+
+#### Output
+```
+Case 1:
+Forward Difference Table:
+         1    2.7183    0.6018    0.1333    0.0294    0.0067    0.0013    0.0001
+    1.2000    3.3201    0.7351    0.1627    0.0361    0.0080    0.0014
+    1.4000    4.0552    0.8978    0.1988    0.0441    0.0094
+    1.6000    4.9530    1.0966    0.2429    0.0535
+    1.8000    6.0496    1.3395    0.2964
+    2.0000    7.3891    1.6359
+    2.2000    9.0250
+
+For x = 1.2000:
+Derivative Order: 1
+Result: 3.320
+
+
+Case 2:
+Forward Difference Table:
+     0.000    0.0000    1.0000    6.0000    6.0000    0.0000
+    1.0000    1.0000    7.0000   12.0000    6.0000
+    2.0000    8.0000   19.0000   18.0000
+    3.0000   27.0000   37.0000
+    4.0000   64.0000
+
+For x = 2.0000:
+Derivative Order: 2
+Result: 12.000
+
+
+
+
+
+```
+
+---
 
 **Implementation**
 
@@ -917,6 +3415,9 @@ Includes:
 - [Numerical Differentiation - Wikipedia](https://en.wikipedia.org/wiki/Numerical_differentiation)
 - [Newton's Forward Difference Formula - MathWorld](https://mathworld.wolfram.com/ForwardDifference.html)
 - Numerical Methods for Engineers - Chapra & Canale
+
+  
+## E. Solution of Differential Equations
 
 <a id="runge-kutta"></a>
 ### 2. Runge Kutta Method
@@ -953,6 +3454,123 @@ function solve_rk4(x0, y0, xn, h):
         
     return y
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+double f(double x, double y)
+{
+    return x + y;
+}
+
+int main()
+{
+    ifstream infile("inputrk.txt");
+    ofstream outfile("outputrk.txt");
+
+    if (!infile || !outfile)
+    {
+        return 1;
+    }
+
+    double x0, y0, xn, h;
+    int caseNum = 1;
+
+    outfile << fixed << setprecision(3);
+
+    while (infile >> x0 >> y0 >> xn >> h)
+    {
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Initial values: x0 = " << x0 << ", y0 = " << y0 << endl;
+        outfile << "Target x: " << xn << endl;
+        outfile << "Step size: " << h << endl;
+        outfile << "List of x and y values:" << endl;
+        outfile << "x\t\ty" << endl;
+
+        double y = y0;
+        double x = x0;
+        outfile << x << "\t\t" << y << endl;
+        int n = (int)round((xn - x0) / h);
+
+        for (int i = 0; i < n; i++)
+        {
+            double k1 = h * f(x, y);
+            double k2 = h * f(x + h / 2.0, y + k1 / 2.0);
+            double k3 = h * f(x + h / 2.0, y + k2 / 2.0);
+            double k4 = h * f(x + h, y + k3);
+
+            double k = (k1 + 2 * k2 + 2 * k3 + k4) / 6.0;
+
+            y = y + k;
+            x = x + h;
+
+            outfile << x << "\t\t" << y << endl;
+        }
+
+        outfile << "Value of y at x = " << xn << " is " << y << endl;
+        outfile << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+0 1 0.2 0.1
+0 1 0.5 0.1
+1 2 1.5 0.1
+```
+
+#### Output
+```
+Case 1:
+Initial values: x0 = 0.000, y0 = 1.000
+Target x: 0.200
+Step size: 0.100
+List of x and y values:
+x		y
+0.000		1.000
+0.100		1.110
+0.200		1.243
+Value of y at x = 0.200 is 1.243
+
+Case 2:
+Initial values: x0 = 0.000, y0 = 1.000
+Target x: 0.500
+Step size: 0.100
+List of x and y values:
+x		y
+0.000		1.000
+0.100		1.110
+0.200		1.243
+0.300		1.400
+0.400		1.584
+0.500		1.797
+Value of y at x = 0.500 is 1.797
+
+Case 3:
+Initial values: x0 = 1.000, y0 = 2.000
+Target x: 1.500
+Step size: 0.100
+List of x and y values:
+x		y
+1.000		2.000
+1.100		2.321
+1.200		2.686
+1.300		3.099
+1.400		3.567
+1.500		4.095
+Value of y at x = 1.500 is 4.095
+
+
+```
+
+---
 
 **Implementation**
 
@@ -1014,7 +3632,108 @@ For i from 1 to n-1:
 Result = sum * (h / 3)
 Return Result
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
 
+double f(double x)
+{
+    return 1.0 / (1.0 + x * x);
+}
+
+double exact_integral(double a, double b)
+{
+    return atan(b) - atan(a);
+}
+
+int main()
+{
+    ifstream infile("inputsimpson.txt");
+    ofstream outfile("outputsimpson13.txt");
+
+    if (!infile || !outfile)
+        return 1;
+
+    double a, b;
+    int n;
+    int caseNum = 1;
+
+    while (infile >> a >> b >> n)
+    {
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Lower Limit: " << a << ", Upper Limit: " << b << ", Subintervals: " << n << endl;
+
+        if (n % 2 != 0)
+        {
+            outfile << "Error: n must be even for Simpson's 1/3 Rule." << endl;
+            outfile << endl;
+            continue;
+        }
+
+        double h = (b - a) / n;
+        double sum = f(a) + f(b);
+
+        for (int i = 1; i < n; i++)
+        {
+            if (i % 2 == 0)
+            {
+                sum += 2 * f(a + i * h);
+            }
+            else
+            {
+                sum += 4 * f(a + i * h);
+            }
+        }
+
+        double result = (h / 3.0) * sum;
+        double exact = exact_integral(a, b);
+        double error = abs(exact - result);
+
+        outfile << "Calculated Value: " << fixed << setprecision(6) << result << endl;
+        outfile << "Exact Value:      " << fixed << setprecision(6) << exact << endl;
+        outfile << "Absolute Error:   " << scientific << setprecision(4) << error << endl;
+        outfile << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+0 1 6
+0 6 12
+1 2 18
+```
+
+#### Output
+```
+Case 1:
+Lower Limit: 0, Upper Limit: 1, Subintervals: 6
+Calculated Value: 0.785398
+Exact Value:      0.785398
+Absolute Error:   2.1816e-007
+
+Case 2:
+Lower Limit: 0.0000e+000, Upper Limit: 6.0000e+000, Subintervals: 12
+Calculated Value: 1.403702
+Exact Value:      1.405648
+Absolute Error:   1.9455e-003
+
+Case 3:
+Lower Limit: 1.0000e+000, Upper Limit: 2.0000e+000, Subintervals: 18
+Calculated Value: 0.321751
+Exact Value:      0.321751
+Absolute Error:   1.1895e-008
+
+
+```
+
+---
 **Implementation**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/F.%20Numerical%20Integration/Simpson%201%20by%203)
@@ -1070,7 +3789,109 @@ For i from 1 to n-1:
 Result = sum * (3 * h / 8)
 Return Result
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
 
+using namespace std;
+
+double f(double x)
+{
+    return 1.0 / (1.0 + x * x);
+}
+
+double exact_integral(double a, double b)
+{
+    return atan(b) - atan(a);
+}
+
+int main()
+{
+    ifstream infile("inputsimpson.txt");
+    ofstream outfile("outputsimpson38.txt");
+
+    if (!infile || !outfile)
+        return 1;
+
+    double a, b;
+    int n;
+    int caseNum = 1;
+
+    while (infile >> a >> b >> n)
+    {
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Lower Limit: " << a << ", Upper Limit: " << b << ", Subintervals: " << n << endl;
+
+        if (n % 3 != 0)
+        {
+            outfile << "Error: n must be a multiple of 3 for Simpson's 3/8 Rule." << endl;
+            outfile << endl;
+            continue;
+        }
+
+        double h = (b - a) / n;
+        double sum = f(a) + f(b);
+
+        for (int i = 1; i < n; i++)
+        {
+            if (i % 3 == 0)
+            {
+                sum += 2 * f(a + i * h);
+            }
+            else
+            {
+                sum += 3 * f(a + i * h);
+            }
+        }
+
+        double result = (3.0 * h / 8.0) * sum;
+        double exact = exact_integral(a, b);
+        double error = abs(exact - result);
+
+        outfile << "Calculated Value: " << fixed << setprecision(3) << result << endl;
+        outfile << "Exact Value:      " << fixed << setprecision(3) << exact << endl;
+        outfile << "Absolute Error:   " << scientific << setprecision(3) << error << endl;
+        outfile << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+0 1 6
+0 6 12
+1 2 18
+```
+
+#### Output
+```
+Case 1:
+Lower Limit: 0, Upper Limit: 1, Subintervals: 6
+Calculated Value: 0.785
+Exact Value:      0.785
+Absolute Error:   2.301e-006
+
+Case 2:
+Lower Limit: 0.000e+000, Upper Limit: 6.000e+000, Subintervals: 12
+Calculated Value: 1.400
+Exact Value:      1.406
+Absolute Error:   6.037e-003
+
+Case 3:
+Lower Limit: 1.000e+000, Upper Limit: 2.000e+000, Subintervals: 18
+Calculated Value: 0.322
+Exact Value:      0.322
+Absolute Error:   2.609e-008
+
+
+```
+
+---
 **Implementation**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/F.%20Numerical%20Integration/Simpson%203%20by%208)
@@ -1137,7 +3958,81 @@ a0 = (sum_y / n) - (a1 * (sum_x / n))
 
 Print "Equation: y = " + a0 + " + " + a1 + "x"
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
 
+int main()
+{
+    ifstream infile("inputlinear.txt");
+    ofstream outfile("outputlinear.txt");
+
+    if (!infile || !outfile)
+        return 1;
+
+    int n;
+    int caseNum = 1;
+
+    while (infile >> n)
+    {
+        vector<double> x(n), y(n);
+        double sum_x = 0, sum_y = 0, sum_xy = 0, sum_x2 = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            infile >> x[i] >> y[i];
+            sum_x += x[i];
+            sum_y += y[i];
+            sum_xy += x[i] * y[i];
+            sum_x2 += x[i] * x[i];
+        }
+
+        double b = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x);
+        double a = (sum_y - b * sum_x) / n;
+
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Data Points: " << n << endl;
+        outfile << "Linear Fit Equation: y = " << fixed << setprecision(3) << a << " + " << b << "x" << endl;
+        outfile << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+4
+1 3
+2 5
+3 7
+4 9
+5
+1 2
+2 4.1
+3 5.9
+4 8.1
+5 10
+```
+
+#### Output
+```
+Case 1:
+Data Points: 4
+Linear Fit Equation: y = 1.000 + 2.000x
+
+Case 2:
+Data Points: 5
+Linear Fit Equation: y = 0.020 + 2.000x
+
+
+```
+
+---
 **Implementation**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/G.%20Curve%20Fitting/Linear)
@@ -1212,7 +4107,152 @@ For i from 0 to m:
 coefficients = GaussianElimination(B, C)
 Return coefficients
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
 
+using namespace std;
+
+void gaussianElimination(vector<vector<double>> &a, vector<double> &b, vector<double> &x, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        int maxRow = i;
+        for (int k = i + 1; k < n; k++)
+        {
+            if (abs(a[k][i]) > abs(a[maxRow][i]))
+            {
+                maxRow = k;
+            }
+        }
+
+        swap(a[i], a[maxRow]);
+        swap(b[i], b[maxRow]);
+
+        for (int k = i + 1; k < n; k++)
+        {
+            double factor = a[k][i] / a[i][i];
+            for (int j = i; j < n; j++)
+            {
+                a[k][j] -= factor * a[i][j];
+            }
+            b[k] -= factor * b[i];
+        }
+    }
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        double sum = 0;
+        for (int j = i + 1; j < n; j++)
+        {
+            sum += a[i][j] * x[j];
+        }
+        x[i] = (b[i] - sum) / a[i][i];
+    }
+}
+
+int main()
+{
+    ifstream infile("inputpoly.txt");
+    ofstream outfile("outputpoly.txt");
+
+    if (!infile || !outfile)
+        return 1;
+
+    int n;
+    int caseNum = 1;
+
+    while (infile >> n)
+    {
+        vector<double> x(n), y(n);
+        for (int i = 0; i < n; i++)
+        {
+            infile >> x[i] >> y[i];
+        }
+
+        int degree;
+        infile >> degree;
+        int m = degree + 1;
+
+        vector<vector<double>> A(m, vector<double>(m, 0.0));
+        vector<double> B(m, 0.0);
+        vector<double> coeffs(m);
+
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < m; j++)
+            {
+                double sum = 0;
+                for (int k = 0; k < n; k++)
+                {
+                    sum += pow(x[k], i + j);
+                }
+                A[i][j] = sum;
+            }
+            double sum = 0;
+            for (int k = 0; k < n; k++)
+            {
+                sum += y[k] * pow(x[k], i);
+            }
+            B[i] = sum;
+        }
+
+        gaussianElimination(A, B, coeffs, m);
+
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Data Points: " << n << ", Degree: " << degree << endl;
+        outfile << "Polynomial Fit Equation: y = ";
+        for (int i = 0; i < m; i++)
+        {
+            if (i == 0)
+                outfile << fixed << setprecision(4) << coeffs[i];
+            else if (coeffs[i] >= 0)
+                outfile << " + " << coeffs[i] << "x^" << i;
+            else
+                outfile << " - " << abs(coeffs[i]) << "x^" << i;
+        }
+        outfile << endl;
+        outfile << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+4
+0 1
+1 1.8
+2 1.3
+3 2.5
+2
+5
+0 1
+1 6
+2 17
+3 34
+4 57
+2
+```
+
+#### Output
+```
+Case 1:
+Data Points: 4, Degree: 2
+Polynomial Fit Equation: y = 1.1500 + 0.1000x^1 + 0.1000x^2
+
+Case 2:
+Data Points: 5, Degree: 2
+Polynomial Fit Equation: y = 1.0000 + 2.0000x^1 + 3.0000x^2
+
+
+```
+
+---
 
 **Implementation**
 
@@ -1273,7 +4313,89 @@ a = exp(A0) // Inverse transform
 
 Print "Equation: y = " + a + " * e^(" + b + "x)"
 ```
+#### Code
+```cpp
+#include <bits/stdc++.h>
 
+using namespace std;
+
+int main()
+{
+    ifstream infile("inputtrans.txt");
+    ofstream outfile("outputtrans.txt");
+
+    if (!infile || !outfile)
+        return 1;
+
+    int n;
+    int caseNum = 1;
+
+    while (infile >> n)
+    {
+        vector<double> x(n), y(n);
+        double sum_x = 0, sum_Y = 0, sum_xY = 0, sum_x2 = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            infile >> x[i] >> y[i];
+            double Y = log(y[i]);
+            sum_x += x[i];
+            sum_Y += Y;
+            sum_xY += x[i] * Y;
+            sum_x2 += x[i] * x[i];
+        }
+
+        double B = (n * sum_xY - sum_x * sum_Y) / (n * sum_x2 - sum_x * sum_x);
+        double A = (sum_Y - B * sum_x) / n;
+
+        double a = exp(A);
+        double b = B;
+
+        outfile << "Case " << caseNum++ << ":" << endl;
+        outfile << "Data Points: " << n << endl;
+        outfile << "Transcendental Fit Equation (y = ae^bx):" << endl;
+        outfile << "y = " << fixed << setprecision(4) << a << "e^(" << b << "x)" << endl;
+        outfile << endl;
+    }
+
+    infile.close();
+    outfile.close();
+    return 0;
+}
+
+```
+
+#### Input
+```
+5
+1 0.5
+2 2.0
+3 4.5
+4 8.0
+5 12.5
+4
+1 2.7
+2 7.4
+3 20.1
+4 54.6
+```
+
+#### Output
+```
+Case 1:
+Data Points: 5
+Transcendental Fit Equation (y = ae^bx):
+y = 0.3245e^(0.7824x)
+
+Case 2:
+Data Points: 4
+Transcendental Fit Equation (y = ae^bx):
+y = 0.9940e^(1.0020x)
+
+
+```
+
+---
 **Implementation**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/G.%20Curve%20Fitting/Transcendental)
@@ -1289,26 +4411,12 @@ Includes:
 
 ---
 
-## Environment Setup
-
-### Requirements
-- C++ Compiler (GCC / MinGW / Clang)
-- C++11 or later
-
-### Compile & Run
-
-```bash
-g++ code.cpp -o run
-./run
-```
-
----
-
 ## Sample Run
 
 ### Input
 
 ```text
+# Give Input in the input file 
 Enter number of equations: 3
 Enter coefficients...
 ```
@@ -1326,30 +4434,86 @@ z = 3.0
 
 ## Contribution
 
-### Our Team Contribution
+### Team Details
 
 | Full Name | GitHub Username | Roll Number |
-|-----------|-----------------|-------------|
-| MD SUAIB AHMED SAFI | [suaib022](https://github.com/suaib022) | 2207115 |
-| ASHRAFUR RAHMAN NIHAD | [ARN101](https://github.com/ARN101) | 2207116 |
-| DADHICHI SAREKR SHAYON | [Dadhichi-Sarker-Shayon](https://github.com/Dadhichi-Sarker-Shayon) | 2207118 |
-
-- **Member 1:** Method implementation & testing
-- **Member 2:** Mathematical theory & PDFs
-- **Member 3:** Repository structure & documentation
+| :--- | :--- | :--- |
+| **MD SUAIB AHMED SAFI** | [@suaib022](https://github.com/suaib022) | 2207115 |
+| **ASHRAFUR RAHMAN NIHAD** | [@ARN101](https://github.com/ARN101) | 2207116 |
+| **DADHICHI SAREKR SHAYON** | [@Dadhichi-Sarker-Shayon](https://github.com/Dadhichi-Sarker-Shayon) | 2207118 |
 
 ---
 
-## Future Contributions
+### Individual Technical Contributions
 
-We welcome contributions! 🙌
+**MD SUAIB AHMED SAFI:**
+Responsible for implementing the LU Decomposition Method, Runge–Kutta Method, and Matrix Inverse. Additionally, he handled the logic for Newton Forward Interpolation, Newton Backward Interpolation, and Linear Equation solvers.
 
-**How to contribute:**
-1. Fork the repository
-2. Create a new branch
-3. Add method / optimize code / improve documentation
-4. Submit a pull request
+**ASHRAFUR RAHMAN NIHAD:**
+Developed the code for the Jacobi & Gauss–Seidel Method, Simpson’s 1/3 Rule, and Simpson’s 3/8 Rule. He also contributed the implementations for Newton Forward Differentiation, Polynomial Equation, and Transcendental Equation.
 
+**DADHICHI SAREKR SHAYON:**
+Focused on the direct linear algebra methods including the Gauss Elimination Method and Gauss Jordan Method. His contributions also cover root-finding algorithms such as the Bisection Method, False Position Method, Secant Method, and Newton Raphson Method.
+
+
+---
+
+## 🤝 Future Contribution Guidelines
+
+We welcome contributions to improve this project! Whether you want to fix a bug, add a new numerical method, or improve documentation, here is how you can help.
+
+### How to Contribute
+
+1.  **Fork the Repository**
+    - Click the "Fork" button at the top right of this page to create your own copy of the repository.
+
+2.  **Clone Your Fork**
+    ```bash
+    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
+    cd your-repo-name
+    ```
+
+3.  **Create a New Branch**
+    - Always create a separate branch for your changes. Do not push directly to `main`.
+    ```bash
+    git checkout -b feature/your-feature-name
+    # OR for bug fixes
+    git checkout -b fix/bug-name
+    ```
+
+4.  **Make Your Changes**
+    - Ensure your code follows the existing style (indentation, variable naming, comments).
+    - If adding a new method, please include a sample input/output test case in the comments.
+
+5.  **Commit Your Changes**
+    - Write clear, concise commit messages.
+    ```bash
+    git add .
+    git commit -m "Added implementation for [Method Name]"
+    ```
+
+6.  **Push to Your Fork**
+    ```bash
+    git push origin feature/your-feature-name
+    ```
+
+7.  **Submit a Pull Request (PR)**
+    - Go to the original repository and click **"Compare & pull request"**.
+    - Provide a brief description of what you added or fixed.
+    - Tag the maintainers for review.
+
+### Code Standards
+- **Language:** C++ (Standard 11 or higher) / Python (if applicable).
+- **Documentation:** Every function must have comments explaining the parameters and return values.
+- **Testing:** Verify that your algorithm works on edge cases (e.g., division by zero checks).
+
+---
+
+### 🐛 Reporting Issues
+Found a bug? Please open an **Issue** with the following details:
+- The method causing the error.
+- Input data used.
+- Expected vs. Actual output.
 ---
 
 ## References
