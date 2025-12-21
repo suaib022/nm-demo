@@ -592,7 +592,7 @@ Infinite Solutions
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/Gauss%20Elimination)
 
@@ -1060,7 +1060,7 @@ Infinite Solutions
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/Gauss%20Jordan)
 
@@ -1371,7 +1371,7 @@ The system has infinite solutions.
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/LU%20Decomposition)
 
@@ -1604,7 +1604,7 @@ x3 = -0.678
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/Iterative%20Methods/Jacobi)
 
@@ -1828,7 +1828,7 @@ x3 = -0.678
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/A.%20Solution%20of%20Linear%20Equations/Iterative%20Methods/GaussSeidel)
 
@@ -2104,7 +2104,7 @@ Roots found :
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/B.%20Solution%20of%20Non-Linear%20Equations/Bisection)
 
@@ -2348,7 +2348,7 @@ Roots found :
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/B.%20Solution%20of%20Non-Linear%20Equations/False_Position)
 
@@ -2580,7 +2580,7 @@ Roots:
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/B.%20Solution%20of%20Non-Linear%20Equations/Secant)
 
@@ -2822,7 +2822,7 @@ Roots:
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/B.%20Solution%20of%20Non-Linear%20Equations/Newton_Raphson)
 
@@ -3031,7 +3031,7 @@ Value at 1895.0000 is 54.853
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/C.%20Interpolation%20and%20Approximation/Newton%20Forward)
 
@@ -3235,7 +3235,7 @@ Approximate Relative Error: 21.428571%
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/C.%20Interpolation%20and%20Approximation/Newton%20Backward)
 
@@ -3515,7 +3515,7 @@ Result: 12.000
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/E.%20Solution%20of%20Differential%20Equations/Newton%20Forward%20Differentiation)
 
@@ -3693,7 +3693,7 @@ Value of y at x = 1.500 is 4.095
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/E.%20Solution%20of%20Differential%20Equations/Runge%20Kutta)
 
@@ -3863,7 +3863,7 @@ Absolute Error:   1.1895e-008
 ```
 
 ---
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/F.%20Numerical%20Integration/Simpson%201%20by%203)
 
@@ -3873,7 +3873,7 @@ Includes:
 - Output file
 
 **Further Study**
-* [Simpson’s 1/3 Rule - GeeksforGeeks (Implementation)](https://www.geeksforgeeks.org/program-simpsons-13-rule/)
+* [Simpson’s 1/3 Rule - GeeksforGeeks](https://www.geeksforgeeks.org/program-simpsons-13-rule/)
 * [Simpson's Rule Derivation - Wolfram MathWorld](https://mathworld.wolfram.com/SimpsonsRule.html)
 
 <a id="simpson-3-by-8"></a>
@@ -4029,7 +4029,7 @@ Absolute Error:   2.609e-008
 ```
 
 ---
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/F.%20Numerical%20Integration/Simpson%203%20by%208)
 
@@ -4178,7 +4178,7 @@ Linear Fit Equation: y = 0.020 + 2.000x
 ```
 
 ---
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/G.%20Curve%20Fitting/Linear)
 
@@ -4407,7 +4407,7 @@ Polynomial Fit Equation: y = 1.0000 + 2.0000x^1 + 3.0000x^2
 
 ---
 
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/G.%20Curve%20Fitting/Polynomial)
 
@@ -4557,7 +4557,7 @@ y = 0.9940e^(1.0020x)
 ```
 
 ---
-**Implementation**
+**Folder**
 
 👉 [View Code & Files](https://github.com/suaib022/nm-demo/tree/main/G.%20Curve%20Fitting/Transcendental)
 
