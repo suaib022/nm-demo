@@ -79,36 +79,53 @@ You can compile and run the programs using any IDE or directly from the terminal
 
 ### A. Solution of Linear Equations
 1.  [Gauss Elimination Method](#gauss-elimination)
+    - [Theory](#gauss-elimination-theory) | [Code](#gauss-elimination-code) | [Input](#gauss-elimination-input) | [Output](#gauss-elimination-output)
 2.  [Gauss Jordan Method](#gauss-jordan)
+    - [Theory](#gauss-jordan-theory) | [Code](#gauss-jordan-code) | [Input](#gauss-jordan-input) | [Output](#gauss-jordan-output)
 3.  [LU Decomposition Method](#lu-decomposition)
+    - [Theory](#lu-decomposition-theory) | [Code](#lu-decomposition-code) | [Input](#lu-decomposition-input) | [Output](#lu-decomposition-output)
 4.  [Jacobi Method](#jacobi)
+    - [Theory](#jacobi-theory) | [Code](#jacobi-code) | [Input](#jacobi-input) | [Output](#jacobi-output)
 5.  [GaussSeidel Method](#gaussseidel)
+    - [Theory](#gaussseidel-theory) | [Code](#gaussseidel-code) | [Input](#gaussseidel-input) | [Output](#gaussseidel-output)
 
 ### B. Solution of Non-Linear Equations
 1.  [Bisection Method](#bisection)
+    - [Theory](#bisection-theory) | [Code](#bisection-code) | [Input](#bisection-input) | [Output](#bisection-output)
 2.  [False Position Method](#false_position)
+    - [Theory](#false_position-theory) | [Code](#false_position-code) | [Input](#false_position-input) | [Output](#false_position-output)
 3.  [Secant Method](#secant)
+    - [Theory](#secant-theory) | [Code](#secant-code) | [Input](#secant-input) | [Output](#secant-output)
 4.  [Newton Raphson Method](#newton_raphson)
+    - [Theory](#newton_raphson-theory) | [Code](#newton_raphson-code) | [Input](#newton_raphson-input) | [Output](#newton_raphson-output)
 
 ### C. Interpolation and Approximation
 1.  [Newton Forward Interpolation](#newton-forward)
+    - [Theory](#newton-forward-theory) | [Code](#newton-forward-code) | [Input](#newton-forward-input) | [Output](#newton-forward-output)
 2.  [Newton Backward Interpolation](#newton-backward)
+    - [Theory](#newton-backward-theory) | [Code](#newton-backward-code) | [Input](#newton-backward-input) | [Output](#newton-backward-output)
 
 ### D. Numerical Differentiation
 1.  [Newton Forward Differentiation](#newton-forward-differentiation)
-
+    - [Theory](#newton-forward-differentiation-theory) | [Code](#newton-forward-differentiation-code) | [Input](#newton-forward-differentiation-input) | [Output](#newton-forward-differentiation-output)
 
 ### E. Solution of Differential Equations
 1.  [Runge Kutta Method](#runge-kutta)
+    - [Theory](#runge-kutta-theory) | [Code](#runge-kutta-code) | [Input](#runge-kutta-input) | [Output](#runge-kutta-output)
 
 ### F. Numerical Integration
 1.  [Simpson 1 by 3](#simpson-1-by-3)
+    - [Theory](#simpson-1-by-3-theory) | [Code](#simpson-1-by-3-code) | [Input](#simpson-1-by-3-input) | [Output](#simpson-1-by-3-output)
 2.  [Simpson 3 by 8](#simpson-3-by-8)
+    - [Theory](#simpson-3-by-8-theory) | [Code](#simpson-3-by-8-code) | [Input](#simpson-3-by-8-input) | [Output](#simpson-3-by-8-output)
 
 ### G. Curve Fitting Methods
 1.  [Linear Equation](#linear)
+    - [Theory](#linear-theory) | [Code](#linear-code) | [Input](#linear-input) | [Output](#linear-output)
 2.  [Polynomial Equation](#polynomial)
+    - [Theory](#polynomial-theory) | [Code](#polynomial-code) | [Input](#polynomial-input) | [Output](#polynomial-output)
 3.  [Transcendental Equation](#transcendental)
+    - [Theory](#transcendental-theory) | [Code](#transcendental-code) | [Input](#transcendental-input) | [Output](#transcendental-output)
 
 ---
 
@@ -118,6 +135,8 @@ You can compile and run the programs using any IDE or directly from the terminal
 
 <a id="gauss-elimination"></a>
 ### 1. Gauss Elimination Method
+
+<a id="gauss-elimination-theory"></a>
 
 **Theory**
 Gauss Elimination is a direct method that converts a system of linear equations into an upper triangular system using forward elimination. After the matrix becomes upper triangular, back substitution is applied to determine the values of the unknowns. Gauss Elimination produces one of the following outcomes:
@@ -213,6 +232,8 @@ for i = n to 1 step -1:
 PRINT "Unique Solution: ", x
 STOP
 ```
+<a id="gauss-elimination-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -338,6 +359,8 @@ int main()
 
 ```
 
+<a id="gauss-elimination-input"></a>
+
 #### Input
 ```
 9
@@ -379,6 +402,8 @@ int main()
 3 -3 6 9
 
 ```
+
+<a id="gauss-elimination-output"></a>
 
 #### Output
 ```
@@ -584,6 +609,8 @@ Includes:
 <a id="gauss-jordan"></a>
 ### 2. Gauss Jordan Method
 
+<a id="gauss-jordan-theory"></a>
+
 **Theory**
 Gauss-Jordan Elimination is an extended form of Gauss Elimination. Instead of producing an upper triangular matrix, it reduces the augmented matrix directly to reduced row echelon form (RREF). This eliminates the need for back substitution.
 
@@ -679,6 +706,8 @@ if rank = n:
 else:
     return ("Infinite solutions", M)
 ```
+<a id="gauss-jordan-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -798,6 +827,8 @@ int main()
 
 ```
 
+<a id="gauss-jordan-input"></a>
+
 #### Input
 ```
 9
@@ -839,6 +870,8 @@ int main()
 3 -3 6 9
 
 ```
+
+<a id="gauss-jordan-output"></a>
 
 #### Output
 ```
@@ -1044,6 +1077,8 @@ Includes:
 <a id="lu-decomposition"></a>
 ### 3. LU Decomposition Method 
 
+<a id="lu-decomposition-theory"></a>
+
 **Theory**
 1. **The main idea**: Given a square matrix (**A**), it will be rewritten as $A = LU$, where **L** is a lower triangular matrix and **U** is an upper triangular matrix.
 2. **Using LU to solve AX = B**:
@@ -1110,6 +1145,8 @@ function solve_LU(Matrix A, Vector b):
         
     return x
 ```
+<a id="lu-decomposition-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -1259,6 +1296,8 @@ int main()
 
 ```
 
+<a id="lu-decomposition-input"></a>
+
 #### Input
 ```
 3
@@ -1275,6 +1314,8 @@ int main()
 1 2 3 14
 
 ```
+
+<a id="lu-decomposition-output"></a>
 
 #### Output
 ```
@@ -1350,6 +1391,8 @@ Includes:
 <a id="jacobi"></a>
 #### (i) Jacobi Iterative Method
 
+<a id="jacobi-theory"></a>
+
 **Theory: Simultaneous Displacement**
 The Jacobi method is the simplest iterative technique. It works by isolating the variable $x_i$ in the $i$-th equation. The unique characteristic of Jacobi is that it uses values from the **previous** iteration to calculate **all** new values. No new information is used until the next full cycle.
 
@@ -1383,6 +1426,8 @@ For k from 1 to N:
     
     x_old = x_new // Update for next cycle
 ```
+<a id="jacobi-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -1484,6 +1529,8 @@ int main()
 
 ```
 
+<a id="jacobi-input"></a>
+
 #### Input
 ```
 3
@@ -1500,6 +1547,8 @@ int main()
 100
 
 ```
+
+<a id="jacobi-output"></a>
 
 #### Output
 ```
@@ -1572,6 +1621,8 @@ Includes:
 <a id="gaussseidel"></a>
 #### (ii) Gauss-Seidel Iterative Method
 
+<a id="gaussseidel-theory"></a>
+
 **Theory: Successive Displacement**
 The Gauss-Seidel method is an optimization of the Jacobi technique. In the Jacobi method, we hold all updates in a buffer until the end of the iteration. In Gauss-Seidel, we update the variables **immediately**.
 
@@ -1612,6 +1663,8 @@ For k from 1 to N:
         Print "Converged"
         Return x
 ```
+<a id="gaussseidel-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -1715,6 +1768,8 @@ int main()
 
 ```
 
+<a id="gaussseidel-input"></a>
+
 #### Input
 ```
 3
@@ -1731,6 +1786,8 @@ int main()
 100
 
 ```
+
+<a id="gaussseidel-output"></a>
 
 #### Output
 ```
@@ -1794,6 +1851,8 @@ Includes:
 <a id="bisection"></a>
 ### 1. Bisection Method
 
+<a id="bisection-theory"></a>
+
 **Theory**
 
 The Bisection Method is a simple and robust numerical technique used to find roots of continuous functions. It is also known as the Binary Chopping Method or Half-Interval Method.
@@ -1835,6 +1894,8 @@ BisectionMethod(f, a, b, tolerance, max_iter):
 
   Step 3: Return (a + b) / 2 as the approximate root
 ```
+<a id="bisection-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -1991,6 +2052,8 @@ int main()
 
 ```
 
+<a id="bisection-input"></a>
+
 #### Input
 ```
 3
@@ -2004,6 +2067,8 @@ int main()
 1 -15 85 -225 274 -120
 0 5 0.0001 0.01
 ```
+
+<a id="bisection-output"></a>
 
 #### Output
 ```
@@ -2055,6 +2120,8 @@ Includes:
 <a id="false_position"></a>
 ### 2. False Position Method
 
+<a id="false_position-theory"></a>
+
 **Theory**
 
 The False Position Method (also known as Regula Falsi) is a bracketing method similar to Bisection, but instead of using the midpoint, it uses a linear interpolation to find a better approximation of the root.
@@ -2097,6 +2164,8 @@ FalsePositionMethod(f, a, b, tolerance, max_iter):
                 a = x0
   Step 3: Return x0 as the approximate root
 ```
+<a id="false_position-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -2253,11 +2322,15 @@ int main()
 
 ```
 
+<a id="false_position-input"></a>
+
 #### Input
 ```
 1
 5 1 -15 85 -225 274 -120 0 6 0.0001 0.01
 ```
+
+<a id="false_position-output"></a>
 
 #### Output
 ```
@@ -2292,6 +2365,8 @@ Includes:
 <a id="secant"></a>
 ### 3. Secant Method
 
+<a id="secant-theory"></a>
+
 **Theory**
 
 The Secant Method approximates the derivative numerically using two points instead of requiring an analytical derivative. Given two initial points $x_{n-1}$ and $x_n$:
@@ -2322,6 +2397,8 @@ for i = 1 to max_iter:
     x1 = x2
 return x2
 ```
+<a id="secant-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -2466,6 +2543,8 @@ int main()
 
 ```
 
+<a id="secant-input"></a>
+
 #### Input
 ```
 2
@@ -2474,6 +2553,8 @@ int main()
 2
 1 -3 2
 ```
+
+<a id="secant-output"></a>
 
 #### Output
 ```
@@ -2516,6 +2597,8 @@ Includes:
 <a id="newton_raphson"></a>
 ### 4. Newton Raphson Method
 
+<a id="newton_raphson-theory"></a>
+
 **Theory**
 
 The Newton-Raphson method uses the tangent line at the current approximation to estimate a better root approximation. Given a guess $x_n$, the tangent line at that point is:
@@ -2550,6 +2633,8 @@ for i = 1 to max_iter:
     x0 = x1
 return x1
 ```
+<a id="newton_raphson-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -2701,6 +2786,8 @@ int main()
 
 ```
 
+<a id="newton_raphson-input"></a>
+
 #### Input
 ```
 2
@@ -2709,6 +2796,8 @@ int main()
 2
 1 -3 2
 ```
+
+<a id="newton_raphson-output"></a>
 
 #### Output
 ```
@@ -2754,6 +2843,8 @@ Includes:
 <a id="newton-forward"></a>
 ### 1. Newton Forward Interpolation Method
 
+<a id="newton-forward-theory"></a>
+
 **Theory**
 Newton's Forward Interpolation is used to approximate the value of a function $f(x)$ at valid points, based on a set of known data points that are **equally spaced**.
 
@@ -2788,6 +2879,8 @@ function newton_forward(x[], y[][], n, value):
 
     return sum
 ```
+<a id="newton-forward-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -2886,6 +2979,8 @@ int main()
 
 ```
 
+<a id="newton-forward-input"></a>
+
 #### Input
 ```
 4
@@ -2904,6 +2999,8 @@ int main()
 
 
 ```
+
+<a id="newton-forward-output"></a>
 
 #### Output
 ```
@@ -2950,6 +3047,8 @@ Includes:
 <a id="newton-backward"></a>
 ### 2. Newton Backward Interpolation Method
 
+<a id="newton-backward-theory"></a>
+
 **Theory**
 Newton's Backward Interpolation is similar to the forward method but is more accurate for interpolating values near the **end** of the dataset.
 
@@ -2984,6 +3083,8 @@ function newton_backward(x[], y[][], n, value):
 
     return sum
 ```
+<a id="newton-backward-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -3082,6 +3183,8 @@ int main()
 
 ```
 
+<a id="newton-backward-input"></a>
+
 #### Input
 ```
 5
@@ -3099,6 +3202,8 @@ int main()
 2.5
 
 ```
+
+<a id="newton-backward-output"></a>
 
 #### Output
 ```
@@ -3150,6 +3255,8 @@ Includes:
 
 <a id="newton-forward-differentiation"></a>
 ### 1. Newton Forward Differentiation
+
+<a id="newton-forward-differentiation-theory"></a>
 
 **Theory**
 
@@ -3210,6 +3317,8 @@ Print derivative
 
 END
 ```
+<a id="newton-forward-differentiation-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -3344,6 +3453,8 @@ int main()
 
 ```
 
+<a id="newton-forward-differentiation-input"></a>
+
 #### Input
 ```
 7
@@ -3364,6 +3475,8 @@ int main()
 2 2
 
 ```
+
+<a id="newton-forward-differentiation-output"></a>
 
 #### Output
 ```
@@ -3422,6 +3535,8 @@ Includes:
 <a id="runge-kutta"></a>
 ### 2. Runge Kutta Method
 
+<a id="runge-kutta-theory"></a>
+
 **Theory**
 The Runge-Kutta method (specifically the fourth-order RK4) is a widely used technique for the approximate solution of ordinary differential equations (ODEs).
 $$y_{n+1} = y_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)$$
@@ -3454,6 +3569,8 @@ function solve_rk4(x0, y0, xn, h):
         
     return y
 ```
+<a id="runge-kutta-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -3519,12 +3636,16 @@ int main()
 
 ```
 
+<a id="runge-kutta-input"></a>
+
 #### Input
 ```
 0 1 0.2 0.1
 0 1 0.5 0.1
 1 2 1.5 0.1
 ```
+
+<a id="runge-kutta-output"></a>
 
 #### Output
 ```
@@ -3593,6 +3714,8 @@ Includes:
 <a id="simpson-1-by-3"></a>
 ### 1. Simpson’s 1/3 Rule
 
+<a id="simpson-1-by-3-theory"></a>
+
 **Theory: Parabolic Approximation**
 Simpson’s 1/3 Rule improves upon the Trapezoidal Rule by approximating the function $f(x)$ not as a straight line, but as a **second-order polynomial (parabola)** connecting every three points.
 
@@ -3632,6 +3755,8 @@ For i from 1 to n-1:
 Result = sum * (h / 3)
 Return Result
 ```
+<a id="simpson-1-by-3-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -3703,12 +3828,16 @@ int main()
 
 ```
 
+<a id="simpson-1-by-3-input"></a>
+
 #### Input
 ```
 0 1 6
 0 6 12
 1 2 18
 ```
+
+<a id="simpson-1-by-3-output"></a>
 
 #### Output
 ```
@@ -3750,6 +3879,8 @@ Includes:
 <a id="simpson-3-by-8"></a>
 ### 2. Simpson’s 3/8 Rule
 
+<a id="simpson-3-by-8-theory"></a>
+
 **Theory: Cubic Approximation**
 While the 1/3 rule uses parabolas (3 points), Simpson’s 3/8 Rule fits a **third-order polynomial (cubic curve)** through every four points. This generally provides slightly better accuracy for functions that are smoother.
 
@@ -3789,6 +3920,8 @@ For i from 1 to n-1:
 Result = sum * (3 * h / 8)
 Return Result
 ```
+<a id="simpson-3-by-8-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -3861,12 +3994,16 @@ int main()
 
 ```
 
+<a id="simpson-3-by-8-input"></a>
+
 #### Input
 ```
 0 1 6
 0 6 12
 1 2 18
 ```
+
+<a id="simpson-3-by-8-output"></a>
 
 #### Output
 ```
@@ -3911,6 +4048,8 @@ Includes:
 
 <a id="linear"></a>
 ### 1. Linear Equation 
+
+<a id="linear-theory"></a>
 
 **Theory: Fitting a Straight Line**
 This is the simplest form of regression. We assume the relationship between the dependent variable $y$ and independent variable $x$ is a straight line:
@@ -3958,6 +4097,8 @@ a0 = (sum_y / n) - (a1 * (sum_x / n))
 
 Print "Equation: y = " + a0 + " + " + a1 + "x"
 ```
+<a id="linear-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -4004,6 +4145,8 @@ int main()
 
 ```
 
+<a id="linear-input"></a>
+
 #### Input
 ```
 4
@@ -4018,6 +4161,8 @@ int main()
 4 8.1
 5 10
 ```
+
+<a id="linear-output"></a>
 
 #### Output
 ```
@@ -4048,6 +4193,8 @@ Includes:
 
 <a id="polynomial"></a>
 ### 2. Polynomial Equation
+
+<a id="polynomial-theory"></a>
 
 **Theory: Extending to Higher Orders**
 When data shows a curve with peaks and valleys, a straight line is insufficient. We can fit a polynomial of degree $m$:
@@ -4107,6 +4254,8 @@ For i from 0 to m:
 coefficients = GaussianElimination(B, C)
 Return coefficients
 ```
+<a id="polynomial-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -4222,6 +4371,8 @@ int main()
 
 ```
 
+<a id="polynomial-input"></a>
+
 #### Input
 ```
 4
@@ -4238,6 +4389,8 @@ int main()
 4 57
 2
 ```
+
+<a id="polynomial-output"></a>
 
 #### Output
 ```
@@ -4270,7 +4423,9 @@ Includes:
 <a id="transcendental"></a>
 ### 3. Transcendental Equation
 
-**Theory: Linearizatio of Non-Linear Models**
+<a id="transcendental-theory"></a>
+
+**Theory: Linearizing Non-Linear Equations**
 Sometimes data does not fit a straight line but follows an exponential ($y = ae^{bx}$) or power ($y = ax^b$) law. We cannot apply the standard least-squares formulas directly to these non-linear forms.
 
 
@@ -4313,6 +4468,8 @@ a = exp(A0) // Inverse transform
 
 Print "Equation: y = " + a + " * e^(" + b + "x)"
 ```
+<a id="transcendental-code"></a>
+
 #### Code
 ```cpp
 #include <bits/stdc++.h>
@@ -4365,6 +4522,8 @@ int main()
 
 ```
 
+<a id="transcendental-input"></a>
+
 #### Input
 ```
 5
@@ -4379,6 +4538,8 @@ int main()
 3 20.1
 4 54.6
 ```
+
+<a id="transcendental-output"></a>
 
 #### Output
 ```
